@@ -1,0 +1,12 @@
+{
+    "usuarios": {
+        "kassio": {
+            "salt": "RqHYzhIO0AXWijtMlnoQGw==",
+            "verificador": "81NR4YHE/1l1Yn4MdXNGaKECM032MyzfjVkOZKJaTuY="
+        },
+        "kassio12": {
+            "salt": "LJ5x5MV1NzErJE1aIQlmWA==",
+            "verificador": "wI9xY6rwb4ONJTr7wT6gR5FBr8NaJRVsoJjRuH/vOPE="
+        }
+    }
+}

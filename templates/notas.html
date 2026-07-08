@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block conteudo %}
+
+<section class="card">
+    <div class="linha-topo">
+        <h2>Minhas Notas</h2>
+        <a href="{{ url_for('logout') }}" class="botao-secundario">Sair</a>
+    </div>
+
+    <p class="descricao">
+        Usuário autenticado: <strong>{{ usuario }}</strong>
+    </p>
+</section>
+
+<section class="card">
+    <h3>Criar nova nota</h3>
+
+    <form method="POST" action="{{ url_for('notas') }}">
+        <label for="titulo">Título</label>
+        <input type="text" id="titulo" name="titulo" required>
+
+        <label for="conteudo">Conteúdo</label>
+        <textarea id="conteudo" name="conteudo" rows="5" required></textarea>
+
+        <button type="submit">Salvar nota</button>
+    </form>
+</section>
+
+<section class="card">
+    <h3>Notas cadastradas</h3>
+
+    {% if notas %}
+        <div class="lista-notas">
+            {% for nota in notas %}
+                <article class="nota">
+                    <h4>{{ nota.titulo }}</h4>
+                    <p>{{ nota.conteudo }}</p>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Nenhuma nota cadastrada ainda.</p>
+    {% endif %}
+</section>
+
+{% endblock %}

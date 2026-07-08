@@ -1,0 +1,817 @@
+PROMPT PARA GERAR O RELATORIO TECNICO EM PDF
+
+Voce e uma IA que deve escrever um relatorio tecnico academico em portugues do Brasil.
+O relatorio deve ter no maximo 10 paginas, com linguagem clara, objetiva e tecnica.
+Nao invente funcionalidades que nao estejam descritas abaixo.
+Use as informacoes, explicacoes e trechos de codigo deste arquivo como base.
+
+Tema do trabalho:
+Implementacao academica simplificada do protocolo Kerberos, chamada "Kerberos Notas / Chat Seguro", usando criptografia de chave simetrica.
+
+Objetivo do relatorio:
+Explicar a arquitetura desenvolvida, o funcionamento do AS, TGS, KDF, tickets, autenticacao mutua, algoritmos criptograficos e principais dificuldades/aprendizados.
+
+Estrutura obrigatoria do relatorio:
+1. Introducao
+2. Arquitetura desenvolvida
+3. Servidor de Autenticacao, AS
+4. Servidor de Emissao de Tickets, TGS
+5. KDF e derivacao de chaves a partir da senha
+6. Processo de obtencao e utilizacao dos tickets
+7. Autenticacao mutua
+8. Algoritmos criptograficos utilizados e justificativa
+9. Testes e validacao
+10. Dificuldades encontradas e aprendizados
+11. Conclusao
+
+Observacao importante:
+O relatorio deve citar os principais arquivos de codigo, mas nao precisa colocar codigo completo. Use trechos curtos e explique o papel de cada trecho.
+
+
+1. VISAO GERAL DO PROJETO
+
+O projeto implementa uma versao simplificada do Kerberos para fins academicos.
+O fluxo principal e:
+
+Cliente -> AS -> TGS -> Servico protegido
+
+Componentes principais:
+
+- Cliente:
+  Arquivo principal: src/kerberos_notas/client/routes.py
+  Responsavel por receber usuario/senha, chamar o AS, descriptografar a resposta do AS, criar autenticador e solicitar ticket ao TGS.
+
+- KDF:
+  Arquivo principal: src/kerberos_notas/crypto/kdf.py
+  Responsavel por derivar chave simetrica a partir da senha do usuario usando PBKDF2-HMAC-SHA256.
+
+- Criptografia simetrica:
+  Arquivo principal: src/kerberos_notas/crypto/crypto_utils.py
+  Responsavel por gerar chaves de 256 bits, converter bytes para Base64 e criptografar/descriptografar JSON com AES-GCM.
+
+- Authentication Server, AS:
+  Arquivo principal: src/kerberos_notas/kerberos/as_server.py
+  Responsavel por validar usuario e senha, gerar chave de sessao Cliente-TGS, criar TGT e criptografar resposta para o cliente.
+
+- Ticket Granting Server, TGS:
+  Arquivo principal: src/kerberos_notas/kerberos/tgs_server.py
+  Responsavel por validar TGT, validar autenticador e emitir tickets de servico.
+
+- Tickets e autenticadores:
+  Arquivos principais:
+  src/kerberos_notas/kerberos/tickets.py
+  src/kerberos_notas/kerberos/authenticator.py
+
+- Chat seguro:
+  Arquivos principais:
+  src/kerberos_notas/notes/chat_seguro.py
+  src/kerberos_notas/notes/chat_client.py
+  src/kerberos_notas/notes/chat_server.py
+  Responsavel por validar ticket de servico, fazer autenticacao mutua simples, enviar mensagens criptografadas e verificar HMAC.
+
+
+2. ARQUITETURA DESENVOLVIDA
+
+Explique que a arquitetura separa responsabilidades:
+
+1. O cliente nao acessa o servico protegido diretamente sem antes passar pelo fluxo Kerberos.
+2. O AS autentica o usuario inicialmente com senha.
+3. O TGS nao recebe senha do usuario. Ele recebe um TGT e um autenticador.
+4. O servico protegido nao recebe senha nem TGT. Ele recebe apenas o ticket de servico emitido pelo TGS.
+5. Depois da autenticacao inicial, o sistema usa chaves de sessao temporarias.
+
+Fluxo detalhado:
+
+1. Usuario informa login e senha no cliente.
+2. Cliente envia esses dados ao AS.
+3. AS valida a senha usando KDF e verificador salvo.
+4. AS gera chave de sessao Cliente-TGS.
+5. AS cria TGT e criptografa com a chave secreta do TGS.
+6. AS devolve ao cliente uma resposta criptografada com a chave derivada da senha do usuario.
+7. Cliente abre a resposta do AS, obtem chave Cliente-TGS e TGT.
+8. Cliente cria um autenticador criptografado com a chave Cliente-TGS.
+9. Cliente envia TGT e autenticador ao TGS.
+10. TGS valida o TGT, valida o autenticador e emite ticket de servico.
+11. Cliente usa o ticket de servico para acessar o servico protegido.
+12. No chat seguro, a mensagem e criptografada com a chave Cliente-Servico e protegida por HMAC.
+
+Sugestao de diagrama textual:
+
+Cliente
+  | usuario/senha
+  v
+AS
+  | resposta criptografada + TGT
+  v
+Cliente
+  | TGT + autenticador
+  v
+TGS
+  | ticket de servico + chave Cliente-Servico
+  v
+Cliente
+  | ticket de servico + mensagem criptografada + HMAC
+  v
+Servico de Chat Seguro
+
+
+3. SERVIDOR DE AUTENTICACAO, AS
+
+Arquivo: src/kerberos_notas/kerberos/as_server.py
+
+Responsabilidades do AS:
+
+- Carregar usuarios cadastrados
+- Verificar se o usuario existe
+- Derivar chave a partir da senha informada
+- Comparar o verificador calculado com o verificador salvo
+- Gerar chave de sessao Cliente-TGS
+- Criar o TGT
+- Criptografar o TGT com a chave secreta do TGS
+- Criptografar a resposta ao cliente com a chave derivada da senha
+
+Trecho essencial de validacao do usuario:
+
+```python
+def validar_usuario_no_as(nome_usuario: str, senha: str) -> bytes:
+    dados_usuarios = carregar_usuarios()
+    usuarios = dados_usuarios.get("usuarios", {})
+
+    if nome_usuario not in usuarios:
+        raise ValueError("Usuario nao encontrado.")
+
+    dados_usuario = usuarios[nome_usuario]
+    salt = dados_usuario["salt"]
+    verificador_salvo = dados_usuario["verificador"]
+
+    chave_cliente = derivar_chave_senha(senha, salt)
+    verificador_calculado = gerar_verificador_chave(chave_cliente)
+
+    if verificador_calculado != verificador_salvo:
+        raise ValueError("Senha invalida.")
+
+    return chave_cliente
+```
+
+Explicacao:
+Esse trecho mostra que o AS nao compara senha em texto puro. Ele usa a senha informada para derivar uma chave, calcula um verificador dessa chave e compara com o valor salvo no cadastro. Se o usuario nao existir ou a senha estiver incorreta, o AS rejeita a autenticacao.
+
+Trecho essencial de criacao do TGT:
+
+```python
+def gerar_tgt(
+        nome_usuario: str,
+        chave_sessao_cliente_tgs_base64: str,
+        validade_segundos: int = TEMPO_VALIDADE_TGT
+) -> dict:
+    if validade_segundos <= 0:
+        raise ValueError("Validade do TGT invalida.")
+
+    tgt = criar_tgt(
+        id_cliente=nome_usuario,
+        chave_sessao_cliente_tgs_base64=chave_sessao_cliente_tgs_base64,
+        id_tgs="tgs"
+    )
+
+    tgt["usuario"] = nome_usuario
+    tgt["validade_segundos"] = validade_segundos
+    tgt["timestamp_expiracao"] = tgt["timestamp_emissao"] + validade_segundos
+    tgt["nonce"] = uuid.uuid4().hex
+
+    return tgt
+```
+
+Campos do TGT:
+
+- usuario
+- id_cliente
+- id_tgs
+- chave_sessao_cliente_tgs
+- timestamp_emissao
+- timestamp_expiracao
+- validade_segundos
+- nonce
+
+Trecho essencial da autenticacao no AS:
+
+```python
+def autenticar_no_as(
+        nome_usuario: str,
+        senha: str,
+        validade_segundos: int = TEMPO_VALIDADE_TGT
+) -> dict:
+    chave_cliente = validar_usuario_no_as(nome_usuario, senha)
+
+    chave_sessao_cliente_tgs = gerar_chave_simetrica()
+    chave_sessao_cliente_tgs_base64 = bytes_para_base64(chave_sessao_cliente_tgs)
+
+    tgt = gerar_tgt(
+        nome_usuario=nome_usuario,
+        chave_sessao_cliente_tgs_base64=chave_sessao_cliente_tgs_base64,
+        validade_segundos=validade_segundos
+    )
+
+    tgt_criptografado = criptografar_json(CHAVE_SECRETA_TGS, tgt)
+
+    resposta_para_cliente = {
+        "id_tgs": "tgs",
+        "chave_sessao_cliente_tgs": chave_sessao_cliente_tgs_base64,
+        "tgt": tgt_criptografado,
+        "timestamp_emissao": tgt["timestamp_emissao"],
+        "timestamp_expiracao": tgt["timestamp_expiracao"],
+        "validade_segundos": tgt["validade_segundos"],
+        "nonce_tgt": tgt["nonce"]
+    }
+
+    return criptografar_json(chave_cliente, resposta_para_cliente)
+```
+
+Explicacao:
+O AS entrega ao cliente a chave de sessao Cliente-TGS e o TGT. Porem, essa resposta e criptografada com a chave derivada da senha do usuario. Isso significa que apenas quem conhece a senha correta consegue abrir a resposta.
+
+O TGT e criptografado com CHAVE_SECRETA_TGS, entao o cliente carrega o TGT, mas nao consegue ler nem alterar seu conteudo.
+
+
+4. SERVIDOR DE EMISSAO DE TICKETS, TGS
+
+Arquivo: src/kerberos_notas/kerberos/tgs_server.py
+
+Responsabilidades do TGS:
+
+- Receber TGT criptografado
+- Descriptografar TGT com a chave secreta do TGS
+- Verificar se o TGT pertence ao usuario correto
+- Verificar se o TGT possui chave Cliente-TGS
+- Verificar validade do TGT
+- Validar autenticador criptografado com a chave Cliente-TGS
+- Gerar chave de sessao Cliente-Servico
+- Emitir ticket de servico criptografado com a chave secreta do servico
+
+Trecho essencial de registro dos servicos:
+
+```python
+CHAVES_SERVICOS = {
+    "chat": CHAVE_SECRETA_SERVICO_CHAT,
+    "notas": CHAVE_SECRETA_SERVICO_NOTAS
+}
+```
+
+Explicacao:
+Cada servico possui uma chave secreta propria. O ticket de servico e criptografado com a chave do servico correspondente, para que apenas esse servico consiga abrir o ticket.
+
+Trecho essencial de validacao do TGT:
+
+```python
+def validar_tgt(usuario: str, tgt_criptografado: dict) -> dict:
+    if not tgt_criptografado:
+        raise ValueError("TGT nao informado.")
+
+    try:
+        tgt = descriptografar_json(CHAVE_SECRETA_TGS, tgt_criptografado)
+    except Exception as erro:
+        raise ValueError("TGT invalido ou nao pode ser descriptografado.") from erro
+
+    if tgt.get("id_cliente") != usuario:
+        raise ValueError("TGT pertence a outro usuario.")
+
+    chave_sessao = tgt.get("chave_sessao_cliente_tgs")
+    if not chave_sessao:
+        raise ValueError("TGT nao contem chave de sessao Cliente-TGS.")
+
+    if ticket_expirou(tgt["timestamp_emissao"], tgt["validade_segundos"]):
+        raise ValueError("TGT expirado.")
+
+    return tgt
+```
+
+Explicacao:
+O TGS so aceita um TGT que ele consiga descriptografar com sua chave secreta. Tambem confere se o usuario do TGT corresponde ao usuario da requisicao e se o ticket ainda nao expirou.
+
+Trecho essencial de validacao do autenticador:
+
+```python
+def validar_autenticador(usuario: str, tgt: dict, autenticador_criptografado: dict) -> dict:
+    if not autenticador_criptografado:
+        raise ValueError("Autenticador nao informado.")
+
+    chave_sessao = tgt["chave_sessao_cliente_tgs"]
+
+    try:
+        autenticador = abrir_autenticador(chave_sessao, autenticador_criptografado)
+    except Exception as erro:
+        raise ValueError("Autenticador invalido ou nao pode ser descriptografado.") from erro
+
+    if autenticador.get("usuario") != usuario:
+        raise ValueError("Usuario do autenticador diferente do usuario do TGT.")
+
+    timestamp = autenticador.get("timestamp")
+    if timestamp is None:
+        raise ValueError("Autenticador sem timestamp.")
+
+    if ticket_expirou(timestamp, TEMPO_MAXIMO_AUTENTICADOR):
+        raise ValueError("Autenticador expirado.")
+
+    if timestamp > timestamp_atual() + TEMPO_MAXIMO_AUTENTICADOR:
+        raise ValueError("Autenticador com timestamp invalido.")
+
+    return autenticador
+```
+
+Explicacao:
+O autenticador prova que o cliente conhece a chave de sessao Cliente-TGS. Isso evita que alguem apenas copie um TGT e tente usa-lo sem conhecer a chave associada.
+
+Trecho essencial de emissao de ticket de servico:
+
+```python
+def emitir_ticket_servico(
+        usuario: str,
+        servico: str,
+        tgt_criptografado: dict,
+        autenticador_criptografado: dict
+) -> dict:
+    chave_servico = obter_chave_servico(servico)
+    tgt = validar_tgt(usuario, tgt_criptografado)
+    validar_autenticador(usuario, tgt, autenticador_criptografado)
+
+    chave_sessao_cliente_servico = gerar_chave_simetrica()
+    chave_sessao_cliente_servico_base64 = bytes_para_base64(chave_sessao_cliente_servico)
+
+    ticket_servico = criar_ticket_servico(
+        usuario=usuario,
+        servico=servico,
+        chave_sessao_cliente_servico_base64=chave_sessao_cliente_servico_base64
+    )
+
+    ticket_servico_criptografado = criptografar_json(chave_servico, ticket_servico)
+    chave_cliente_tgs = base64_para_bytes(tgt["chave_sessao_cliente_tgs"])
+
+    resposta_cliente = criptografar_json(
+        chave_cliente_tgs,
+        {
+            "usuario": usuario,
+            "servico": servico,
+            "chave_sessao_cliente_servico": chave_sessao_cliente_servico_base64,
+            "timestamp_emissao": ticket_servico["timestamp_emissao"],
+            "timestamp_expiracao": ticket_servico["timestamp_expiracao"],
+            "nonce_ticket": ticket_servico["nonce"]
+        }
+    )
+
+    return {
+        "servico": servico,
+        "ticket_servico": ticket_servico_criptografado,
+        "resposta_cliente": resposta_cliente
+    }
+```
+
+Explicacao:
+O TGS gera uma nova chave de sessao Cliente-Servico. Essa chave e entregue ao cliente dentro de uma resposta criptografada com a chave Cliente-TGS. O ticket de servico e criptografado com a chave secreta do servico, entao apenas o servico consegue ler seu conteudo.
+
+
+5. KDF E DERIVACAO DE CHAVES A PARTIR DA SENHA
+
+Arquivo: src/kerberos_notas/crypto/kdf.py
+
+Funcao adotada:
+PBKDF2-HMAC-SHA256
+
+Parametros:
+
+- Salt de 16 bytes
+- Chave final de 32 bytes
+- 200.000 iteracoes
+- Hash SHA-256
+
+Trecho essencial:
+
+```python
+TAMANHO_SALT = 16
+TAMANHO_CHAVE = 32
+ITERACOES_PBKDF2 = 200_000
+
+def derivar_chave_senha(senha: str, salt_base64: str) -> bytes:
+    salt = base64.b64decode(salt_base64)
+
+    chave = hashlib.pbkdf2_hmac(
+        "sha256",
+        senha.encode("utf-8"),
+        salt,
+        ITERACOES_PBKDF2,
+        dklen= TAMANHO_CHAVE
+    )
+
+    return chave
+```
+
+Explicacao:
+PBKDF2 aplica a funcao hash repetidas vezes sobre a senha e o salt. Isso torna ataques de forca bruta mais custosos. O salt impede que duas senhas iguais resultem na mesma chave derivada.
+
+Trecho do verificador:
+
+```python
+def gerar_verificador_chave(chave: bytes) -> str:
+    hash_chave = hashlib.sha256(chave).digest()
+    return base64.b64encode(hash_chave).decode("utf-8")
+```
+
+Explicacao:
+O sistema nao salva a senha. Ele salva um verificador produzido a partir da chave derivada. No login, o AS deriva novamente a chave e compara o verificador calculado com o salvo.
+
+
+6. PROCESSO DE OBTENCAO E UTILIZACAO DOS TICKETS
+
+Explique o processo em duas etapas:
+
+Etapa 1: obtencao do TGT
+
+- Cliente informa usuario e senha
+- AS valida senha
+- AS gera chave Cliente-TGS
+- AS cria TGT
+- AS criptografa TGT com a chave do TGS
+- AS criptografa resposta ao cliente com a chave derivada da senha
+
+Etapa 2: obtencao do ticket de servico
+
+- Cliente descriptografa resposta do AS
+- Cliente pega chave Cliente-TGS e TGT
+- Cliente cria autenticador com chave Cliente-TGS
+- Cliente envia TGT e autenticador ao TGS
+- TGS valida TGT e autenticador
+- TGS gera chave Cliente-Servico
+- TGS cria ticket de servico
+- Ticket de servico e criptografado com a chave do servico
+
+Campos do ticket de servico:
+
+```python
+{
+    "usuario": usuario,
+    "servico": servico,
+    "chave_sessao_cliente_servico": chave_sessao_cliente_servico_base64,
+    "timestamp_emissao": timestamp_emissao,
+    "timestamp_expiracao": timestamp_emissao + validade_segundos,
+    "nonce": uuid.uuid4().hex
+}
+```
+
+Uso do ticket:
+O cliente envia o ticket ao servico protegido. O servico abre o ticket com sua propria chave secreta, verifica validade e obtem a chave Cliente-Servico para proteger a comunicacao.
+
+
+7. AUTENTICACAO MUTUA
+
+Arquivo principal: src/kerberos_notas/notes/chat_seguro.py
+
+No chat seguro, a autenticacao mutua ocorre entre cliente e servico.
+
+Fluxo:
+
+1. Cliente envia ticket de servico e autenticador.
+2. Servico abre o ticket de servico.
+3. Servico obtem a chave de sessao Cliente-Servico.
+4. Servico tenta abrir o autenticador usando essa chave.
+5. Servico verifica se o usuario do autenticador e o mesmo usuario do ticket.
+6. Servico responde com uma confirmacao criptografada usando a mesma chave de sessao.
+7. Cliente abre a confirmacao e verifica o nonce esperado.
+
+Trecho essencial do servico:
+
+```python
+def autenticar_servico_chat(
+        ticket_servico_criptografado: dict,
+        autenticador_criptografado: dict
+) -> dict:
+    ticket = validar_ticket_chat(ticket_servico_criptografado)
+    chave_sessao_base64 = ticket["chave_sessao_cliente_servico"]
+
+    autenticador = abrir_autenticador(
+        chave_sessao_base64,
+        autenticador_criptografado
+    )
+
+    if autenticador.get("usuario") != ticket["usuario"]:
+        raise ValueError(ALERTA_IDENTIDADE)
+
+    chave_sessao = base64_para_bytes(chave_sessao_base64)
+
+    return criptografar_json(
+        chave_sessao,
+        {
+            "usuario": ticket["usuario"],
+            "timestamp": timestamp_atual(),
+            "nonce_autenticador": autenticador.get("nonce"),
+            "status": "canal_autenticado"
+        }
+    )
+```
+
+Trecho essencial do cliente validando a confirmacao:
+
+```python
+def validar_confirmacao_servico(
+        chave_sessao_cliente_servico_base64: str,
+        confirmacao_criptografada: dict,
+        nonce_esperado: str
+) -> dict:
+    chave_sessao = base64_para_bytes(chave_sessao_cliente_servico_base64)
+    confirmacao = descriptografar_json(chave_sessao, confirmacao_criptografada)
+
+    if confirmacao.get("nonce_autenticador") != nonce_esperado:
+        raise ValueError("Confirmacao do servico invalida.")
+
+    return confirmacao
+```
+
+Explicacao:
+Se o cliente consegue descriptografar a confirmacao e o nonce esta correto, ele confirma que o servico possui a chave Cliente-Servico. Isso demonstra autenticacao mutua de forma simples.
+
+
+8. CHAT SEGURO, CONFIDENCIALIDADE E HMAC
+
+Arquivo: src/kerberos_notas/notes/chat_seguro.py
+
+Estrutura da mensagem:
+
+- remetente
+- destinatario
+- conteudo_criptografado
+- timestamp
+- nonce
+- hmac
+
+Trecho de criacao da mensagem segura:
+
+```python
+def criar_mensagem_segura(
+        remetente: str,
+        destinatario: str,
+        conteudo: str,
+        chave_sessao_cliente_servico_base64: str
+) -> dict:
+    chave_sessao = base64_para_bytes(chave_sessao_cliente_servico_base64)
+    conteudo_criptografado = criptografar_json(
+        chave_sessao,
+        {"conteudo": conteudo}
+    )
+
+    mensagem = {
+        "remetente": remetente,
+        "destinatario": destinatario,
+        "conteudo_criptografado": conteudo_criptografado,
+        "timestamp": timestamp_atual(),
+        "nonce": uuid.uuid4().hex
+    }
+
+    mensagem["hmac"] = calcular_hmac_mensagem(
+        chave_sessao_cliente_servico_base64,
+        mensagem
+    )
+
+    return mensagem
+```
+
+Explicacao:
+O conteudo original da mensagem e colocado dentro de um JSON e criptografado com AES-GCM usando a chave Cliente-Servico. O pacote final nao contem o texto em claro, apenas nonce e ciphertext.
+
+Trecho de calculo do HMAC:
+
+```python
+def dados_para_hmac(mensagem: dict) -> str:
+    dados = {
+        "remetente": mensagem["remetente"],
+        "destinatario": mensagem["destinatario"],
+        "conteudo_criptografado": mensagem["conteudo_criptografado"],
+        "timestamp": mensagem["timestamp"],
+        "nonce": mensagem["nonce"]
+    }
+
+    return json.dumps(dados, sort_keys=True, separators=(",", ":"))
+
+def calcular_hmac_mensagem(
+        chave_sessao_cliente_servico_base64: str,
+        mensagem: dict
+) -> str:
+    chave_sessao = base64_para_bytes(chave_sessao_cliente_servico_base64)
+    dados = dados_para_hmac(mensagem).encode("utf-8")
+    resumo = hmac.new(chave_sessao, dados, hashlib.sha256).digest()
+
+    return base64.b64encode(resumo).decode("utf-8")
+```
+
+Explicacao:
+O HMAC protege remetente, destinatario, conteudo criptografado, timestamp e nonce. Se qualquer um desses campos for alterado, o HMAC recalculado nao sera igual ao HMAC recebido.
+
+Trecho de verificacao:
+
+```python
+def receber_mensagem_segura(
+        ticket_servico_criptografado: dict,
+        mensagem: dict
+) -> dict:
+    ticket = validar_ticket_chat(ticket_servico_criptografado)
+    chave_sessao_base64 = ticket["chave_sessao_cliente_servico"]
+
+    if mensagem.get("remetente") != ticket["usuario"]:
+        raise ValueError(ALERTA_IDENTIDADE)
+
+    if not verificar_hmac_mensagem(chave_sessao_base64, mensagem):
+        raise ValueError(ALERTA_INTEGRIDADE)
+
+    chave_sessao = base64_para_bytes(chave_sessao_base64)
+    dados = descriptografar_json(
+        chave_sessao,
+        mensagem["conteudo_criptografado"]
+    )
+
+    return {
+        "remetente": mensagem["remetente"],
+        "destinatario": mensagem["destinatario"],
+        "conteudo": dados["conteudo"],
+        "timestamp": mensagem["timestamp"],
+        "nonce": mensagem["nonce"]
+    }
+```
+
+Explicacao:
+Antes de abrir a mensagem, o servico verifica se o remetente corresponde ao usuario do ticket. Depois verifica o HMAC. Apenas se essas validacoes passarem o conteudo e descriptografado.
+
+Mensagens de erro importantes:
+
+```text
+Mensagem violada: integridade comprometida
+Identidade invalida: usuario nao corresponde ao ticket
+```
+
+
+9. ALGORITMOS CRIPTOGRAFICOS UTILIZADOS
+
+Algoritmo 1: PBKDF2-HMAC-SHA256
+
+Uso:
+Derivar chave a partir da senha do usuario.
+
+Justificativa:
+E uma KDF conhecida, simples de explicar e adequada para transformar senhas em chaves criptograficas. O uso de salt e 200.000 iteracoes dificulta ataques de dicionario e forca bruta.
+
+Algoritmo 2: AES-GCM
+
+Arquivo: src/kerberos_notas/crypto/crypto_utils.py
+
+Trecho essencial:
+
+```python
+def criptografar_json(chave: bytes, dados: dict) -> dict:
+    aesgcm = AESGCM(chave)
+    nonce = os.urandom(TAMANHO_NONCE)
+
+    dados_json = json.dumps(dados).encode("utf-8")
+
+    ciphertext = aesgcm.encrypt(
+        nonce,
+        dados_json,
+        None
+    )
+
+    return {
+        "nonce": bytes_para_base64(nonce),
+        "ciphertext": bytes_para_base64(ciphertext)
+    }
+```
+
+Justificativa:
+AES-GCM e usado para criptografar dados JSON, como TGT, ticket de servico, respostas do AS/TGS e conteudo de mensagens. Ele utiliza nonce e gera ciphertext. No projeto, as chaves possuem 32 bytes, ou seja, 256 bits.
+
+Algoritmo 3: HMAC-SHA256
+
+Uso:
+Verificar integridade das mensagens do chat.
+
+Justificativa:
+O HMAC e adequado para detectar alteracoes em mensagens quando emissor e receptor compartilham uma chave secreta. No projeto, a chave usada e a chave de sessao Cliente-Servico.
+
+Geracao de chaves simetricas:
+
+```python
+def gerar_chave_simetrica() -> bytes:
+    return os.urandom(TAMANHO_CHAVE_AES)
+```
+
+Justificativa:
+As chaves de sessao sao aleatorias e temporarias. Isso reduz o impacto caso uma chave de sessao seja comprometida, pois ela vale apenas para aquele fluxo.
+
+
+10. TESTES E VALIDACAO
+
+Comando para executar os testes:
+
+```powershell
+$env:PYTHONPATH='src'
+python -m pytest -q
+```
+
+Resultado esperado:
+
+```text
+24 passed
+```
+
+Testes principais:
+
+- tests/test_as_server.py
+  Verifica usuario valido, usuario inexistente, senha invalida, TGT valido, TGT criptografado e integracao AS -> TGS.
+
+- tests/test_tgs.py
+  Verifica emissao de ticket de servico, rejeicao de TGT expirado, autenticador invalido, usuario diferente e ticket de servico expirado.
+
+- tests/test_chat_seguro.py
+  Verifica ticket valido para chat, ticket expirado, ticket invalido, mensagem criptografada, HMAC valido, mensagem adulterada, usuario diferente do ticket e autenticacao mutua.
+
+Demonstracao pratica:
+
+Arquivo:
+scripts/demo_chat_seguro.py
+
+Comando:
+
+```powershell
+python scripts/demo_chat_seguro.py
+```
+
+Saida esperada:
+
+```text
+AS validou senha e emitiu TGT
+TGS emitiu ticket de servico para o chat
+Texto aparece no pacote? False
+Servico validou ticket, autenticador, HMAC e abriu mensagem
+Mensagem adulterada foi aceita? False
+Alerta: Mensagem violada: integridade comprometida
+```
+
+Explicacao:
+Essa demonstracao mostra que a mensagem nao aparece em texto puro no pacote e que uma adulteracao simples e detectada pelo HMAC.
+
+
+11. DIFICULDADES ENCONTRADAS
+
+Sugestoes para escrever no relatorio:
+
+1. Compatibilidade entre os campos dos tickets
+Uma dificuldade foi manter os nomes dos campos compativeis entre AS, TGS e servico protegido. Por exemplo, o TGS espera que o TGT tenha `id_cliente`, `chave_sessao_cliente_tgs`, `timestamp_emissao` e `validade_segundos`.
+
+2. Separacao de responsabilidades
+Foi necessario evitar misturar logica de AS, TGS, cliente e servico. Cada parte deveria ter uma responsabilidade clara.
+
+3. Controle de validade
+Foi preciso usar timestamp de emissao, expiracao e validade para rejeitar tickets ou autenticadores antigos.
+
+4. Integracao do chat ao TGS
+Para que o TGS emitisse ticket para o chat, foi necessario registrar o servico `chat` na tabela de servicos e definir uma chave secreta propria para ele.
+
+5. Integridade alem da criptografia
+Mesmo usando AES-GCM, o trabalho exigia HMAC explicito. Por isso foi implementado HMAC-SHA256 sobre os campos principais da mensagem.
+
+
+12. APRENDIZADOS OBTIDOS
+
+Sugestoes para escrever no relatorio:
+
+1. O Kerberos evita enviar senha repetidamente
+A senha e usada apenas no inicio, para obter a primeira chave derivada. Depois o sistema trabalha com tickets e chaves de sessao.
+
+2. Tickets separam autenticacao de autorizacao de servico
+O TGT serve para obter novos tickets no TGS. O ticket de servico serve para acessar um servico especifico.
+
+3. Chaves de sessao reduzem riscos
+As chaves Cliente-TGS e Cliente-Servico sao temporarias, o que reduz o impacto de comprometimentos.
+
+4. Autenticadores ajudam a evitar reuso simples de tickets
+O autenticador inclui usuario, timestamp e nonce, e e criptografado com a chave de sessao.
+
+5. Confidencialidade, autenticidade e integridade sao propriedades diferentes
+Criptografia protege conteudo, tickets/autenticadores ajudam a validar identidade e HMAC detecta adulteracao.
+
+
+13. CONCLUSAO SUGERIDA
+
+Use uma conclusao parecida com esta, reescrita em linguagem formal:
+
+O projeto implementou uma simulacao funcional do protocolo Kerberos com AS, TGS, tickets, KDF, chaves de sessao, autenticadores, autenticacao mutua e chat seguro. A implementacao demonstrou como a senha do usuario pode ser usada apenas na autenticacao inicial, enquanto o restante da comunicacao passa a depender de tickets e chaves temporarias. Os testes automatizados e a demonstracao pratica mostram que o sistema valida usuarios, emite tickets, protege mensagens por criptografia e detecta adulteracoes por HMAC.
+
+
+14. ORIENTACOES FINAIS PARA A IA QUE VAI GERAR O PDF
+
+Ao escrever o relatorio final:
+
+- Mantenha no maximo 10 paginas
+- Use linguagem academica, mas clara
+- Nao copie todos os codigos, use apenas trechos curtos
+- Explique cada trecho de codigo mostrado
+- Destaque os algoritmos PBKDF2-HMAC-SHA256, AES-GCM e HMAC-SHA256
+- Explique que o projeto e uma simulacao academica simplificada
+- Inclua uma tabela pequena com os componentes e arquivos principais
+- Inclua o fluxo Cliente -> AS -> TGS -> Servico protegido
+- Inclua a saida esperada dos testes, `24 passed`
+- Inclua as mensagens de erro de integridade e autenticidade
+- Termine com dificuldades e aprendizados
