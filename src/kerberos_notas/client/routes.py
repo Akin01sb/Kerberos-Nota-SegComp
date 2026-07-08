@@ -1,29 +1,19 @@
 from pathlib import Path
 
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, flash, redirect, render_template, request, session, url_for
 
 from kerberos_notas.crypto.crypto_utils import base64_para_bytes, descriptografar_json
 from kerberos_notas.crypto.kdf import derivar_chave_senha
 from kerberos_notas.kerberos.as_server import autenticar_no_as, carregar_usuarios
 from kerberos_notas.kerberos.authenticator import criar_autenticador
-from kerberos_notas.kerberos.tgs_server import emitir_ticket_servico
+from kerberos_notas.kerberos.tgs_server import abrir_ticket_servico, emitir_ticket_servico
+from kerberos_notas.notes.service import criar_nota, listar_notas
 
 
 BASE_DIR = Path(__file__).resolve().parents[3]
 
 
 def autenticar_com_kerberos(usuario, senha):
-    """
-    Esta função deve usar o que já foi feito pela Pessoa 1 e Pessoa 2.
-
-    Fluxo esperado:
-    1. Cliente envia usuário e senha.
-    2. AS valida o usuário.
-    3. AS gera TGT.
-    4. Cliente usa TGT para pedir ticket ao TGS.
-    5. TGS gera ticket de serviço para acessar o sistema de notas.
-    """
-
     resposta_as_criptografada = autenticar_no_as(usuario, senha)
 
     usuarios = carregar_usuarios().get("usuarios", {})
@@ -38,12 +28,12 @@ def autenticar_com_kerberos(usuario, senha):
         usuario=usuario,
         servico="notas",
         tgt_criptografado=resposta_as["tgt"],
-        autenticador_criptografado=autenticador
+        autenticador_criptografado=autenticador,
     )
 
     dados_cliente = descriptografar_json(
         base64_para_bytes(chave_sessao_cliente_tgs),
-        resposta_tgs["resposta_cliente"]
+        resposta_tgs["resposta_cliente"],
     )
 
     return {
@@ -52,42 +42,26 @@ def autenticar_com_kerberos(usuario, senha):
     }
 
 
-def listar_notas_protegidas(usuario):
-    """
-    Esta função deve usar o serviço de notas feito pela Pessoa 3.
-    """
+def validar_ticket_notas(usuario, ticket_servico):
+    if not ticket_servico:
+        raise ValueError("Ticket de servico nao encontrado na sessao.")
 
-    # Exemplo conceitual:
-    #
-    # from kerberos_notas.notes.service import listar_notas
-    # return listar_notas(usuario)
+    ticket = abrir_ticket_servico("notas", ticket_servico)
 
-    raise NotImplementedError(
-        "Conecte esta função com o serviço real de notas."
-    )
+    if ticket.get("usuario") != usuario:
+        raise ValueError("Ticket de servico pertence a outro usuario.")
+
+    return ticket
 
 
-def criar_nota_protegida(usuario, titulo, conteudo):
-    """
-    Esta função deve criar uma nota usando o serviço já existente.
-    """
-
-    # Exemplo conceitual:
-    #
-    # from kerberos_notas.notes.service import criar_nota
-    # criar_nota(usuario, titulo, conteudo)
-
-    raise NotImplementedError(
-        "Conecte esta função com o serviço real de notas."
-    )
+def listar_notas_protegidas(usuario, ticket_servico):
+    validar_ticket_notas(usuario, ticket_servico)
+    return listar_notas(usuario)
 
 
-
-
-
-
-
-
+def criar_nota_protegida(usuario, ticket_servico, titulo, conteudo):
+    validar_ticket_notas(usuario, ticket_servico)
+    return criar_nota(usuario, titulo, conteudo)
 
 
 def create_app():
@@ -112,7 +86,7 @@ def create_app():
         senha = request.form.get("senha")
 
         if not usuario or not senha:
-            flash("Informe usuário e senha.")
+            flash("Informe usuario e senha.")
             return redirect(url_for("login"))
 
         try:
@@ -127,16 +101,17 @@ def create_app():
         except Exception as erro:
             return render_template(
                 "erro.html",
-                mensagem=f"Falha na autenticação: {erro}",
+                mensagem=f"Falha na autenticacao: {erro}",
             )
 
     @app.route("/notas", methods=["GET", "POST"])
     def notas():
         if "usuario" not in session:
-            flash("Faça login para acessar o sistema de notas.")
+            flash("Faca login para acessar o sistema de notas.")
             return redirect(url_for("login"))
 
         usuario = session["usuario"]
+        ticket_servico = session.get("ticket_servico")
 
         try:
             if request.method == "POST":
@@ -144,17 +119,17 @@ def create_app():
                 conteudo = request.form.get("conteudo")
 
                 if titulo and conteudo:
-                    #criar_nota_protegida(usuario, titulo, conteudo)
+                    criar_nota_protegida(usuario, ticket_servico, titulo, conteudo)
                     flash("Nota criada com sucesso.")
                 else:
-                    flash("Preencha título e conteúdo.")
+                    flash("Preencha titulo e conteudo.")
 
-            #lista_notas = listar_notas_protegidas(usuario)
+            lista_notas = listar_notas_protegidas(usuario, ticket_servico)
 
             return render_template(
                 "notas.html",
                 usuario=usuario,
-                #notas=lista_notas,
+                notas=lista_notas,
             )
 
         except Exception as erro:
@@ -166,7 +141,7 @@ def create_app():
     @app.route("/logout")
     def logout():
         session.clear()
-        flash("Você saiu do sistema.")
+        flash("Voce saiu do sistema.")
         return redirect(url_for("login"))
 
     return app
