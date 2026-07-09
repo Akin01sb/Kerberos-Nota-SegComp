@@ -5,8 +5,10 @@ import pytest
 from kerberos_notas.client.routes import create_app
 from kerberos_notas.config import CHAVE_SECRETA_SERVICO_NOTAS
 from kerberos_notas.crypto.crypto_utils import (
+    base64_para_bytes,
     bytes_para_base64,
     criptografar_json,
+    descriptografar_json,
     gerar_chave_simetrica,
 )
 from kerberos_notas.crypto.kdf import (
@@ -19,7 +21,10 @@ from kerberos_notas.kerberos.authenticator import abrir_autenticador, criar_aute
 from kerberos_notas.kerberos.tickets import criar_ticket_servico
 from kerberos_notas.notes import repository
 from kerberos_notas.notes.portal_notas import (
+    NONCES_UTILIZADOS,
     autenticar_portal_notas,
+    calcular_hash_requisicao,
+    processar_operacao_portal,
     validar_confirmacao_portal,
 )
 from kerberos_notas.notes.service import (
@@ -32,6 +37,7 @@ from kerberos_notas.notes.service import (
 
 @pytest.fixture
 def dados_portal(tmp_path, monkeypatch):
+    NONCES_UTILIZADOS.clear()
     caminho_notas = tmp_path / "notas.json"
     caminho_notas.write_text('{"notas": {}}', encoding="utf-8")
     monkeypatch.setattr(repository, "CAMINHO_NOTAS", caminho_notas)
@@ -86,6 +92,24 @@ def criar_sessao_web(app, cliente, usuario, perfil):
     }
     with cliente.session_transaction() as sessao:
         sessao["id_sessao_kerberos"] = id_sessao
+
+
+def montar_operacao(usuario, chave, acao, dados=None, nonce="nonce-operacao"):
+    requisicao = {
+        "usuario": usuario,
+        "acao": acao,
+        "dados": dados or {},
+        "nonce": nonce,
+    }
+    autenticador = criar_autenticador(
+        usuario,
+        chave,
+        nonce=nonce,
+        acao=acao,
+        hash_requisicao=calcular_hash_requisicao(requisicao),
+    )
+    pacote = criptografar_json(base64_para_bytes(chave), requisicao)
+    return autenticador, pacote
 
 
 def test_professor_cria_lista_e_edita_nota(dados_portal):
@@ -170,6 +194,56 @@ def test_portal_rejeita_ticket_adulterado(dados_portal):
         autenticar_portal_notas(ticket, autenticador)
 
 
+def test_portal_rejeita_reutilizacao_do_autenticador(dados_portal):
+    ticket, chave = criar_ticket_notas("ana")
+    autenticador, pacote = montar_operacao(
+        "ana",
+        chave,
+        "carregar_painel",
+    )
+
+    resposta = processar_operacao_portal(ticket, autenticador, pacote)
+    dados_resposta = descriptografar_json(base64_para_bytes(chave), resposta)
+    assert dados_resposta["status"] == "operacao_concluida"
+
+    with pytest.raises(ValueError, match="ataque de replay"):
+        processar_operacao_portal(ticket, autenticador, pacote)
+
+
+def test_portal_rejeita_requisicao_adulterada(dados_portal):
+    ticket, chave = criar_ticket_notas("ana")
+    autenticador, pacote = montar_operacao(
+        "ana",
+        chave,
+        "carregar_painel",
+    )
+    pacote["ciphertext"] = pacote["ciphertext"][:-2] + "AA"
+
+    with pytest.raises(ValueError, match="Requisicao protegida invalida"):
+        processar_operacao_portal(ticket, autenticador, pacote)
+
+
+def test_portal_rejeita_autenticador_de_outra_acao(dados_portal):
+    ticket, chave = criar_ticket_notas("ana")
+    requisicao = {
+        "usuario": "ana",
+        "acao": "carregar_painel",
+        "dados": {},
+        "nonce": "nonce-acao",
+    }
+    pacote = criptografar_json(base64_para_bytes(chave), requisicao)
+    autenticador = criar_autenticador(
+        "ana",
+        chave,
+        nonce="nonce-acao",
+        acao="excluir_nota",
+        hash_requisicao=calcular_hash_requisicao(requisicao),
+    )
+
+    with pytest.raises(ValueError, match="Acao da requisicao diferente"):
+        processar_operacao_portal(ticket, autenticador, pacote)
+
+
 def test_rota_professor_salva_e_exibe_nota(dados_portal):
     app = create_app()
     app.config["TESTING"] = True
@@ -190,6 +264,56 @@ def test_rota_professor_salva_e_exibe_nota(dados_portal):
     assert resposta.status_code == 200
     assert b"Seguranca" in resposta.data
     assert b"Fluxo AS TGS Portal" in resposta.data
+    logs = app.extensions["sessoes_kerberos"]["sessao-prof"]["logs"]
+    assert any("criar_nota" in etapa for etapa in logs)
+    assert any("Autenticacao mutua concluida" in etapa for etapa in logs)
+
+
+def test_rotas_editar_e_excluir_usam_operacao_kerberos(dados_portal):
+    nota = criar_nota("prof", "ana", "Redes", 7)
+    app = create_app()
+    app.config["TESTING"] = True
+
+    with app.test_client() as cliente:
+        criar_sessao_web(app, cliente, "prof", "professor")
+        resposta_edicao = cliente.post(
+            f"/notas/{nota['id']}/editar",
+            data={
+                "disciplina": "Redes Seguras",
+                "nota": "9",
+                "observacao": "Atualizada",
+            },
+        )
+        assert resposta_edicao.status_code == 302
+        assert listar_notas("ana", "aluno")[0]["nota"] == 9
+
+        resposta_exclusao = cliente.post(f"/notas/{nota['id']}/excluir")
+        assert resposta_exclusao.status_code == 302
+
+    assert listar_notas("ana", "aluno") == []
+    logs = app.extensions["sessoes_kerberos"]["sessao-prof"]["logs"]
+    assert any("editar_nota" in etapa for etapa in logs)
+    assert any("excluir_nota" in etapa for etapa in logs)
+
+
+def test_rota_impede_aluno_de_editar_nota(dados_portal):
+    nota = criar_nota("prof", "ana", "Redes", 7)
+    app = create_app()
+    app.config["TESTING"] = True
+
+    with app.test_client() as cliente:
+        criar_sessao_web(app, cliente, "ana", "aluno")
+        resposta = cliente.post(
+            f"/notas/{nota['id']}/editar",
+            data={
+                "disciplina": "Redes",
+                "nota": "10",
+                "observacao": "",
+            },
+        )
+
+    assert resposta.status_code == 403
+    assert listar_notas("ana", "aluno")[0]["nota"] == 7
 
 
 def test_rota_impede_aluno_de_lancar_nota(dados_portal):

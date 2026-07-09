@@ -30,6 +30,21 @@
 
 7. Cliente
    valida a confirmacao e libera o painel conforme o perfil
+
+8. Para cada operacao do Portal
+   Cliente -> Portal:
+   - o mesmo Service Ticket ainda valido
+   - novo autenticador com acao, timestamp, nonce e hash
+   - requisicao cifrada com AES-GCM
+
+9. Portal -> Cliente
+   - valida ticket, autenticador, nonce, acao e hash
+   - rejeita reutilizacao do nonce
+   - executa a operacao autorizada
+   - devolve confirmacao e resultado cifrados
+
+10. Cliente
+    valida timestamp, nonce e acao antes de aceitar o resultado
 ```
 
 O AS é o único componente que participa da validação inicial da senha. O TGS
@@ -40,3 +55,7 @@ O ticket comprova que o TGS autorizou o acesso ao serviço `notas`. O
 autenticador comprova que o cliente conhece a chave de sessão presente no
 ticket. A resposta cifrada do Portal permite ao cliente confirmar que o serviço
 também conhece essa chave, concluindo a autenticação mútua.
+
+As operações `carregar_painel`, `criar_nota`, `editar_nota` e `excluir_nota`
+seguem os passos 8 a 10. O AS e o TGS não são chamados novamente enquanto o
+Service Ticket estiver válido.

@@ -4,25 +4,24 @@ from pathlib import Path
 
 from flask import Flask, flash, redirect, render_template, request, session, url_for
 
-from kerberos_notas.crypto.crypto_utils import base64_para_bytes, descriptografar_json
+from kerberos_notas.crypto.crypto_utils import (
+    base64_para_bytes,
+    criptografar_json,
+    descriptografar_json,
+)
 from kerberos_notas.crypto.kdf import derivar_chave_senha
 from kerberos_notas.kerberos.as_server import autenticar_no_as, carregar_usuarios
 from kerberos_notas.kerberos.authenticator import abrir_autenticador, criar_autenticador
 from kerberos_notas.kerberos.tgs_server import emitir_ticket_servico
 from kerberos_notas.notes.portal_notas import (
     autenticar_portal_notas,
+    calcular_hash_requisicao,
+    processar_operacao_portal,
     validar_confirmacao_portal,
+    validar_resposta_operacao,
     validar_ticket_portal,
 )
-from kerberos_notas.notes.service import (
-    PERFIL_PROFESSOR,
-    criar_nota,
-    editar_nota,
-    excluir_nota,
-    listar_alunos,
-    listar_notas,
-    obter_perfil_usuario,
-)
+from kerberos_notas.notes.service import obter_perfil_usuario
 
 
 BASE_DIR = Path(__file__).resolve().parents[3]
@@ -126,29 +125,56 @@ def validar_sessao_portal(dados_sessao):
     )
 
 
-def listar_notas_protegidas(usuario, perfil, ticket_servico):
-    validar_ticket_notas(usuario, ticket_servico)
-    return listar_notas(usuario, perfil)
-
-
-def criar_nota_protegida(
-        usuario,
-        perfil,
-        ticket_servico,
-        aluno,
-        disciplina,
-        nota,
-        observacao=""
-):
-    validar_ticket_notas(usuario, ticket_servico)
-    return criar_nota(
-        professor=usuario,
-        perfil=perfil,
-        aluno=aluno,
-        disciplina=disciplina,
-        nota=nota,
-        observacao=observacao,
+def executar_operacao_kerberos(dados_sessao, acao, dados=None):
+    usuario = dados_sessao["usuario"]
+    chave_sessao = dados_sessao["chave_sessao_servico"]
+    nonce_operacao = secrets.token_hex(16)
+    requisicao = {
+        "usuario": usuario,
+        "acao": acao,
+        "dados": dados or {},
+        "nonce": nonce_operacao,
+    }
+    hash_requisicao = calcular_hash_requisicao(requisicao)
+    requisicao_criptografada = criptografar_json(
+        base64_para_bytes(chave_sessao),
+        requisicao,
     )
+    autenticador = criar_autenticador(
+        usuario,
+        chave_sessao,
+        nonce=nonce_operacao,
+        acao=acao,
+        hash_requisicao=hash_requisicao,
+    )
+    dados_autenticador = abrir_autenticador(chave_sessao, autenticador)
+
+    registrar_etapa(
+        dados_sessao["logs"],
+        f"[CLIENTE] Autenticador criado para a operacao {acao}.",
+    )
+    resposta_criptografada = processar_operacao_portal(
+        dados_sessao["ticket_servico"],
+        autenticador,
+        requisicao_criptografada,
+    )
+    registrar_etapa(
+        dados_sessao["logs"],
+        f"[PORTAL] Ticket, autenticador e requisicao {acao} validados.",
+    )
+
+    resposta = validar_resposta_operacao(
+        chave_sessao,
+        resposta_criptografada,
+        acao,
+        dados_autenticador["timestamp"],
+        nonce_operacao,
+    )
+    registrar_etapa(
+        dados_sessao["logs"],
+        f"[CLIENTE] Autenticacao mutua concluida para {acao}.",
+    )
+    return resposta["resultado"]
 
 
 def create_app():
@@ -226,18 +252,18 @@ def create_app():
             return redirect(url_for("login"))
 
         usuario = dados_sessao["usuario"]
-        perfil = dados_sessao["perfil"]
 
         try:
             if request.method == "POST":
-                criar_nota_protegida(
-                    usuario=usuario,
-                    perfil=perfil,
-                    ticket_servico=dados_sessao["ticket_servico"],
-                    aluno=request.form.get("aluno"),
-                    disciplina=request.form.get("disciplina"),
-                    nota=request.form.get("nota"),
-                    observacao=request.form.get("observacao"),
+                executar_operacao_kerberos(
+                    dados_sessao,
+                    "criar_nota",
+                    {
+                        "aluno": request.form.get("aluno"),
+                        "disciplina": request.form.get("disciplina"),
+                        "nota": request.form.get("nota"),
+                        "observacao": request.form.get("observacao"),
+                    },
                 )
                 registrar_etapa(
                     dados_sessao["logs"],
@@ -246,17 +272,17 @@ def create_app():
                 flash("Nota lancada com sucesso.")
                 return redirect(url_for("notas"))
 
-            lista_notas = listar_notas_protegidas(
-                usuario,
-                perfil,
-                dados_sessao["ticket_servico"],
+            painel = executar_operacao_kerberos(
+                dados_sessao,
+                "carregar_painel",
             )
+            dados_sessao["perfil"] = painel["perfil"]
             return render_template(
                 "notas.html",
                 usuario=usuario,
-                perfil=perfil,
-                notas=lista_notas,
-                alunos=listar_alunos() if perfil == PERFIL_PROFESSOR else [],
+                perfil=painel["perfil"],
+                notas=painel["notas"],
+                alunos=painel["alunos"],
                 logs=dados_sessao["logs"],
             )
         except PermissionError as erro:
@@ -275,13 +301,15 @@ def create_app():
             if not dados_sessao:
                 return redirect(url_for("login"))
 
-            editar_nota(
-                professor=dados_sessao["usuario"],
-                perfil=dados_sessao["perfil"],
-                nota_id=nota_id,
-                disciplina=request.form.get("disciplina"),
-                nota=request.form.get("nota"),
-                observacao=request.form.get("observacao"),
+            executar_operacao_kerberos(
+                dados_sessao,
+                "editar_nota",
+                {
+                    "nota_id": nota_id,
+                    "disciplina": request.form.get("disciplina"),
+                    "nota": request.form.get("nota"),
+                    "observacao": request.form.get("observacao"),
+                },
             )
             registrar_etapa(
                 dados_sessao["logs"],
@@ -303,7 +331,11 @@ def create_app():
             if not dados_sessao:
                 return redirect(url_for("login"))
 
-            excluir_nota(nota_id, perfil=dados_sessao["perfil"])
+            executar_operacao_kerberos(
+                dados_sessao,
+                "excluir_nota",
+                {"nota_id": nota_id},
+            )
             registrar_etapa(
                 dados_sessao["logs"],
                 f"[PORTAL] Nota {nota_id} excluida.",

@@ -41,7 +41,9 @@ Mostre `notes/portal_notas.py` e `client/routes.py`.
 - conferência do usuário, timestamp e nonce;
 - resposta cifrada com timestamp incrementado;
 - validação da resposta pelo cliente;
-- criação da sessão somente após essa confirmação.
+- criação da sessão somente após essa confirmação;
+- novo autenticador, requisição cifrada e confirmação para cada operação;
+- rejeição de nonce reutilizado pelo cache contra replay.
 
 ## 5. Demonstração como professor
 
@@ -69,7 +71,7 @@ $env:PYTHONPATH='src'
 python -m pytest -q
 ```
 
-Resultado atual: `34 passed`.
+Resultado atual: `39 passed`.
 
 Destaque `test_crypto.py`, `test_notas.py` e `test_fluxo.py`.
 

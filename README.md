@@ -28,6 +28,9 @@ Cliente Web -> AS -> TGS -> Portal de Notas
 6. O cliente envia Service Ticket e autenticador Cliente-Serviço ao Portal.
 7. O Portal valida os dois e devolve uma confirmação criptografada.
 8. O cliente valida timestamp e nonce da confirmação antes de liberar o painel.
+9. Cada operação cria um novo autenticador e uma requisição cifrada com AES-GCM.
+10. O Portal valida ticket, nonce, ação e hash antes de executar o CRUD.
+11. O cliente valida uma nova confirmação mútua para cada operação.
 
 AS e TGS são módulos Python executados no mesmo processo. Essa simplificação
 mantém o projeto didático sem alterar as etapas lógicas do protocolo.
@@ -86,11 +89,11 @@ python -m pytest -q
 Resultado atual:
 
 ```text
-34 passed
+39 passed
 ```
 
 Os testes cobrem KDF, AES-GCM, adulteração, AS, TGS, tickets, autenticadores,
-autenticação mútua, permissões e o fluxo web completo.
+autenticação mútua por operação, replay, permissões e o fluxo web completo.
 
 ## Estrutura
 
@@ -111,6 +114,7 @@ docs/          relatório e roteiro de apresentação
 - As chaves dos serviços ficam fixas em `config.py`.
 - Usuários e notas são armazenados em JSON.
 - As sessões Kerberos ficam em memória e são perdidas ao reiniciar o Flask.
-- Não há cache de replay persistente para autenticadores.
+- O cache contra replay fica apenas em memória e é perdido ao reiniciar.
+- Em uma implantação real, o tráfego entre navegador e Flask exigiria HTTPS.
 - A chave secreta padrão do Flask deve ser substituída por `FLASK_SECRET_KEY`
   fora da demonstração local.

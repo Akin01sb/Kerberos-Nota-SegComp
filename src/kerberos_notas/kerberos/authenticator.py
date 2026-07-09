@@ -8,7 +8,13 @@ from kerberos_notas.crypto.crypto_utils import (
 from kerberos_notas.kerberos.tickets import timestamp_atual
 
 
-def criar_autenticador(usuario: str, chave_sessao_base64: str, nonce: str | None = None) -> dict:
+def criar_autenticador(
+        usuario: str,
+        chave_sessao_base64: str,
+        nonce: str | None = None,
+        acao: str | None = None,
+        hash_requisicao: str | None = None
+) -> dict:
     chave_sessao = base64_para_bytes(chave_sessao_base64)
 
     dados = {
@@ -16,6 +22,12 @@ def criar_autenticador(usuario: str, chave_sessao_base64: str, nonce: str | None
         "timestamp": timestamp_atual(),
         "nonce": nonce or uuid.uuid4().hex
     }
+
+    if acao:
+        dados["acao"] = acao
+
+    if hash_requisicao:
+        dados["hash_requisicao"] = hash_requisicao
 
     return criptografar_json(chave_sessao, dados)
 

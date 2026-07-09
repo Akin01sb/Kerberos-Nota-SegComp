@@ -82,6 +82,12 @@ A implementação está em `src/kerberos_notas/notes/portal_notas.py`.
 6. O cliente abre a confirmação e compara os dois valores.
 7. Somente depois disso a sessão do Portal é criada.
 
+Para cada operação posterior, o cliente cria uma requisição cifrada com ação,
+dados e nonce. Um novo autenticador inclui a ação e o hash da requisição. A
+função `processar_operacao_portal` valida novamente o Service Ticket, rejeita
+nonces reutilizados, confere ação e hash e somente então executa o CRUD. A
+resposta de cada operação também é cifrada e validada pelo cliente.
+
 O cookie Flask guarda apenas um identificador aleatório. Ticket e chave de
 sessão permanecem em memória no lado servidor.
 
@@ -113,18 +119,19 @@ $env:PYTHONPATH='src'
 python -m pytest -q
 ```
 
-Resultado atual: `34 passed`.
+Resultado atual: `39 passed`.
 
 A suíte verifica criptografia, KDF, AS, TGS, adulteração, tickets expirados,
-autenticadores inválidos, autenticação mútua do Portal, CRUD, isolamento entre
-alunos e o fluxo web completo.
+autenticadores inválidos, autenticação mútua por operação, replay, CRUD,
+isolamento entre alunos e o fluxo web completo.
 
 ## 11. Limitações
 
 AS e TGS não são servidores de rede independentes. Chaves de serviço são fixas,
-os dados ficam em JSON, sessões são mantidas em memória e não há cache
-persistente contra replay. Essas decisões são simplificações documentadas para
-uma demonstração universitária.
+os dados ficam em JSON e sessões e nonces utilizados são mantidos somente em
+memória. Essas decisões são simplificações documentadas para uma demonstração
+universitária. Em uma implantação real, o tráfego entre navegador e Flask
+também precisaria de HTTPS.
 
 ## 12. Conclusão
 

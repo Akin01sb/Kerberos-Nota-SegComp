@@ -99,8 +99,8 @@ necessário, crie usuários de demonstração com `scripts/criar_usuario.py`.
 - `data/notas.json` contém registros legados com nota nula e textos antigos.
 - O bloqueio de aluno é testado com HTTP 403, mas a interface simplesmente
   oculta os controles de professor.
-- Edição e exclusão possuem testes da camada de serviço; não há testes HTTP
-  específicos para essas duas rotas.
+- Edição e exclusão possuem testes da camada de serviço e das rotas HTTP.
+- Existe cache de nonces em memória para rejeitar replay.
 
 ## 2. Preparação antes da gravação
 
@@ -159,7 +159,7 @@ python -m pytest -q
 Resultado confirmado na auditoria:
 
 ```text
-34 passed
+39 passed
 ```
 
 ### Cobertura e dados iniciais
@@ -449,13 +449,20 @@ Destaque:
 4. validação do usuário e timestamp;
 5. resposta com `timestamp_resposta = timestamp + 1`;
 6. resposta com `nonce_autenticador`;
-7. `validar_confirmacao_portal`.
+7. `validar_confirmacao_portal`;
+8. `calcular_hash_requisicao`;
+9. `processar_operacao_portal`;
+10. `_registrar_nonce`;
+11. `validar_resposta_operacao`.
 
 ### O que falar sobre autenticação mútua
 
 > O Portal demonstra conhecer a chave Cliente-Serviço ao cifrar uma confirmação
 > com o timestamp incrementado e o mesmo nonce. O cliente abre essa resposta e
 > confere os dois valores. Somente depois a sessão é considerada autenticada.
+> Para cada operação posterior, um novo autenticador vincula ação, nonce e hash
+> a uma requisição cifrada. O Portal rejeita replay e só executa o CRUD após
+> validar todo esse conjunto.
 
 Abra `src/kerberos_notas/client/routes.py` e mostre, dentro de
 `autenticar_com_kerberos`:
@@ -472,6 +479,9 @@ Em `tests/test_notas.py`, mostre:
 - `test_portal_realiza_autenticacao_mutua`;
 - `test_portal_rejeita_autenticador_com_chave_errada`;
 - `test_portal_rejeita_ticket_adulterado`.
+- `test_portal_rejeita_reutilizacao_do_autenticador`;
+- `test_portal_rejeita_requisicao_adulterada`;
+- `test_portal_rejeita_autenticador_de_outra_acao`.
 
 ### Requisitos comprovados
 
@@ -485,12 +495,22 @@ Tempo estimado: 50 segundos.
 
 > A função que integra todas as etapas é `autenticar_com_kerberos`. Ela chama o
 > AS, cria o autenticador Cliente-TGS, chama o TGS, cria o autenticador do
-> Portal e valida a autenticação mútua.
+> Portal e valida a autenticação mútua. Depois do login,
+> `executar_operacao_kerberos` repete ticket, autenticador e confirmação mútua
+> em cada ação do Portal.
 
 ### O que mostrar
 
 Em `src/kerberos_notas/client/routes.py`, percorra
 `autenticar_com_kerberos` do início ao fim.
+
+Depois mostre `executar_operacao_kerberos` e destaque:
+
+- requisição com `usuario`, `acao`, `dados` e `nonce`;
+- `calcular_hash_requisicao`;
+- `criar_autenticador`;
+- `processar_operacao_portal`;
+- `validar_resposta_operacao`.
 
 Destaque `registrar_etapa` e as mensagens:
 
@@ -584,7 +604,7 @@ Acesse `http://127.0.0.1:5000`.
 9. Clique em “Lançar nota”.
 10. Mostre a nota na tabela.
 11. Altere a nota para `9.5` e clique em “Salvar”.
-12. Mostre a mensagem de atualização.
+12. Mostre a mensagem e os logs de autenticação da operação `editar_nota`.
 13. Não exclua essa nota, pois ela será usada na visão do aluno.
 14. Clique em “Sair”.
 
@@ -640,7 +660,8 @@ Tempo estimado: 40 segundos.
 > O acesso ao Portal não depende apenas do cookie Flask. A sessão do navegador
 > guarda um identificador opaco. Ticket e chave ficam na memória do servidor. A
 > função `exigir_sessao_kerberos` exige uma sessão autenticada e
-> `validar_sessao_portal` reabre e valida o Service Ticket.
+> `validar_sessao_portal` reabre e valida o Service Ticket. Além disso, cada
+> ação passa por `executar_operacao_kerberos`, com autenticador novo.
 
 ### O que mostrar
 
@@ -667,8 +688,9 @@ Tempo estimado: 1 minuto e 30 segundos.
 
 ### O que falar
 
-> A suíte possui 34 testes. Eles cobrem criptografia, KDF, AS, TGS, tickets,
-> autenticadores, autenticação mútua, permissões e o fluxo web integrado.
+> A suíte possui 39 testes. Eles cobrem criptografia, KDF, AS, TGS, tickets,
+> autenticadores, autenticação mútua por operação, replay, permissões e o fluxo
+> web integrado.
 
 ### O que executar
 
@@ -680,7 +702,7 @@ python -m pytest -q
 Mostre o resultado:
 
 ```text
-34 passed
+39 passed
 ```
 
 ### Distribuição real
@@ -690,7 +712,7 @@ Mostre o resultado:
 | `tests/test_crypto.py` | 7 | AES-GCM, adulteração, nonce e KDF |
 | `tests/test_as_server.py` | 7 | Login, TGT e integração com TGS |
 | `tests/test_tgs.py` | 7 | TGT, autenticador e Service Ticket |
-| `tests/test_notas.py` | 11 | CRUD, perfis, ticket e autenticação mútua |
+| `tests/test_notas.py` | 16 | CRUD protegido, perfis, replay e autenticação mútua |
 | `tests/test_fluxo.py` | 2 | Fluxo completo e interface professor/aluno |
 
 ### Testes mais fortes para abrir
@@ -698,8 +720,10 @@ Mostre o resultado:
 1. `test_fluxo_as_tgs_portal_com_autenticacao_mutua`;
 2. `test_fluxo_web_professor_lanca_e_aluno_consulta`;
 3. `test_portal_rejeita_ticket_adulterado`;
-4. `test_rota_impede_aluno_de_lancar_nota`;
-5. `test_aes_gcm_detecta_ciphertext_adulterado`.
+4. `test_portal_rejeita_reutilizacao_do_autenticador`;
+5. `test_rotas_editar_e_excluir_usam_operacao_kerberos`;
+6. `test_rota_impede_aluno_de_lancar_nota`;
+7. `test_aes_gcm_detecta_ciphertext_adulterado`.
 
 ### Requisito comprovado
 
@@ -720,9 +744,10 @@ Abra:
 
 > Esta é uma implementação acadêmica simplificada. AS e TGS são módulos no
 > mesmo processo, as chaves de serviço estão fixas em configuração, os dados
-> ficam em JSON, as sessões são mantidas em memória e não existe cache
-> persistente contra replay. Essas limitações estão documentadas e foram
-> escolhidas para manter o foco no fluxo do protocolo.
+> ficam em JSON e as sessões e o cache contra replay são mantidos somente em
+> memória. Essas limitações estão documentadas e foram escolhidas para manter o
+> foco no fluxo do protocolo. Em uma implantação real, o acesso web também
+> precisaria de HTTPS.
 
 ### Conclusão pronta
 
@@ -745,7 +770,7 @@ Abra:
 | 1. Kerberos com chave simétrica | AES-GCM e chaves compartilhadas | `crypto/crypto_utils.py`: `criptografar_json`; `config.py` | Mostrar `AESGCM` e as chaves do TGS/Portal |
 | 2. AS | Autenticação inicial e TGT | `kerberos/as_server.py`: `autenticar_no_as` | Abrir a função e os testes do AS |
 | 3. TGS | Valida TGT e emite Service Ticket | `kerberos/tgs_server.py`: `emitir_ticket_servico` | Mostrar validações e emissão |
-| 4. Serviço protegido | Portal exige ticket e autenticador | `notes/portal_notas.py` | Mostrar `autenticar_portal_notas` |
+| 4. Serviço protegido | Portal exige ticket e autenticador em cada ação | `notes/portal_notas.py`: `processar_operacao_portal` | Mostrar o processamento protegido |
 | 5. Portal de Notas | Serviço identificado como `notas` | `portal_notas.py`: `SERVICO_NOTAS`; `tgs_server.py`: `CHAVES_SERVICOS` | Mostrar que só existe `notas` |
 | 6. Senha | Formulário e validação no AS | `templates/login.html`; `routes.py`: `login`; `as_server.py`: `validar_usuario_no_as` | Fazer login sem mostrar a senha |
 | 7. KDF | PBKDF2-HMAC-SHA256 | `crypto/kdf.py`: `derivar_chave_senha` | Mostrar parâmetros e testes |
@@ -755,15 +780,15 @@ Abra:
 | 11. TGT validado pelo TGS | Identidade, chave e validade | `tgs_server.py`: `validar_tgt` | Mostrar teste de TGT expirado |
 | 12. Service Ticket validado | Portal abre e valida ticket | `portal_notas.py`: `validar_ticket_portal`; `tgs_server.py`: `abrir_ticket_servico` | Mostrar teste adulterado |
 | 13. Autenticador Cliente-TGS | Criado pelo cliente e aberto pelo TGS | `routes.py`: `autenticador_tgs`; `tgs_server.py`: `validar_autenticador` | Mostrar os dois pontos |
-| 14. Autenticador Cliente-Serviço | Criado e enviado ao Portal | `routes.py`: `autenticador_portal`; `portal_notas.py`: `autenticar_portal_notas` | Mostrar nonce e timestamp |
-| 15. Autenticação mútua | Timestamp + 1 e nonce | `portal_notas.py`: `validar_confirmacao_portal` | Mostrar teste de autenticação mútua |
-| 16. Fluxo completo | Integração AS, TGS e Portal | `routes.py`: `autenticar_com_kerberos`; `test_fluxo.py` | Mostrar logs e teste |
+| 14. Autenticador Cliente-Serviço | Novo autenticador por operação | `routes.py`: `executar_operacao_kerberos`; `authenticator.py`: `criar_autenticador` | Mostrar ação, hash e nonce |
+| 15. Autenticação mútua | Timestamp + 1, nonce e ação em cada resposta | `portal_notas.py`: `validar_resposta_operacao` | Mostrar logs e testes de operação |
+| 16. Fluxo completo | Integração inicial e proteção do CRUD | `routes.py`: `autenticar_com_kerberos`, `executar_operacao_kerberos` | Mostrar login e lançamento |
 | 17. Perfis | Perfil carregado e aplicado | `service.py`: `obter_perfil_usuario`; `data/usuarios.json` | Mostrar professor/aluno |
-| 18. Professor administra notas | Listagem, criação e edição | `service.py`: `listar_notas`, `criar_nota`, `editar_nota`; rota `/notas` | Demonstrar no navegador |
+| 18. Professor administra notas | CRUD despachado após Kerberos | `portal_notas.py`: `_executar_acao`; rotas de notas | Demonstrar no navegador |
 | 19. Aluno vê só suas notas | Consulta pelo nome do usuário | `service.py`: `listar_notas`; `repository.py`: `listar_notas_usuario` | Entrar como aluno |
 | 20. Aluno não altera | Validação de perfil e HTTP 403 | `service.py`: `_validar_professor`; `test_rota_impede_aluno_de_lancar_nota` | Mostrar ausência dos botões e teste |
 | 21. Sem ticket não acessa | Sessão e ticket obrigatórios | `routes.py`: `exigir_sessao_kerberos`, `validar_ticket_notas`; `test_rota_recusa_acesso_sem_service_ticket` | Abrir rota sem login e mostrar teste |
-| 22. Testes | 34 testes automatizados | pasta `tests/` | Executar `python -m pytest -q` |
+| 22. Testes | 39 testes automatizados | pasta `tests/` | Executar `python -m pytest -q` |
 | 23. Logs didáticos | Etapas armazenadas e exibidas | `routes.py`: `registrar_etapa`; `templates/notas.html` | Abrir os logs no painel |
 | 24. Limitações | Restrições documentadas | `README.md`; `docs/relatorio_tecnico_base.md` | Mostrar a seção final |
 
@@ -771,21 +796,17 @@ Abra:
 
 1. Não diga que AS e TGS são servidores HTTP separados.
 2. Não diga que existe banco de dados; a persistência é JSON.
-3. Não diga que há proteção completa contra replay; não existe cache
-   persistente de autenticadores.
+3. O cache contra replay existe, mas fica apenas em memória e é perdido ao
+   reiniciar o processo.
 4. Não diga que existe seed, reset funcional ou cobertura configurada.
 5. Não abra `scripts/reset_dados.py`, `docs/fontes_algoritmos.md` ou
    `kerberos/time_utils.py` como partes implementadas, pois estão vazios.
 6. Não mostre nem fale senhas.
-7. A edição e a exclusão são implementadas, mas os testes específicos dessas
-   rotas HTTP ainda não existem. A camada de serviço possui testes.
-8. Para fortalecer a suíte futuramente, podem ser criados:
-   - teste HTTP de edição por professor;
-   - teste HTTP de exclusão por professor;
-   - teste HTTP de tentativa de edição e exclusão por aluno;
-   - teste de reutilização do mesmo autenticador após um cache de replay.
-9. Os registros legados podem deixar a tabela visualmente confusa. Use uma
+7. Edição, exclusão, bloqueio do aluno, replay e adulteração possuem testes.
+8. Os registros legados podem deixar a tabela visualmente confusa. Use uma
    disciplina criada durante a demonstração.
+9. A proteção Kerberos é simulada entre as rotas cliente e o módulo Portal. Em
+   produção, o navegador também precisaria se comunicar por HTTPS.
 
 # Script curto de narração
 
@@ -811,8 +832,13 @@ Abra:
 > as próprias notas e não recebe controles de alteração. Tentativas diretas são
 > rejeitadas com HTTP 403.
 >
-> A suíte automatizada possui 34 testes cobrindo criptografia, KDF, AS, TGS,
-> tickets, autenticadores, autenticação mútua, permissões e o fluxo web.
+> Cada ação do Portal cria um autenticador novo e uma requisição cifrada. O
+> Portal valida ticket, nonce, ação e hash, rejeita replay e devolve uma
+> confirmação cifrada antes de o cliente aceitar o resultado.
+>
+> A suíte automatizada possui 39 testes cobrindo criptografia, KDF, AS, TGS,
+> tickets, autenticadores, replay, autenticação mútua por operação, permissões
+> e o fluxo web.
 >
 > Como limitações acadêmicas, os componentes executam no mesmo processo, as
 > chaves de serviço são fixas, os dados ficam em JSON e as sessões ficam em

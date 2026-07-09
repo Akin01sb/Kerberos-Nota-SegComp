@@ -16,10 +16,12 @@ Aborde:
 4. Ticket Granting Server e emissao do Service Ticket para notas;
 5. autenticadores Cliente-TGS e Cliente-Servico;
 6. autenticacao mutua com timestamp incrementado e nonce;
-7. perfis professor e aluno;
-8. CRUD de notas e isolamento dos dados do aluno;
-9. AES-GCM e justificativas;
-10. testes automatizados, limitacoes e aprendizados.
+7. novo autenticador e requisicao cifrada em cada operacao do Portal;
+8. protecao contra replay com cache de nonces em memoria;
+9. perfis professor e aluno;
+10. CRUD de notas e isolamento dos dados do aluno;
+11. AES-GCM e justificativas;
+12. testes automatizados, limitacoes e aprendizados.
 
 Use como fonte principal `docs/relatorio_tecnico_base.md`. Nao invente
 funcionalidades e nao inclua senhas.
