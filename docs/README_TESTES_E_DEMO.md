@@ -15,14 +15,14 @@ python -m pytest -q
 Resultado atual:
 
 ```text
-39 passed
+43 passed
 ```
 
 Arquivos principais:
 
 - `test_crypto.py`: KDF, AES-GCM, nonces e adulteração;
 - `test_as_server.py`: senha, resposta do AS e TGT;
-- `test_tgs.py`: TGT, autenticador Cliente-TGS e Service Ticket;
+- `test_tgs.py`: TGT, replay Cliente-TGS e Service Ticket;
 - `test_notas.py`: autenticação mútua por operação, replay, CRUD e permissões;
 - `test_fluxo.py`: fluxo completo AS -> TGS -> Portal.
 

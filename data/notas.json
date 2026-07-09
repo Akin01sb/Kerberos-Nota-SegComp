@@ -22,38 +22,6 @@
                 "atualizado_em": "2026-07-08T23:58:42+00:00"
             }
         ],
-        "SilvioSants": [
-            {
-                "id": "bfaae771823641c785729d34b92ae8b1",
-                "aluno": "SilvioSants",
-                "disciplina": "SilvioSantsTESTEmnsg",
-                "nota": 9.0,
-                "observacao": "TESST",
-                "professor": "SilvioSants",
-                "criado_em": "",
-                "atualizado_em": "2026-07-08T23:58:35+00:00"
-            },
-            {
-                "id": "81c98e38851d49528836f13e2ad18864",
-                "aluno": "SilvioSants",
-                "disciplina": "SilvioSantsSilvioSants",
-                "nota": 8.0,
-                "observacao": "SilvioSants",
-                "professor": "SilvioSants",
-                "criado_em": "",
-                "atualizado_em": "2026-07-08T23:58:28+00:00"
-            },
-            {
-                "id": "509f1f5504c540179672184cfb18c6f3",
-                "aluno": "SilvioSants",
-                "disciplina": "SilvioSants333",
-                "nota": 8.5,
-                "observacao": "SilvioSantsSilvioSants",
-                "professor": "SilvioSants",
-                "criado_em": "",
-                "atualizado_em": "2026-07-08T23:58:30+00:00"
-            }
-        ],
         "malululu10": [
             {
                 "id": "70fa0b1ddce94da2af943761a2444cfd",

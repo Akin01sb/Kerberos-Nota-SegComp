@@ -14,6 +14,7 @@
    - TGT
    - autenticador Cliente-TGS
    - servico solicitado: notas
+   - TGS rejeita nonce Cliente-TGS reutilizado
 
 4. TGS -> Cliente
    - Service Ticket cifrado com a chave do Portal

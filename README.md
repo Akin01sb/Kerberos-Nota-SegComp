@@ -58,9 +58,16 @@ Usuários atualmente cadastrados:
 | `AkinGOD777` | aluno |
 | `kassio12` | aluno |
 | `SilvioSants` | professor |
+| `malululu10` | aluno |
 
 As senhas não aparecem no repositório. Para criar um usuário com uma senha
 conhecida, use `python scripts/criar_usuario.py`.
+
+Para apagar somente as notas, preservando os usuários:
+
+```powershell
+python scripts/reset_dados.py
+```
 
 ## Executar
 
@@ -89,11 +96,12 @@ python -m pytest -q
 Resultado atual:
 
 ```text
-39 passed
+43 passed
 ```
 
 Os testes cobrem KDF, AES-GCM, adulteração, AS, TGS, tickets, autenticadores,
-autenticação mútua por operação, replay, permissões e o fluxo web completo.
+autenticação mútua por operação, replay no TGS e no Portal, permissões e o
+fluxo web completo.
 
 ## Estrutura
 
@@ -114,7 +122,7 @@ docs/          relatório e roteiro de apresentação
 - As chaves dos serviços ficam fixas em `config.py`.
 - Usuários e notas são armazenados em JSON.
 - As sessões Kerberos ficam em memória e são perdidas ao reiniciar o Flask.
-- O cache contra replay fica apenas em memória e é perdido ao reiniciar.
+- Os caches contra replay do TGS e do Portal ficam em memória.
 - Em uma implantação real, o tráfego entre navegador e Flask exigiria HTTPS.
 - A chave secreta padrão do Flask deve ser substituída por `FLASK_SECRET_KEY`
   fora da demonstração local.

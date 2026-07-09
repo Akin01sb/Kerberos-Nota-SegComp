@@ -316,6 +316,19 @@ def test_rota_impede_aluno_de_editar_nota(dados_portal):
     assert listar_notas("ana", "aluno")[0]["nota"] == 7
 
 
+def test_rota_impede_aluno_de_excluir_nota(dados_portal):
+    nota = criar_nota("prof", "ana", "Redes", 7)
+    app = create_app()
+    app.config["TESTING"] = True
+
+    with app.test_client() as cliente:
+        criar_sessao_web(app, cliente, "ana", "aluno")
+        resposta = cliente.post(f"/notas/{nota['id']}/excluir")
+
+    assert resposta.status_code == 403
+    assert listar_notas("ana", "aluno")[0]["id"] == nota["id"]
+
+
 def test_rota_impede_aluno_de_lancar_nota(dados_portal):
     app = create_app()
     app.config["TESTING"] = True
@@ -333,6 +346,33 @@ def test_rota_impede_aluno_de_lancar_nota(dados_portal):
 
     assert resposta.status_code == 403
     assert listar_notas("ana", "aluno") == []
+
+
+def test_portal_recusa_ticket_expirado_durante_operacao(dados_portal):
+    chave = bytes_para_base64(gerar_chave_simetrica())
+    ticket = criar_ticket_servico(
+        usuario="ana",
+        servico="notas",
+        chave_sessao_cliente_servico_base64=chave,
+        validade_segundos=-1,
+    )
+    ticket_criptografado = criptografar_json(
+        CHAVE_SECRETA_SERVICO_NOTAS,
+        ticket,
+    )
+    autenticador, pacote = montar_operacao(
+        "ana",
+        chave,
+        "carregar_painel",
+        nonce="nonce-ticket-expirado",
+    )
+
+    with pytest.raises(ValueError, match="Ticket de servico expirado"):
+        processar_operacao_portal(
+            ticket_criptografado,
+            autenticador,
+            pacote,
+        )
 
 
 def test_rota_recusa_acesso_sem_service_ticket(dados_portal):

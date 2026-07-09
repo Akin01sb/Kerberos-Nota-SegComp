@@ -41,7 +41,8 @@ O cliente transporta o TGT, mas não consegue ler ou alterá-lo.
 
 O TGS está em `src/kerberos_notas/kerberos/tgs_server.py`. Ele recebe o TGT e um
 autenticador Cliente-TGS. O TGS abre o TGT com sua chave, verifica identidade e
-validade e abre o autenticador com a chave Cliente-TGS.
+validade e abre o autenticador com a chave Cliente-TGS. Um cache de nonces em
+memória rejeita a reutilização do mesmo autenticador no TGS.
 
 Quando as validações passam, ele gera uma chave Cliente-Serviço e um Service
 Ticket para `notas`. O ticket é cifrado com a chave secreta do Portal. A chave
@@ -119,11 +120,11 @@ $env:PYTHONPATH='src'
 python -m pytest -q
 ```
 
-Resultado atual: `39 passed`.
+Resultado atual: `43 passed`.
 
 A suíte verifica criptografia, KDF, AS, TGS, adulteração, tickets expirados,
-autenticadores inválidos, autenticação mútua por operação, replay, CRUD,
-isolamento entre alunos e o fluxo web completo.
+autenticadores inválidos, replay no TGS e no Portal, autenticação mútua por
+operação, CRUD, isolamento entre alunos e o fluxo web completo.
 
 ## 11. Limitações
 

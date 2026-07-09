@@ -10,6 +10,7 @@ from kerberos_notas.crypto.crypto_utils import (
 )
 from kerberos_notas.kerberos.authenticator import criar_autenticador
 from kerberos_notas.kerberos.tgs_server import (
+    NONCES_TGS_UTILIZADOS,
     abrir_ticket_servico,
     emitir_ticket_servico,
 )
@@ -85,6 +86,29 @@ def test_tgs_rejeita_usuario_diferente_no_autenticador():
 
     with pytest.raises(ValueError, match="Usuario do autenticador diferente"):
         emitir_ticket_servico("ana", "notas", tgt, autenticador)
+
+
+def test_tgs_rejeita_autenticador_reutilizado():
+    NONCES_TGS_UTILIZADOS.clear()
+    chave_sessao_tgs, tgt = montar_tgt()
+    autenticador = criar_autenticador(
+        "ana",
+        chave_sessao_tgs,
+        nonce="nonce-replay-tgs",
+    )
+
+    emitir_ticket_servico("ana", "notas", tgt, autenticador)
+
+    with pytest.raises(ValueError, match="reutilizado no TGS"):
+        emitir_ticket_servico("ana", "notas", tgt, autenticador)
+
+
+def test_tgs_rejeita_servico_desconhecido():
+    chave_sessao_tgs, tgt = montar_tgt()
+    autenticador = criar_autenticador("ana", chave_sessao_tgs)
+
+    with pytest.raises(ValueError, match="Servico desconhecido"):
+        emitir_ticket_servico("ana", "servico_inexistente", tgt, autenticador)
 
 
 def test_ticket_servico_tem_dados_necessarios():

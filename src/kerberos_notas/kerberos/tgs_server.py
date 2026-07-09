@@ -19,6 +19,7 @@ from kerberos_notas.kerberos.tickets import (
 
 
 TEMPO_MAXIMO_AUTENTICADOR = 60 * 5
+NONCES_TGS_UTILIZADOS = {}
 
 CHAVES_SERVICOS = {
     "notas": CHAVE_SECRETA_SERVICO_NOTAS
@@ -30,6 +31,26 @@ def obter_chave_servico(servico: str) -> bytes:
         raise ValueError("Servico desconhecido.")
 
     return CHAVES_SERVICOS[servico]
+
+
+def _registrar_nonce_tgs(usuario, nonce, timestamp):
+    if not nonce:
+        raise ValueError("Autenticador sem nonce.")
+
+    limite = timestamp_atual() - TEMPO_MAXIMO_AUTENTICADOR
+    expirados = [
+        chave
+        for chave, momento in NONCES_TGS_UTILIZADOS.items()
+        if momento < limite
+    ]
+    for chave in expirados:
+        NONCES_TGS_UTILIZADOS.pop(chave, None)
+
+    chave_nonce = (usuario, nonce)
+    if chave_nonce in NONCES_TGS_UTILIZADOS:
+        raise ValueError("Autenticador reutilizado no TGS: possivel replay.")
+
+    NONCES_TGS_UTILIZADOS[chave_nonce] = timestamp
 
 
 def validar_tgt(usuario: str, tgt_criptografado: dict) -> dict:
@@ -78,6 +99,7 @@ def validar_autenticador(usuario: str, tgt: dict, autenticador_criptografado: di
     if timestamp > timestamp_atual() + TEMPO_MAXIMO_AUTENTICADOR:
         raise ValueError("Autenticador com timestamp invalido.")
 
+    _registrar_nonce_tgs(usuario, autenticador.get("nonce"), timestamp)
     return autenticador
 
 

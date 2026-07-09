@@ -29,6 +29,7 @@ Mostre `kerberos/tgs_server.py`.
 
 - entrada: TGT e autenticador Cliente-TGS;
 - validação de identidade, timestamp e validade;
+- rejeição de autenticador Cliente-TGS reutilizado;
 - geração da chave Cliente-Serviço;
 - emissão do Service Ticket para `notas`.
 
@@ -71,7 +72,7 @@ $env:PYTHONPATH='src'
 python -m pytest -q
 ```
 
-Resultado atual: `39 passed`.
+Resultado atual: `43 passed`.
 
 Destaque `test_crypto.py`, `test_notas.py` e `test_fluxo.py`.
 

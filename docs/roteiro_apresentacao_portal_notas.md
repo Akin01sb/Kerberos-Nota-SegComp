@@ -92,11 +92,11 @@ necessário, crie usuários de demonstração com `scripts/criar_usuario.py`.
 ### Pontos encontrados na auditoria
 
 - Não existe módulo de chat.
-- `scripts/reset_dados.py` está vazio: não existe reset ou seed funcional.
-- `docs/fontes_algoritmos.md` está vazio.
-- `src/kerberos_notas/kerberos/time_utils.py` está vazio.
+- `scripts/reset_dados.py` apaga somente notas após confirmação.
+- `docs/fontes_algoritmos.md` reúne as fontes oficiais utilizadas.
+- O arquivo vazio `kerberos/time_utils.py` foi removido.
 - Não há `pytest-cov` nem configuração de cobertura.
-- `data/notas.json` contém registros legados com nota nula e textos antigos.
+- `data/notas.json` contém registros de demonstrações anteriores.
 - O bloqueio de aluno é testado com HTTP 403, mas a interface simplesmente
   oculta os controles de professor.
 - Edição e exclusão possuem testes da camada de serviço e das rotas HTTP.
@@ -159,15 +159,20 @@ python -m pytest -q
 Resultado confirmado na auditoria:
 
 ```text
-39 passed
+43 passed
 ```
 
 ### Cobertura e dados iniciais
 
 - Cobertura não está configurada. Não execute `pytest --cov` no vídeo.
 - Não existe seed.
-- `scripts/reset_dados.py` está vazio e não deve ser apresentado.
 - O único utilitário funcional de dados é `scripts/criar_usuario.py`.
+
+Para limpar somente as notas antes de uma nova demonstração:
+
+```powershell
+python scripts/reset_dados.py
+```
 
 # Roteiro detalhado
 
@@ -401,8 +406,9 @@ Destaque:
 1. `CHAVES_SERVICOS`, contendo somente `notas`;
 2. `validar_tgt`;
 3. `validar_autenticador`;
-4. `emitir_ticket_servico`;
-5. `abrir_ticket_servico`.
+4. `_registrar_nonce_tgs`;
+5. `emitir_ticket_servico`;
+6. `abrir_ticket_servico`.
 
 Mostre em `emitir_ticket_servico`:
 
@@ -418,6 +424,8 @@ Em `tests/test_tgs.py`, destaque:
 - `test_tgs_emite_ticket_servico_com_tgt_valido`;
 - `test_tgs_rejeita_tgt_expirado`;
 - `test_tgs_rejeita_autenticador_invalido`;
+- `test_tgs_rejeita_autenticador_reutilizado`;
+- `test_tgs_rejeita_servico_desconhecido`;
 - `test_ticket_servico_tem_dados_necessarios`;
 - `test_ticket_servico_nao_fica_legivel_sem_chave_correta`;
 - `test_ticket_servico_expirado_nao_e_aceito`.
@@ -688,7 +696,7 @@ Tempo estimado: 1 minuto e 30 segundos.
 
 ### O que falar
 
-> A suíte possui 39 testes. Eles cobrem criptografia, KDF, AS, TGS, tickets,
+> A suíte possui 43 testes. Eles cobrem criptografia, KDF, AS, TGS, tickets,
 > autenticadores, autenticação mútua por operação, replay, permissões e o fluxo
 > web integrado.
 
@@ -702,7 +710,7 @@ python -m pytest -q
 Mostre o resultado:
 
 ```text
-39 passed
+43 passed
 ```
 
 ### Distribuição real
@@ -711,8 +719,8 @@ Mostre o resultado:
 |---|---:|---|
 | `tests/test_crypto.py` | 7 | AES-GCM, adulteração, nonce e KDF |
 | `tests/test_as_server.py` | 7 | Login, TGT e integração com TGS |
-| `tests/test_tgs.py` | 7 | TGT, autenticador e Service Ticket |
-| `tests/test_notas.py` | 16 | CRUD protegido, perfis, replay e autenticação mútua |
+| `tests/test_tgs.py` | 9 | TGT, replay Cliente-TGS e Service Ticket |
+| `tests/test_notas.py` | 18 | CRUD protegido, perfis, replay e autenticação mútua |
 | `tests/test_fluxo.py` | 2 | Fluxo completo e interface professor/aluno |
 
 ### Testes mais fortes para abrir
@@ -788,7 +796,7 @@ Abra:
 | 19. Aluno vê só suas notas | Consulta pelo nome do usuário | `service.py`: `listar_notas`; `repository.py`: `listar_notas_usuario` | Entrar como aluno |
 | 20. Aluno não altera | Validação de perfil e HTTP 403 | `service.py`: `_validar_professor`; `test_rota_impede_aluno_de_lancar_nota` | Mostrar ausência dos botões e teste |
 | 21. Sem ticket não acessa | Sessão e ticket obrigatórios | `routes.py`: `exigir_sessao_kerberos`, `validar_ticket_notas`; `test_rota_recusa_acesso_sem_service_ticket` | Abrir rota sem login e mostrar teste |
-| 22. Testes | 39 testes automatizados | pasta `tests/` | Executar `python -m pytest -q` |
+| 22. Testes | 43 testes automatizados | pasta `tests/` | Executar `python -m pytest -q` |
 | 23. Logs didáticos | Etapas armazenadas e exibidas | `routes.py`: `registrar_etapa`; `templates/notas.html` | Abrir os logs no painel |
 | 24. Limitações | Restrições documentadas | `README.md`; `docs/relatorio_tecnico_base.md` | Mostrar a seção final |
 
@@ -798,14 +806,12 @@ Abra:
 2. Não diga que existe banco de dados; a persistência é JSON.
 3. O cache contra replay existe, mas fica apenas em memória e é perdido ao
    reiniciar o processo.
-4. Não diga que existe seed, reset funcional ou cobertura configurada.
-5. Não abra `scripts/reset_dados.py`, `docs/fontes_algoritmos.md` ou
-   `kerberos/time_utils.py` como partes implementadas, pois estão vazios.
-6. Não mostre nem fale senhas.
-7. Edição, exclusão, bloqueio do aluno, replay e adulteração possuem testes.
-8. Os registros legados podem deixar a tabela visualmente confusa. Use uma
+4. Não diga que existe seed ou cobertura configurada.
+5. Não mostre nem fale senhas.
+6. Edição, exclusão, bloqueio do aluno, replay e adulteração possuem testes.
+7. Os registros legados podem deixar a tabela visualmente confusa. Use uma
    disciplina criada durante a demonstração.
-9. A proteção Kerberos é simulada entre as rotas cliente e o módulo Portal. Em
+8. A proteção Kerberos é simulada entre as rotas cliente e o módulo Portal. Em
    produção, o navegador também precisaria se comunicar por HTTPS.
 
 # Script curto de narração
@@ -836,7 +842,7 @@ Abra:
 > Portal valida ticket, nonce, ação e hash, rejeita replay e devolve uma
 > confirmação cifrada antes de o cliente aceitar o resultado.
 >
-> A suíte automatizada possui 39 testes cobrindo criptografia, KDF, AS, TGS,
+> A suíte automatizada possui 43 testes cobrindo criptografia, KDF, AS, TGS,
 > tickets, autenticadores, replay, autenticação mútua por operação, permissões
 > e o fluxo web.
 >
