@@ -1,4 +1,5 @@
 import json
+from getpass import getpass
 from pathlib import Path
 import sys
 
@@ -26,12 +27,15 @@ def salvar_usuarios(dados: dict) -> None:
         json.dump(dados,arquivo, indent=4, ensure_ascii=False)
 
 
-def criar_usuario(nome_usuario: str, senha: str) -> None:
+def criar_usuario(nome_usuario: str, senha: str, perfil: str = "aluno") -> None:
     dados= carregar_usuarios()
 
     if nome_usuario in dados["usuarios"]:
         print("Usuario já existe.")
         return
+
+    if perfil not in {"professor", "aluno"}:
+        raise ValueError("Perfil deve ser professor ou aluno.")
     
     salt = gerar_salt()
     chave = derivar_chave_senha(senha, salt)
@@ -39,7 +43,8 @@ def criar_usuario(nome_usuario: str, senha: str) -> None:
 
     dados["usuarios"][nome_usuario] = {
         "salt": salt,
-        "verificador": verificador
+        "verificador": verificador,
+        "perfil": perfil,
     }
 
     salvar_usuarios(dados)
@@ -51,13 +56,14 @@ def main():
     print("=== Cadastro de usuário Kerberos ===")
 
     nome_usuario = input("Usuario: ").strip()
-    senha= input("senha: ").strip()
+    perfil = input("Perfil [aluno/professor]: ").strip().lower() or "aluno"
+    senha = getpass("Senha: ").strip()
 
     if not nome_usuario or not senha:
         print("Usuario e senha são obrigatorios")
         return
     
-    criar_usuario(nome_usuario, senha)
+    criar_usuario(nome_usuario, senha, perfil)
 
 
 

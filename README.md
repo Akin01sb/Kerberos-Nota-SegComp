@@ -1,127 +1,116 @@
-# Kerberos Notas / Chat Seguro
+# Portal de Notas Escolares com Kerberos
 
-Projeto academico com uma implementacao simplificada do protocolo Kerberos usando
-criptografia simetrica.
+Projeto acadêmico da disciplina de Segurança Computacional. Ele implementa uma
+versão simplificada do protocolo Kerberos, usando somente criptografia
+simétrica, para proteger um Portal de Notas Escolares.
 
-O sistema possui:
+O foco é demonstrar:
 
-- Cliente com login por usuario e senha
-- KDF para derivar chave a partir da senha
-- Authentication Server, AS
-- Ticket Granting Server, TGS
-- Tickets criptografados
-- Servico de chat seguro
-- Mensagens criptografadas
-- HMAC para detectar adulteracao
-- Testes automatizados do fluxo
+- autenticação por senha sem armazená-la em texto puro;
+- derivação de chave com PBKDF2-HMAC-SHA256;
+- Authentication Server (AS) e Ticket Granting Server (TGS);
+- Ticket Granting Ticket (TGT) e Service Ticket;
+- autenticadores Cliente-TGS e Cliente-Serviço;
+- autenticação mútua entre cliente e Portal de Notas;
+- autorização dos perfis professor e aluno.
 
-## Requisitos
+## Fluxo principal
 
-- Python 3.10 ou superior
-- Git
+```text
+Cliente Web -> AS -> TGS -> Portal de Notas
+```
 
-## Como preparar o ambiente
+1. O usuário informa nome e senha ao cliente.
+2. O AS deriva uma chave da senha e valida o verificador armazenado.
+3. O AS gera a chave Cliente-TGS e um TGT criptografado com a chave do TGS.
+4. O cliente envia TGT e autenticador Cliente-TGS ao TGS.
+5. O TGS emite um Service Ticket para `notas` e uma chave Cliente-Serviço.
+6. O cliente envia Service Ticket e autenticador Cliente-Serviço ao Portal.
+7. O Portal valida os dois e devolve uma confirmação criptografada.
+8. O cliente valida timestamp e nonce da confirmação antes de liberar o painel.
 
-No PowerShell, dentro da pasta do projeto:
+AS e TGS são módulos Python executados no mesmo processo. Essa simplificação
+mantém o projeto didático sem alterar as etapas lógicas do protocolo.
+
+## Perfis
+
+**Professor**
+
+- visualiza os alunos cadastrados;
+- lança, lista, edita e exclui notas.
+
+**Aluno**
+
+- visualiza somente as próprias notas;
+- não pode criar, editar ou excluir registros.
+
+Os perfis ficam em `data/usuarios.json`. Os dados escolares ficam em
+`data/notas.json`.
+
+Usuários atualmente cadastrados:
+
+| Usuário | Perfil |
+|---|---|
+| `kassio` | professor |
+| `AkinGOD777` | aluno |
+| `kassio12` | aluno |
+| `SilvioSants` | professor |
+
+As senhas não aparecem no repositório. Para criar um usuário com uma senha
+conhecida, use `python scripts/criar_usuario.py`.
+
+## Executar
+
+Requer Python 3.10 ou superior.
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
+$env:PYTHONPATH='src'
+python run.py
 ```
 
-Se o PowerShell bloquear a ativacao do ambiente virtual, rode:
+Acesse `http://127.0.0.1:5000`.
 
-```powershell
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-.\.venv\Scripts\Activate.ps1
-```
+O terminal e o painel exibem etapas didáticas do fluxo Kerberos. A senha nunca
+é incluída nesses logs.
 
-## Como rodar os testes
+## Testes
 
 ```powershell
 $env:PYTHONPATH='src'
 python -m pytest -q
 ```
 
-Resultado esperado:
+Resultado atual:
 
 ```text
-24 passed
+34 passed
 ```
 
-Esse resultado mostra que AS, TGS, tickets, autenticadores, chat seguro,
-criptografia e HMAC estao funcionando nos cenarios testados.
+Os testes cobrem KDF, AES-GCM, adulteração, AS, TGS, tickets, autenticadores,
+autenticação mútua, permissões e o fluxo web completo.
 
-## Como rodar a aplicacao web
-
-```powershell
-$env:PYTHONPATH='src'
-python run.py
-```
-
-Depois acesse no navegador:
+## Estrutura
 
 ```text
-http://127.0.0.1:5000
+src/kerberos_notas/
+  client/      cliente web e integração do fluxo
+  crypto/      PBKDF2, AES-GCM e Base64
+  kerberos/    AS, TGS, tickets e autenticadores
+  notes/       Portal de Notas e persistência
+data/          usuários e notas em JSON
+tests/         testes automatizados
+docs/          relatório e roteiro de apresentação
 ```
 
-Usuarios de exemplo ficam em:
+## Limitações acadêmicas
 
-```text
-data/usuarios.json
-```
-
-Para criar um novo usuario:
-
-```powershell
-$env:PYTHONPATH='src'
-python scripts/criar_usuario.py
-```
-
-## Como testar o chat seguro
-
-O chat seguro e testado principalmente por testes automatizados:
-
-```powershell
-$env:PYTHONPATH='src'
-python -m pytest tests/test_chat_seguro.py -q
-```
-
-Esse teste verifica:
-
-- Ticket de servico valido para o chat
-- Rejeicao de ticket expirado ou invalido
-- Mensagem criptografada
-- HMAC valido
-- Deteccao de mensagem adulterada
-- Rejeicao de usuario diferente do ticket
-- Autenticacao mutua com chave correta
-- Falha de autenticacao mutua com chave incorreta
-
-## Como rodar uma demonstracao completa
-
-Este script executa AS -> TGS -> Chat, envia uma mensagem criptografada e depois
-adultera uma mensagem para mostrar o alerta de integridade:
-
-```powershell
-python scripts/demo_chat_seguro.py
-```
-
-Resultado esperado:
-
-```text
-AS validou senha e emitiu TGT
-TGS emitiu ticket de servico para o chat
-Texto aparece no pacote? False
-Servico validou ticket, autenticador, HMAC e abriu mensagem
-Mensagem adulterada foi aceita? False
-```
-
-## Documentos uteis
-
-- `docs/README_TESTES_E_DEMO.md`: explicacao curta do projeto e como saber se funciona
-- `docs/roteiro_video_apresentacao.md`: roteiro para gravar o video
-- `docs/relatorio_tecnico_base.md`: base para o relatorio tecnico
-- `docs/wireshark_chat_seguro.md`: demonstracao de confidencialidade com Wireshark
+- AS, TGS, cliente e Portal não são processos de rede separados.
+- As chaves dos serviços ficam fixas em `config.py`.
+- Usuários e notas são armazenados em JSON.
+- As sessões Kerberos ficam em memória e são perdidas ao reiniciar o Flask.
+- Não há cache de replay persistente para autenticadores.
+- A chave secreta padrão do Flask deve ser substituída por `FLASK_SECRET_KEY`
+  fora da demonstração local.

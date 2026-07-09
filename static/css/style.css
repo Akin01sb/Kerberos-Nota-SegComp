@@ -10,23 +10,32 @@ body {
 }
 
 .topo {
-    background: #1f2937;
+    background: #17324d;
     color: white;
-    padding: 20px;
+    padding: 18px 20px;
     text-align: center;
 }
 
-.container {
-    width: 90%;
-    max-width: 900px;
-    margin: 30px auto;
+.topo h1 {
+    margin: 0;
+    font-size: 24px;
 }
 
-.card {
+.topo p {
+    margin: 5px 0 0;
+    color: #d7e4ee;
+}
+
+.container {
+    width: min(1100px, calc(100% - 32px));
+    margin: 24px auto;
+}
+
+.card, .painel {
     background: white;
     padding: 24px;
     margin-bottom: 20px;
-    border-radius: 10px;
+    border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
@@ -48,11 +57,13 @@ label {
     font-weight: bold;
 }
 
-input, textarea {
+input, textarea, select {
+    width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 6px;
     font-size: 15px;
+    background: white;
 }
 
 button, .botao-secundario {
@@ -97,6 +108,94 @@ button:hover, .botao-secundario:hover {
     align-items: center;
 }
 
+.painel-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.status-kerberos {
+    display: flex;
+    gap: 10px;
+    padding: 13px 16px;
+    margin-bottom: 20px;
+    border-left: 4px solid #16845b;
+    background: #eaf7f1;
+    color: #155d43;
+}
+
+.grade-formulario {
+    display: grid;
+    grid-template-columns: 1fr 1fr 140px;
+    gap: 14px;
+}
+
+.grade-formulario > div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.tabela-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    border-bottom: 1px solid #dce1e5;
+    text-align: left;
+    vertical-align: middle;
+}
+
+th {
+    background: #eef3f6;
+    color: #263746;
+}
+
+td input {
+    min-width: 110px;
+}
+
+.acoes {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.acoes form {
+    display: inline;
+}
+
+.botao-perigo {
+    background: #b42318;
+}
+
+.botao-perigo:hover {
+    background: #8f1c13;
+}
+
+details summary {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.logs {
+    margin-bottom: 0;
+    padding-left: 24px;
+    color: #334155;
+}
+
+.logs li {
+    margin: 8px 0;
+}
+
 .lista-notas {
     display: flex;
     flex-direction: column;
@@ -108,4 +207,19 @@ button:hover, .botao-secundario:hover {
     border-radius: 8px;
     padding: 16px;
     background: #fafafa;
+}
+
+@media (max-width: 700px) {
+    .grade-formulario {
+        grid-template-columns: 1fr;
+    }
+
+    .painel-topo, .status-kerberos {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .card, .painel {
+        padding: 18px;
+    }
 }

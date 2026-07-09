@@ -1,18 +1,9 @@
-# Resumo rapido do projeto
+# Testes e demonstração rápida
 
-Este projeto simula o Kerberos para proteger o acesso a um sistema de notas e a
-um chat seguro.
+O serviço principal deste projeto é o Portal de Notas Escolares protegido por
+Kerberos.
 
-O fluxo principal e:
-
-```text
-Cliente -> AS -> TGS -> Servico protegido
-```
-
-O AS valida usuario e senha, o TGS emite ticket de servico, e o chat usa esse
-ticket para aceitar mensagens criptografadas.
-
-## Como testar rapido
+## Testes
 
 Na raiz do projeto:
 
@@ -21,41 +12,29 @@ $env:PYTHONPATH='src'
 python -m pytest -q
 ```
 
-Se aparecer algo parecido com isto, esta funcionando:
+Resultado atual:
 
 ```text
-24 passed
+34 passed
 ```
 
-## Como saber que funciona de verdade
+Arquivos principais:
 
-- Login valido: o AS aceita usuario e senha corretos
-- Login invalido: o AS rejeita usuario inexistente ou senha errada
-- TGT: o AS gera um TGT criptografado para o TGS
-- Ticket de servico: o TGS valida o TGT e emite um ticket para `notas` ou `chat`
-- Chat seguro: a mensagem nao aparece em texto puro no pacote
-- Integridade: se a mensagem for alterada, o HMAC detecta
-- Autenticidade: se o remetente for diferente do usuario do ticket, o chat rejeita
-- Autenticacao mutua: o servico responde com confirmacao criptografada
+- `test_crypto.py`: KDF, AES-GCM, nonces e adulteração;
+- `test_as_server.py`: senha, resposta do AS e TGT;
+- `test_tgs.py`: TGT, autenticador Cliente-TGS e Service Ticket;
+- `test_notas.py`: autenticação mútua, CRUD e permissões;
+- `test_fluxo.py`: fluxo completo AS -> TGS -> Portal.
 
-## Testes mais importantes
+## Demonstração recomendada
 
-```powershell
-python -m pytest tests/test_as_server.py -q
-python -m pytest tests/test_tgs.py -q
-python -m pytest tests/test_chat_seguro.py -q
-```
-
-## Demonstracao simples para o professor
-
-1. Rode todos os testes e mostre `24 passed`.
-2. Rode `python scripts/demo_chat_seguro.py`.
-3. Mostre que aparece `Texto aparece no pacote? False`.
-4. Mostre `as_server.py` gerando TGT e chave Cliente-TGS.
-5. Mostre `tgs_server.py` validando TGT e emitindo ticket de servico.
-6. Mostre `chat_seguro.py` criptografando mensagem e calculando HMAC.
-7. Mostre a mensagem adulterada falhando com:
-
-```text
-Mensagem violada: integridade comprometida
-```
+1. Execute `python run.py`.
+2. Entre com um usuário professor.
+3. Abra “Etapas da autenticação Kerberos”.
+4. Mostre a emissão do TGT e do Service Ticket.
+5. Mostre a validação do autenticador e a autenticação mútua.
+6. Lance e edite uma nota para um aluno.
+7. Saia e entre com o aluno.
+8. Mostre que o aluno vê apenas as próprias notas.
+9. Mostre que o painel do aluno não oferece ações de alteração.
+10. Execute a suíte automatizada.

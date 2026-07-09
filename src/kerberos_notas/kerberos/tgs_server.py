@@ -1,5 +1,4 @@
 from kerberos_notas.config import (
-    CHAVE_SECRETA_SERVICO_CHAT,
     CHAVE_SECRETA_SERVICO_NOTAS,
     CHAVE_SECRETA_TGS,
 )
@@ -22,7 +21,6 @@ from kerberos_notas.kerberos.tickets import (
 TEMPO_MAXIMO_AUTENTICADOR = 60 * 5
 
 CHAVES_SERVICOS = {
-    "chat": CHAVE_SECRETA_SERVICO_CHAT,
     "notas": CHAVE_SECRETA_SERVICO_NOTAS
 }
 

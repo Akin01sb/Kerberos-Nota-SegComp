@@ -1,47 +1,119 @@
 {% extends "layout.html" %}
 
 {% block conteudo %}
-
-<section class="card">
-    <div class="linha-topo">
-        <h2>Minhas Notas</h2>
-        <a href="{{ url_for('logout') }}" class="botao-secundario">Sair</a>
+<section class="painel painel-topo">
+    <div>
+        <h2>Painel de {{ "Professor" if perfil == "professor" else "Aluno" }}</h2>
+        <p class="descricao">
+            Usuário: <strong>{{ usuario }}</strong> · Perfil: <strong>{{ perfil }}</strong>
+        </p>
     </div>
-
-    <p class="descricao">
-        Usuário autenticado: <strong>{{ usuario }}</strong>
-    </p>
+    <a href="{{ url_for('logout') }}" class="botao-secundario">Sair</a>
 </section>
 
-<section class="card">
-    <h3>Criar nova nota</h3>
+<section class="status-kerberos">
+    <strong>Acesso Kerberos autorizado</strong>
+    <span>Service Ticket válido e autenticação mútua concluída.</span>
+</section>
 
+{% if perfil == "professor" %}
+<section class="painel">
+    <h3>Lançar nota</h3>
     <form method="POST" action="{{ url_for('notas') }}">
-        <label for="titulo">Título</label>
-        <input type="text" id="titulo" name="titulo" required>
+        <div class="grade-formulario">
+            <div>
+                <label for="aluno">Aluno</label>
+                <select id="aluno" name="aluno" required>
+                    <option value="">Selecione</option>
+                    {% for aluno in alunos %}
+                        <option value="{{ aluno }}">{{ aluno }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="disciplina">Disciplina</label>
+                <input type="text" id="disciplina" name="disciplina" required>
+            </div>
+            <div>
+                <label for="nota">Nota</label>
+                <input type="number" id="nota" name="nota" min="0" max="10" step="0.1" required>
+            </div>
+        </div>
 
-        <label for="conteudo">Conteúdo</label>
-        <textarea id="conteudo" name="conteudo" rows="5" required></textarea>
-
-        <button type="submit">Salvar nota</button>
+        <label for="observacao">Observação</label>
+        <textarea id="observacao" name="observacao" rows="3"></textarea>
+        <button type="submit">Lançar nota</button>
     </form>
 </section>
+{% endif %}
 
-<section class="card">
-    <h3>Notas cadastradas</h3>
+<section class="painel">
+    <h3>{{ "Notas lançadas" if perfil == "professor" else "Minhas notas" }}</h3>
 
     {% if notas %}
-        <div class="lista-notas">
-            {% for nota in notas %}
-                <article class="nota">
-                    <h4>{{ nota.titulo }}</h4>
-                    <p>{{ nota.conteudo }}</p>
-                </article>
-            {% endfor %}
-        </div>
+    <div class="tabela-container">
+        <table>
+            <thead>
+                <tr>
+                    {% if perfil == "professor" %}<th>Aluno</th>{% endif %}
+                    <th>Disciplina</th>
+                    <th>Nota</th>
+                    <th>Observação</th>
+                    <th>Professor</th>
+                    {% if perfil == "professor" %}<th>Ações</th>{% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in notas %}
+                <tr>
+                    {% if perfil == "professor" %}
+                    <td>{{ item.aluno }}</td>
+                    <td>
+                        <input form="editar-{{ item.id }}" name="disciplina"
+                               value="{{ item.disciplina or item.titulo }}" required>
+                    </td>
+                    <td>
+                        <input form="editar-{{ item.id }}" name="nota" type="number"
+                               min="0" max="10" step="0.1"
+                               value="{{ item.nota if item.nota is not none else 0 }}" required>
+                    </td>
+                    <td>
+                        <input form="editar-{{ item.id }}" name="observacao"
+                               value="{{ item.observacao or item.conteudo or '' }}">
+                    </td>
+                    <td>{{ item.professor or "registro legado" }}</td>
+                    <td class="acoes">
+                        <form id="editar-{{ item.id }}" method="POST"
+                              action="{{ url_for('editar', nota_id=item.id) }}"></form>
+                        <button form="editar-{{ item.id }}" type="submit">Salvar</button>
+                        <form method="POST" action="{{ url_for('excluir', nota_id=item.id) }}">
+                            <button type="submit" class="botao-perigo">Excluir</button>
+                        </form>
+                    </td>
+                    {% else %}
+                    <td>{{ item.disciplina or item.titulo }}</td>
+                    <td>{{ item.nota if item.nota is not none else "Sem nota" }}</td>
+                    <td>{{ item.observacao or item.conteudo or "-" }}</td>
+                    <td>{{ item.professor or "registro legado" }}</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
     {% else %}
-        <p>Nenhuma nota cadastrada ainda.</p>
+        <p>Nenhuma nota cadastrada.</p>
     {% endif %}
 </section>
 
+<section class="painel">
+    <details>
+        <summary>Etapas da autenticação Kerberos</summary>
+        <ol class="logs">
+            {% for log in logs %}
+                <li>{{ log }}</li>
+            {% endfor %}
+        </ol>
+    </details>
+</section>
 {% endblock %}
