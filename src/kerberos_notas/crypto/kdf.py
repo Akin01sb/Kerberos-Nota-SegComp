@@ -1,6 +1,7 @@
 import os 
 import base64
 import hashlib
+import hmac
 
 TAMANHO_SALT = 16
 TAMANHO_CHAVE = 32
@@ -57,6 +58,30 @@ def gerar_verificador_chave(chave: bytes) -> str:
     return base64.b64encode(hash_chave).decode("utf-8")
 
 
+def obter_chave_autenticacao_as(chave_derivada: bytes) -> bytes:
+    """
+    Converte a chave derivada no mesmo valor protegido salvo pelo AS.
+
+    Esse valor funciona como chave de longo prazo no protocolo academico.
+    A senha e a chave derivada original nunca precisam atravessar a rede.
+    """
+    return hashlib.sha256(chave_derivada).digest()
+
+
+def gerar_prova_as(
+        chave_autenticacao: bytes,
+        usuario: str,
+        desafio: str
+) -> str:
+    mensagem = f"{usuario}:{desafio}".encode("utf-8")
+    prova = hmac.new(
+        chave_autenticacao,
+        mensagem,
+        hashlib.sha256,
+    ).digest()
+    return base64.b64encode(prova).decode("utf-8")
+
+
 def verificar_senha(senha: str, salt_base64: str, verificador_salvo: str) -> bool:
     """
     Verifica se a senha digitada gera a mesma chave cadastrada anteriormente.
@@ -66,4 +91,3 @@ def verificar_senha(senha: str, salt_base64: str, verificador_salvo: str) -> boo
     verificador_calculado = gerar_verificador_chave(chave)
 
     return verificador_calculado == verificador_salvo
-     

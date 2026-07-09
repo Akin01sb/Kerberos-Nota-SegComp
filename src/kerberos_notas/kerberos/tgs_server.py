@@ -2,6 +2,7 @@ from kerberos_notas.config import (
     CHAVE_SECRETA_SERVICO_NOTAS,
     CHAVE_SECRETA_TGS,
 )
+from threading import RLock
 from kerberos_notas.crypto.crypto_utils import (
     base64_para_bytes,
     bytes_para_base64,
@@ -20,6 +21,7 @@ from kerberos_notas.kerberos.tickets import (
 
 TEMPO_MAXIMO_AUTENTICADOR = 60 * 5
 NONCES_TGS_UTILIZADOS = {}
+BLOQUEIO_NONCES_TGS = RLock()
 
 CHAVES_SERVICOS = {
     "notas": CHAVE_SECRETA_SERVICO_NOTAS
@@ -37,20 +39,21 @@ def _registrar_nonce_tgs(usuario, nonce, timestamp):
     if not nonce:
         raise ValueError("Autenticador sem nonce.")
 
-    limite = timestamp_atual() - TEMPO_MAXIMO_AUTENTICADOR
-    expirados = [
-        chave
-        for chave, momento in NONCES_TGS_UTILIZADOS.items()
-        if momento < limite
-    ]
-    for chave in expirados:
-        NONCES_TGS_UTILIZADOS.pop(chave, None)
+    with BLOQUEIO_NONCES_TGS:
+        limite = timestamp_atual() - TEMPO_MAXIMO_AUTENTICADOR
+        expirados = [
+            chave
+            for chave, momento in NONCES_TGS_UTILIZADOS.items()
+            if momento < limite
+        ]
+        for chave in expirados:
+            NONCES_TGS_UTILIZADOS.pop(chave, None)
 
-    chave_nonce = (usuario, nonce)
-    if chave_nonce in NONCES_TGS_UTILIZADOS:
-        raise ValueError("Autenticador reutilizado no TGS: possivel replay.")
+        chave_nonce = (usuario, nonce)
+        if chave_nonce in NONCES_TGS_UTILIZADOS:
+            raise ValueError("Autenticador reutilizado no TGS: possivel replay.")
 
-    NONCES_TGS_UTILIZADOS[chave_nonce] = timestamp
+        NONCES_TGS_UTILIZADOS[chave_nonce] = timestamp
 
 
 def validar_tgt(usuario: str, tgt_criptografado: dict) -> dict:

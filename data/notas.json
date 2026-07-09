@@ -20,6 +20,26 @@
                 "professor": "SilvioSants",
                 "criado_em": "",
                 "atualizado_em": "2026-07-08T23:58:42+00:00"
+            },
+            {
+                "id": "1234ac7083f64b12acda23da90e47271",
+                "aluno": "AkinGOD777",
+                "disciplina": "SilvioSantsSEGUROs",
+                "nota": 7.7,
+                "observacao": "seguro!",
+                "professor": "SilvioSants",
+                "criado_em": "2026-07-09T02:26:52+00:00",
+                "atualizado_em": "2026-07-09T02:26:52+00:00"
+            },
+            {
+                "id": "f98189fbadcf44918b0e029ce45fea15",
+                "aluno": "AkinGOD777",
+                "disciplina": "Criptografia",
+                "nota": 8.0,
+                "observacao": "SilvioSantsSilvioSants8",
+                "professor": "SilvioSants",
+                "criado_em": "2026-07-09T15:06:20+00:00",
+                "atualizado_em": "2026-07-09T15:06:20+00:00"
             }
         ],
         "malululu10": [

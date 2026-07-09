@@ -13,27 +13,30 @@ consultar somente seus próprios resultados.
 Cliente Web -> Authentication Server -> Ticket Granting Server -> Portal de Notas
 ```
 
-Os componentes são módulos Python no mesmo processo. A separação é lógica:
+Os componentes executam como processos separados e se comunicam por TCP:
 
 - `crypto`: KDF e AES-GCM;
 - `kerberos`: AS, TGS, tickets e autenticadores;
 - `client`: interface Flask e cliente Kerberos;
 - `notes`: Portal, autorização e persistência;
+- `rede`: enquadramento JSON e cliente TCP;
+- `servidores`: processos AS, TGS e Notas;
 - `data`: arquivos JSON;
 - `tests`: validações automatizadas.
 
 ## 3. Authentication Server
 
-O AS está em `src/kerberos_notas/kerberos/as_server.py`. Ele localiza o usuário,
-deriva uma chave a partir da senha e do salt e compara o verificador calculado
-com o valor armazenado. A senha não é salva nem registrada em logs.
+O AS está em `src/kerberos_notas/kerberos/as_server.py` e escuta na porta 9001.
+Primeiro ele envia salt, parâmetros da KDF e um desafio aleatório. O cliente
+deriva a chave da senha localmente e responde com uma prova HMAC-SHA256. Assim,
+a senha não é salva, registrada em logs ou transmitida pela rede.
 
 Após validar as credenciais, o AS:
 
 1. gera uma chave de sessão Cliente-TGS;
 2. cria o TGT com usuário, chave, validade e nonce;
 3. cifra o TGT com a chave secreta do TGS;
-4. cifra a resposta do cliente com a chave derivada da senha.
+4. cifra a resposta com a chave de longo prazo reproduzida pelo cliente.
 
 O cliente transporta o TGT, mas não consegue ler ou alterá-lo.
 
@@ -58,8 +61,8 @@ Cliente-TGS.
 - chave derivada de 32 bytes.
 
 No cadastro são salvos o salt, um verificador SHA-256 da chave derivada e o
-perfil. No login, a mesma derivação é repetida para validar a senha e proteger a
-resposta inicial do AS.
+perfil. No login, o cliente repete a derivação, cria a prova HMAC do desafio e
+usa o verificador como chave de longo prazo para abrir a resposta do AS.
 
 ## 6. Tickets e autenticadores
 
@@ -116,23 +119,21 @@ Não foi utilizada biblioteca pronta de Kerberos.
 ## 10. Testes
 
 ```powershell
-$env:PYTHONPATH='src'
 python -m pytest -q
 ```
 
-Resultado atual: `43 passed`.
+Resultado atual: `48 passed`.
 
 A suíte verifica criptografia, KDF, AS, TGS, adulteração, tickets expirados,
 autenticadores inválidos, replay no TGS e no Portal, autenticação mútua por
-operação, CRUD, isolamento entre alunos e o fluxo web completo.
+operação, CRUD, isolamento entre alunos, fluxo web e comunicação TCP real.
 
 ## 11. Limitações
 
-AS e TGS não são servidores de rede independentes. Chaves de serviço são fixas,
-os dados ficam em JSON e sessões e nonces utilizados são mantidos somente em
-memória. Essas decisões são simplificações documentadas para uma demonstração
-universitária. Em uma implantação real, o tráfego entre navegador e Flask
-também precisaria de HTTPS.
+As chaves didáticas possuem valores padrão, os dados ficam em JSON e sessões e
+nonces utilizados são mantidos somente em memória. As chaves podem ser
+substituídas por variáveis de ambiente. Em uma implantação real seriam usados
+um banco de dados, HTTPS entre navegador e Flask e TLS entre máquinas.
 
 ## 12. Conclusão
 

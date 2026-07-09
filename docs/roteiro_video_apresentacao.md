@@ -4,83 +4,59 @@ Tempo sugerido: 8 a 12 minutos.
 
 ## 1. Abertura
 
-> Nosso projeto implementa uma versão simplificada do Kerberos usando
-> criptografia simétrica. O serviço protegido é um Portal de Notas Escolares.
+> Nosso projeto implementa uma versão acadêmica do Kerberos utilizando
+> primitivas criptográficas básicas. AS, TGS e Portal de Notas são processos
+> separados que se comunicam por sockets TCP.
 
-Apresente o fluxo:
-
-```text
-Cliente -> AS -> TGS -> Portal de Notas
-```
+Mostre as portas `9001`, `9002` e `9003` no terminal dos servidores.
 
 ## 2. KDF e AS
 
-Mostre `crypto/kdf.py` e `kerberos/as_server.py`.
+Mostre `crypto/kdf.py`, `kerberos/as_server.py` e `servidores/servidor_as.py`.
 
-- PBKDF2-HMAC-SHA256, salt e 200.000 iterações;
-- senha ausente dos arquivos e logs;
-- validação do verificador;
-- geração da chave Cliente-TGS;
-- criação do TGT cifrado com a chave do TGS.
+- PBKDF2-HMAC-SHA256 com salt e 200 mil iterações;
+- desafio aleatório e prova HMAC-SHA256;
+- senha processada somente no cliente;
+- resposta do AS e TGT protegidos por AES-GCM.
 
 ## 3. TGS
 
-Mostre `kerberos/tgs_server.py`.
+Mostre `servidores/servidor_tgs.py` e `kerberos/tgs_server.py`.
 
-- entrada: TGT e autenticador Cliente-TGS;
-- validação de identidade, timestamp e validade;
-- rejeição de autenticador Cliente-TGS reutilizado;
-- geração da chave Cliente-Serviço;
-- emissão do Service Ticket para `notas`.
+- validação do TGT e do autenticador Cliente-TGS;
+- proteção contra replay;
+- emissão do Service Ticket e da chave Cliente-Serviço.
 
-## 4. Portal e autenticação mútua
+## 4. Portal de Notas
 
-Mostre `notes/portal_notas.py` e `client/routes.py`.
+Mostre `servidores/servidor_notas.py` e `notes/portal_notas.py`.
 
-- validação do Service Ticket;
-- abertura do autenticador Cliente-Serviço;
-- conferência do usuário, timestamp e nonce;
-- resposta cifrada com timestamp incrementado;
-- validação da resposta pelo cliente;
-- criação da sessão somente após essa confirmação;
-- novo autenticador, requisição cifrada e confirmação para cada operação;
-- rejeição de nonce reutilizado pelo cache contra replay.
+- autenticação mútua;
+- requisição cifrada e autenticador novo em cada operação;
+- validação de usuário, timestamp, nonce, ação e hash;
+- CRUD protegido e autorização professor/aluno.
 
-## 5. Demonstração como professor
+## 5. Demonstração
 
-1. Execute `python run.py`.
-2. Faça login com um usuário professor.
-3. Abra a lista “Etapas da autenticação Kerberos”.
-4. Mostre as mensagens do AS, TGS e Portal.
-5. Lance uma nota para um aluno.
-6. Edite a disciplina, valor ou observação.
-7. Mostre a listagem geral.
-8. Faça logout.
+1. Execute `python scripts/iniciar_servidores.py`.
+2. Em outro terminal, execute `python run.py`.
+3. Entre como professor, lance e edite uma nota.
+4. Mostre as solicitações nos terminais e os logs da interface.
+5. Entre como aluno e mostre que ele vê apenas as próprias notas.
 
-## 6. Demonstração como aluno
-
-1. Entre com um usuário aluno.
-2. Mostre que aparecem somente as notas desse aluno.
-3. Mostre que não existe formulário de lançamento.
-4. Explique que uma requisição direta de alteração recebe HTTP 403.
-5. Faça logout.
-
-## 7. Testes
+## 6. Testes
 
 ```powershell
-$env:PYTHONPATH='src'
 python -m pytest -q
 ```
 
-Resultado atual: `43 passed`.
+Resultado atual: `48 passed`.
 
-Destaque `test_crypto.py`, `test_notas.py` e `test_fluxo.py`.
+Destaque `tests/test_rede.py`, que abre sockets reais para os três servidores e
+verifica também que a senha não aparece nas mensagens enviadas ao AS.
 
-## 8. Limitações e encerramento
+## 7. Limitações
 
-Explique que AS e TGS são módulos no mesmo processo, as chaves de serviço são
-fixas e os dados ficam em JSON por decisão acadêmica.
-
-> O usuário autentica com senha, o AS emite um TGT, o TGS emite um Service
-> Ticket e o Portal valida ticket e autenticador antes da autenticação mútua.
-> Professores administram notas e alunos consultam apenas seus registros.
+> O projeto usa chaves didáticas configuráveis por variáveis de ambiente,
+> armazenamento JSON e caches em memória. Em produção também seriam necessários
+> HTTPS entre navegador e Flask, TLS entre máquinas e um banco de dados.

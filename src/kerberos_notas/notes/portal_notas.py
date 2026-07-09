@@ -1,6 +1,7 @@
 import hashlib
 import hmac
 import json
+from threading import RLock
 
 from kerberos_notas.crypto.crypto_utils import (
     base64_para_bytes,
@@ -13,6 +14,7 @@ from kerberos_notas.kerberos.tickets import ticket_expirou, timestamp_atual
 from kerberos_notas.notes.service import (
     PERFIL_PROFESSOR,
     criar_nota,
+    criar_notas,
     editar_nota,
     excluir_nota,
     listar_alunos,
@@ -24,6 +26,7 @@ from kerberos_notas.notes.service import (
 SERVICO_NOTAS = "notas"
 TEMPO_MAXIMO_AUTENTICADOR = 60 * 5
 NONCES_UTILIZADOS = {}
+BLOQUEIO_NONCES = RLock()
 
 
 def calcular_hash_requisicao(requisicao):
@@ -47,20 +50,21 @@ def _registrar_nonce(usuario, nonce, timestamp):
     if not nonce:
         raise ValueError("Autenticador Cliente-Servico sem nonce.")
 
-    limite = timestamp_atual() - TEMPO_MAXIMO_AUTENTICADOR
-    expirados = [
-        chave
-        for chave, momento in NONCES_UTILIZADOS.items()
-        if momento < limite
-    ]
-    for chave in expirados:
-        NONCES_UTILIZADOS.pop(chave, None)
+    with BLOQUEIO_NONCES:
+        limite = timestamp_atual() - TEMPO_MAXIMO_AUTENTICADOR
+        expirados = [
+            chave
+            for chave, momento in NONCES_UTILIZADOS.items()
+            if momento < limite
+        ]
+        for chave in expirados:
+            NONCES_UTILIZADOS.pop(chave, None)
 
-    chave_nonce = (usuario, nonce)
-    if chave_nonce in NONCES_UTILIZADOS:
-        raise ValueError("Autenticador reutilizado: possivel ataque de replay.")
+        chave_nonce = (usuario, nonce)
+        if chave_nonce in NONCES_UTILIZADOS:
+            raise ValueError("Autenticador reutilizado: possivel ataque de replay.")
 
-    NONCES_UTILIZADOS[chave_nonce] = timestamp
+        NONCES_UTILIZADOS[chave_nonce] = timestamp
 
 
 def _validar_autenticador_portal(ticket, autenticador_criptografado):
@@ -161,6 +165,14 @@ def _executar_acao(usuario, acao, dados):
             disciplina=dados.get("disciplina"),
             nota=dados.get("nota"),
             observacao=dados.get("observacao"),
+        )
+
+    if acao == "criar_notas":
+        return criar_notas(
+            professor=usuario,
+            perfil=perfil,
+            aluno=dados.get("aluno"),
+            notas=dados.get("notas"),
         )
 
     if acao == "editar_nota":

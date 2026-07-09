@@ -5,7 +5,7 @@ Tempo total sugerido: 14 a 17 minutos.
 ## 1. Estrutura real encontrada
 
 O projeto é uma aplicação Flask com uma implementação acadêmica do fluxo
-Kerberos no mesmo processo Python.
+Kerberos. AS, TGS e Portal de Notas executam como processos TCP separados.
 
 ```text
 kerberos-notas-base/
@@ -17,8 +17,11 @@ kerberos-notas-base/
 |   `-- notas.json
 |-- scripts/
 |   |-- criar_usuario.py
+|   |-- iniciar_servidores.py
 |   `-- reset_dados.py
 |-- src/kerberos_notas/
+|   |-- rede/
+|   |-- servidores/
 |   |-- config.py
 |   |-- client/routes.py
 |   |-- crypto/
@@ -152,14 +155,13 @@ Acesso: `http://127.0.0.1:5000`.
 ### Executar os testes
 
 ```powershell
-$env:PYTHONPATH='src'
 python -m pytest -q
 ```
 
 Resultado confirmado na auditoria:
 
 ```text
-43 passed
+48 passed
 ```
 
 ### Cobertura e dados iniciais
@@ -233,10 +235,10 @@ Tempo estimado: 50 segundos.
 
 ### O que falar
 
-> O usuário utiliza a senha somente no início. O AS valida as credenciais e
-> emite um TGT. O cliente usa esse TGT e um autenticador para solicitar ao TGS
-> um Service Ticket. Depois, o Portal valida o Service Ticket e outro
-> autenticador antes de concluir a autenticação mútua.
+> O usuário utiliza a senha somente no cliente. O AS envia um desafio e valida
+> uma prova HMAC antes de emitir o TGT. O cliente usa esse TGT e um autenticador
+> para solicitar ao TGS um Service Ticket. Depois, o Portal valida o Service
+> Ticket e outro autenticador antes de concluir a autenticação mútua.
 
 ### O que mostrar
 
@@ -246,7 +248,7 @@ Tempo estimado: 50 segundos.
 ### O professor deve perceber
 
 - TGT e Service Ticket possuem finalidades diferentes.
-- A senha não é enviada ao TGS nem ao Portal.
+- A senha não é enviada ao AS, ao TGS ou ao Portal.
 
 ### Requisitos comprovados
 
@@ -258,9 +260,8 @@ Tempo estimado: 50 segundos.
 
 ### O que falar
 
-> AS, TGS, cliente e Portal são módulos separados por responsabilidade, embora
-> executem no mesmo processo Python. Essa é uma simplificação permitida para a
-> demonstração acadêmica.
+> AS, TGS, cliente e Portal são separados por responsabilidade e por processo.
+> Eles trocam mensagens JSON com tamanho prefixado por sockets TCP locais.
 
 ### O que mostrar
 
@@ -269,6 +270,8 @@ No explorador do VS Code, expanda:
 - `src/kerberos_notas/client`;
 - `src/kerberos_notas/crypto`;
 - `src/kerberos_notas/kerberos`;
+- `src/kerberos_notas/rede`;
+- `src/kerberos_notas/servidores`;
 - `src/kerberos_notas/notes`;
 - `tests`;
 - `templates`.
@@ -336,9 +339,9 @@ Tempo estimado: 1 minuto e 15 segundos.
 
 ### O que falar
 
-> O Authentication Server realiza a autenticação inicial. Ele localiza o
-> usuário, deriva a chave com o salt armazenado, compara o verificador e, se a
-> senha estiver correta, gera uma chave Cliente-TGS e um TGT.
+> O Authentication Server realiza a autenticação inicial. Ele envia salt e um
+> desafio. O cliente deriva a chave localmente e responde com uma prova HMAC.
+> Se a prova estiver correta, o AS gera uma chave Cliente-TGS e um TGT.
 
 ### O que mostrar
 
@@ -347,12 +350,13 @@ Abra `src/kerberos_notas/kerberos/as_server.py`.
 Destaque nesta ordem:
 
 1. `carregar_usuarios`;
-2. `validar_usuario_no_as`;
-3. `gerar_tgt`;
-4. `autenticar_no_as`.
+2. `criar_desafio_as`;
+3. `autenticar_no_as_com_prova`;
+4. `gerar_tgt`.
 
-Em `autenticar_no_as`, mostre:
+Em `autenticar_no_as_com_prova`, mostre:
 
+- `gerar_prova_as`;
 - `gerar_chave_simetrica`;
 - `criptografar_json(CHAVE_SECRETA_TGS, tgt)`;
 - resposta cifrada com `chave_cliente`.
@@ -362,7 +366,8 @@ Abra também `src/kerberos_notas/kerberos/tickets.py` e mostre `criar_tgt`.
 ### O que falar sobre segurança
 
 > O cliente recebe o TGT, mas não possui a chave secreta do TGS para abri-lo ou
-> alterá-lo. A resposta externa do AS é cifrada com a chave derivada da senha.
+> alterá-lo. A resposta externa do AS é cifrada com a chave de longo prazo
+> reproduzida pelo cliente, e a senha nunca atravessa o socket.
 
 ### Testes relacionados
 
@@ -501,9 +506,9 @@ Tempo estimado: 50 segundos.
 
 ### O que falar
 
-> A função que integra todas as etapas é `autenticar_com_kerberos`. Ela chama o
-> AS, cria o autenticador Cliente-TGS, chama o TGS, cria o autenticador do
-> Portal e valida a autenticação mútua. Depois do login,
+> A função que integra todas as etapas é `autenticar_com_kerberos`. Ela chama os
+> servidores AS, TGS e Portal por sockets TCP e valida a autenticação mútua.
+> Depois do login,
 > `executar_operacao_kerberos` repete ticket, autenticador e confirmação mútua
 > em cada ação do Portal.
 
@@ -517,7 +522,7 @@ Depois mostre `executar_operacao_kerberos` e destaque:
 - requisição com `usuario`, `acao`, `dados` e `nonce`;
 - `calcular_hash_requisicao`;
 - `criar_autenticador`;
-- `processar_operacao_portal`;
+- `cliente_tcp.executar_operacao`;
 - `validar_resposta_operacao`.
 
 Destaque `registrar_etapa` e as mensagens:
@@ -534,7 +539,8 @@ Abra `templates/notas.html` e mostre:
 
 ### Observação
 
-Os logs informam que a senha foi recebida, mas nunca imprimem seu valor.
+Os logs informam apenas que a senha foi processada localmente e nunca imprimem
+seu valor.
 
 ### Requisitos comprovados
 
@@ -667,9 +673,9 @@ Tempo estimado: 40 segundos.
 
 > O acesso ao Portal não depende apenas do cookie Flask. A sessão do navegador
 > guarda um identificador opaco. Ticket e chave ficam na memória do servidor. A
-> função `exigir_sessao_kerberos` exige uma sessão autenticada e
-> `validar_sessao_portal` reabre e valida o Service Ticket. Além disso, cada
-> ação passa por `executar_operacao_kerberos`, com autenticador novo.
+> função `exigir_sessao_kerberos` exige uma sessão autenticada. O Portal de
+> Notas reabre e valida o Service Ticket recebido por socket em cada ação, e
+> `executar_operacao_kerberos` cria um autenticador novo.
 
 ### O que mostrar
 
@@ -696,21 +702,20 @@ Tempo estimado: 1 minuto e 30 segundos.
 
 ### O que falar
 
-> A suíte possui 43 testes. Eles cobrem criptografia, KDF, AS, TGS, tickets,
+> A suíte possui 48 testes. Eles cobrem criptografia, KDF, AS, TGS, tickets,
 > autenticadores, autenticação mútua por operação, replay, permissões e o fluxo
-> web integrado.
+> web integrado, incluindo os três sockets TCP.
 
 ### O que executar
 
 ```powershell
-$env:PYTHONPATH='src'
 python -m pytest -q
 ```
 
 Mostre o resultado:
 
 ```text
-43 passed
+48 passed
 ```
 
 ### Distribuição real
@@ -719,6 +724,7 @@ Mostre o resultado:
 |---|---:|---|
 | `tests/test_crypto.py` | 7 | AES-GCM, adulteração, nonce e KDF |
 | `tests/test_as_server.py` | 7 | Login, TGT e integração com TGS |
+| `tests/test_rede.py` | 5 | AS, TGS e Notas por sockets TCP |
 | `tests/test_tgs.py` | 9 | TGT, replay Cliente-TGS e Service Ticket |
 | `tests/test_notas.py` | 18 | CRUD protegido, perfis, replay e autenticação mútua |
 | `tests/test_fluxo.py` | 2 | Fluxo completo e interface professor/aluno |
@@ -750,12 +756,10 @@ Abra:
 
 ### O que falar
 
-> Esta é uma implementação acadêmica simplificada. AS e TGS são módulos no
-> mesmo processo, as chaves de serviço estão fixas em configuração, os dados
-> ficam em JSON e as sessões e o cache contra replay são mantidos somente em
-> memória. Essas limitações estão documentadas e foram escolhidas para manter o
-> foco no fluxo do protocolo. Em uma implantação real, o acesso web também
-> precisaria de HTTPS.
+> Esta é uma implementação acadêmica simplificada. Os serviços usam processos
+> TCP separados, e as chaves didáticas podem ser substituídas por variáveis de
+> ambiente. Os dados ficam em JSON e as sessões e caches contra replay ficam em
+> memória. Em produção seriam necessários banco de dados, HTTPS e TLS.
 
 ### Conclusão pronta
 
@@ -776,11 +780,11 @@ Abra:
 | Requisito | Onde é atendido | Arquivo, função ou teste | Como mostrar no vídeo |
 |---|---|---|---|
 | 1. Kerberos com chave simétrica | AES-GCM e chaves compartilhadas | `crypto/crypto_utils.py`: `criptografar_json`; `config.py` | Mostrar `AESGCM` e as chaves do TGS/Portal |
-| 2. AS | Autenticação inicial e TGT | `kerberos/as_server.py`: `autenticar_no_as` | Abrir a função e os testes do AS |
+| 2. AS | Autenticação inicial e TGT | `kerberos/as_server.py`: `autenticar_no_as_com_prova` | Abrir a função e os testes do AS |
 | 3. TGS | Valida TGT e emite Service Ticket | `kerberos/tgs_server.py`: `emitir_ticket_servico` | Mostrar validações e emissão |
 | 4. Serviço protegido | Portal exige ticket e autenticador em cada ação | `notes/portal_notas.py`: `processar_operacao_portal` | Mostrar o processamento protegido |
 | 5. Portal de Notas | Serviço identificado como `notas` | `portal_notas.py`: `SERVICO_NOTAS`; `tgs_server.py`: `CHAVES_SERVICOS` | Mostrar que só existe `notas` |
-| 6. Senha | Formulário e validação no AS | `templates/login.html`; `routes.py`: `login`; `as_server.py`: `validar_usuario_no_as` | Fazer login sem mostrar a senha |
+| 6. Senha | KDF local e prova HMAC | `templates/login.html`; `routes.py`: `login`; `kdf.py`: `gerar_prova_as` | Mostrar que ela não atravessa a rede |
 | 7. KDF | PBKDF2-HMAC-SHA256 | `crypto/kdf.py`: `derivar_chave_senha` | Mostrar parâmetros e testes |
 | 8. Tickets | Criação, transporte e abertura | `tickets.py`, `as_server.py`, `tgs_server.py`, `portal_notas.py` | Percorrer o fluxo |
 | 9. TGT | Criação e cifra com chave do TGS | `tickets.py`: `criar_tgt`; `as_server.py`: `gerar_tgt` | Mostrar campos e cifra |
@@ -796,13 +800,13 @@ Abra:
 | 19. Aluno vê só suas notas | Consulta pelo nome do usuário | `service.py`: `listar_notas`; `repository.py`: `listar_notas_usuario` | Entrar como aluno |
 | 20. Aluno não altera | Validação de perfil e HTTP 403 | `service.py`: `_validar_professor`; `test_rota_impede_aluno_de_lancar_nota` | Mostrar ausência dos botões e teste |
 | 21. Sem ticket não acessa | Sessão e ticket obrigatórios | `routes.py`: `exigir_sessao_kerberos`, `validar_ticket_notas`; `test_rota_recusa_acesso_sem_service_ticket` | Abrir rota sem login e mostrar teste |
-| 22. Testes | 43 testes automatizados | pasta `tests/` | Executar `python -m pytest -q` |
+| 22. Testes | 48 testes automatizados | pasta `tests/` | Executar `python -m pytest -q` |
 | 23. Logs didáticos | Etapas armazenadas e exibidas | `routes.py`: `registrar_etapa`; `templates/notas.html` | Abrir os logs no painel |
 | 24. Limitações | Restrições documentadas | `README.md`; `docs/relatorio_tecnico_base.md` | Mostrar a seção final |
 
 # Pontos de atenção e lacunas
 
-1. Não diga que AS e TGS são servidores HTTP separados.
+1. AS, TGS e Notas são servidores TCP separados; eles não são servidores HTTP.
 2. Não diga que existe banco de dados; a persistência é JSON.
 3. O cache contra replay existe, mas fica apenas em memória e é perdido ao
    reiniciar o processo.
@@ -811,8 +815,8 @@ Abra:
 6. Edição, exclusão, bloqueio do aluno, replay e adulteração possuem testes.
 7. Os registros legados podem deixar a tabela visualmente confusa. Use uma
    disciplina criada durante a demonstração.
-8. A proteção Kerberos é simulada entre as rotas cliente e o módulo Portal. Em
-   produção, o navegador também precisaria se comunicar por HTTPS.
+8. O navegador ainda se comunica com o Flask por HTTP local. Em produção, essa
+   comunicação precisaria de HTTPS.
 
 # Script curto de narração
 
@@ -820,8 +824,9 @@ Abra:
 > serviço protegido escolhido foi um Portal de Notas Escolares.
 >
 > O fluxo começa no cliente web. O usuário informa a senha, que é processada
-> com PBKDF2-HMAC-SHA256. O Authentication Server valida o verificador, gera
-> uma chave Cliente-TGS e emite um TGT cifrado com a chave secreta do TGS.
+> localmente com PBKDF2-HMAC-SHA256. O Authentication Server valida uma prova
+> HMAC do desafio, gera uma chave Cliente-TGS e emite um TGT cifrado com a chave
+> secreta do TGS.
 >
 > O cliente cria um autenticador Cliente-TGS e envia os dois elementos ao TGS.
 > O TGS valida identidade e validade e emite um Service Ticket para o serviço
@@ -842,12 +847,11 @@ Abra:
 > Portal valida ticket, nonce, ação e hash, rejeita replay e devolve uma
 > confirmação cifrada antes de o cliente aceitar o resultado.
 >
-> A suíte automatizada possui 43 testes cobrindo criptografia, KDF, AS, TGS,
+> A suíte automatizada possui 48 testes cobrindo criptografia, KDF, AS, TGS,
 > tickets, autenticadores, replay, autenticação mútua por operação, permissões
-> e o fluxo web.
+> e fluxos web e TCP.
 >
-> Como limitações acadêmicas, os componentes executam no mesmo processo, as
-> chaves de serviço são fixas, os dados ficam em JSON e as sessões ficam em
-> memória. Mesmo com essas simplificações, o projeto demonstra o fluxo Cliente,
-> AS, TGS e Portal de Notas usando criptografia simétrica, tickets e
-> autenticação mútua.
+> Como limitações acadêmicas, existem chaves padrão, os dados ficam em JSON e
+> as sessões ficam em memória. Mesmo com essas simplificações, o projeto
+> demonstra o fluxo Cliente, AS, TGS e Portal de Notas em processos separados,
+> usando criptografia simétrica, tickets e autenticação mútua.

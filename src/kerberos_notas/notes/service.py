@@ -91,6 +91,40 @@ def criar_nota(
     })
 
 
+def criar_notas(
+        professor,
+        aluno,
+        notas,
+        perfil=PERFIL_PROFESSOR
+):
+    _validar_professor(perfil)
+    if not professor:
+        raise ValueError("Professor nao informado.")
+
+    aluno = (aluno or "").strip()
+    if aluno not in listar_alunos():
+        raise ValueError("Aluno nao encontrado.")
+    if not isinstance(notas, list) or not notas:
+        raise ValueError("Informe pelo menos uma nota.")
+
+    notas_validadas = []
+    for item in notas:
+        disciplina = (item.get("disciplina") or "").strip()
+        if not disciplina:
+            raise ValueError("Disciplina nao informada.")
+        notas_validadas.append({
+            "disciplina": disciplina,
+            "nota": _normalizar_nota(item.get("nota")),
+            "observacao": (item.get("observacao") or "").strip(),
+            "professor": professor,
+        })
+
+    return [
+        adicionar_nota_usuario(aluno, item)
+        for item in notas_validadas
+    ]
+
+
 def editar_nota(
         professor,
         nota_id,
