@@ -15,6 +15,7 @@ CAMPOS_SENSIVEIS = (
     "chave",
     "ciphertext",
     "desafio",
+    "hash",
     "nonce",
     "prova",
     "salt",
@@ -41,6 +42,10 @@ def _hora_atual():
     return datetime.now().strftime("%H:%M:%S")
 
 
+def hora_atual():
+    return _hora_atual()
+
+
 def _campo_sensivel(campo):
     nome = str(campo).lower()
     if nome in CAMPOS_SEGUROS:
@@ -59,6 +64,25 @@ def _resumo_mascarado(valor):
         return f"<mascarado:list:{len(valor)} itens>"
     texto = str(valor)
     return f"<mascarado:{len(texto)} caracteres>"
+
+
+def _valor_curto(valor):
+    if isinstance(valor, dict):
+        partes = []
+        for indice, (chave, item) in enumerate(valor.items()):
+            if indice == 4:
+                partes.append("...")
+                break
+            partes.append(f"{chave}={_valor_curto(item)}")
+        return "{" + ", ".join(partes) + "}"
+
+    if isinstance(valor, list):
+        return f"[{len(valor)} item(ns)]"
+
+    texto = str(valor)
+    if len(texto) > 80:
+        return f"{texto[:60]}..."
+    return texto
 
 
 def mascarar_dados(dados, campo_atual=""):
@@ -91,14 +115,37 @@ def mascarar_dados(dados, campo_atual=""):
 
 def _imprimir_dados(dados):
     dados_mascarados = mascarar_dados(dados)
-    texto = json.dumps(
-        dados_mascarados,
-        ensure_ascii=False,
-        indent=4,
-        default=str,
-    )
-    for linha in texto.splitlines():
-        print(f"    {linha}", flush=True)
+    if isinstance(dados_mascarados, dict):
+        for chave, valor in dados_mascarados.items():
+            print(f"    {chave}: {_valor_curto(valor)}", flush=True)
+        return
+
+    texto = json.dumps(dados_mascarados, ensure_ascii=False, default=str)
+    print(f"    {texto}", flush=True)
+
+
+def formatar_resumo_seguro(dados):
+    if dados is None:
+        return ""
+
+    dados_mascarados = mascarar_dados(dados)
+    if not isinstance(dados_mascarados, dict):
+        return _valor_curto(dados_mascarados)
+
+    partes = [
+        f"{chave}={_valor_curto(valor)}"
+        for chave, valor in dados_mascarados.items()
+    ]
+    return " | ".join(partes)
+
+
+def registrar_log_interface(logs, componente, mensagem, status=None, dados=None):
+    prefixo_status = f" {status} -" if status else ""
+    linha = f"[{hora_atual()}] [{componente}]{prefixo_status} {mensagem}"
+    resumo = formatar_resumo_seguro(dados)
+    if resumo:
+        linha = f"{linha} | {resumo}"
+    logs.append(linha)
 
 
 def log_titulo(componente, mensagem):

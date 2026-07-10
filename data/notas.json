@@ -9,17 +9,7 @@
                 "observacao": "BEM",
                 "professor": "SilvioSants",
                 "criado_em": "",
-                "atualizado_em": "2026-07-08T23:57:57+00:00"
-            },
-            {
-                "id": "abe0d41003e44e6ab6b039da96e75fac",
-                "aluno": "AkinGOD777",
-                "disciplina": "SilvioSants",
-                "nota": 10.0,
-                "observacao": "SilvioSants, voce esta tentando monitorar minhas mensagens?",
-                "professor": "SilvioSants",
-                "criado_em": "",
-                "atualizado_em": "2026-07-08T23:58:42+00:00"
+                "atualizado_em": "2026-07-10T02:25:40+00:00"
             },
             {
                 "id": "1234ac7083f64b12acda23da90e47271",
@@ -40,6 +30,36 @@
                 "professor": "SilvioSants",
                 "criado_em": "2026-07-09T15:06:20+00:00",
                 "atualizado_em": "2026-07-09T15:06:20+00:00"
+            },
+            {
+                "id": "b991db5104414f06a464e71c3cf81e2c",
+                "aluno": "AkinGOD777",
+                "disciplina": "REMONTAGEM DE ELEVADORES",
+                "nota": 9.0,
+                "observacao": "bom demais",
+                "professor": "SilvioSants",
+                "criado_em": "2026-07-10T01:58:01+00:00",
+                "atualizado_em": "2026-07-10T01:58:01+00:00"
+            },
+            {
+                "id": "ef56140a6a79413fbf37f31ba32e8dda",
+                "aluno": "AkinGOD777",
+                "disciplina": "REMONTAGEM DE ELEVADORESSSS",
+                "nota": 9.0,
+                "observacao": "SS",
+                "professor": "SilvioSants",
+                "criado_em": "2026-07-10T02:13:38+00:00",
+                "atualizado_em": "2026-07-10T02:13:38+00:00"
+            },
+            {
+                "id": "42bbc0b399314db7bb93ad67098950be",
+                "aluno": "AkinGOD777",
+                "disciplina": "\\zx\\zx",
+                "nota": 1.0,
+                "observacao": "ASAS",
+                "professor": "SilvioSants",
+                "criado_em": "2026-07-10T02:22:24+00:00",
+                "atualizado_em": "2026-07-10T02:22:24+00:00"
             }
         ],
         "malululu10": [
@@ -52,6 +72,38 @@
                 "professor": "SilvioSants",
                 "criado_em": "2026-07-08T23:59:22+00:00",
                 "atualizado_em": "2026-07-08T23:59:22+00:00"
+            },
+            {
+                "id": "8a0563bc4e154c73a4bdc32fce409158",
+                "aluno": "malululu10",
+                "disciplina": "abacatudo",
+                "nota": 4.0,
+                "observacao": "af",
+                "professor": "SilvioSants",
+                "criado_em": "2026-07-10T01:59:32+00:00",
+                "atualizado_em": "2026-07-10T01:59:32+00:00"
+            },
+            {
+                "id": "5c58d153a8354c0da52771c5aae8459a",
+                "aluno": "malululu10",
+                "disciplina": "aaaaaaa",
+                "nota": 2.0,
+                "observacao": "asdsasd",
+                "professor": "SilvioSants",
+                "criado_em": "2026-07-10T02:03:34+00:00",
+                "atualizado_em": "2026-07-10T02:03:34+00:00"
+            }
+        ],
+        "kassio12": [
+            {
+                "id": "ec4df0e6e8044e25811e0d92a439307f",
+                "aluno": "kassio12",
+                "disciplina": "teste111",
+                "nota": 1.0,
+                "observacao": "1111",
+                "professor": "SilvioSants",
+                "criado_em": "2026-07-10T02:15:01+00:00",
+                "atualizado_em": "2026-07-10T02:15:01+00:00"
             }
         ]
     }

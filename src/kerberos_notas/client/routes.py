@@ -32,7 +32,7 @@ from kerberos_notas.kerberos.as_server import (
 )
 from kerberos_notas.kerberos.authenticator import abrir_autenticador, criar_autenticador
 from kerberos_notas.kerberos.tgs_server import emitir_ticket_servico
-from kerberos_notas.logs import log_evento, log_ok, log_titulo
+from kerberos_notas.logs import log_evento, log_ok, log_titulo, registrar_log_interface
 from kerberos_notas.notes.portal_notas import (
     autenticar_portal_notas,
     calcular_hash_requisicao,
@@ -48,15 +48,40 @@ from kerberos_notas.rede.cliente_tcp import ClienteKerberosTCP
 BASE_DIR = Path(__file__).resolve().parents[3]
 
 
-def registrar_etapa(logs, mensagem):
+def _normalizar_componente(mensagem, componente):
+    if componente:
+        return componente, mensagem
+
+    if mensagem.startswith("[") and "]" in mensagem:
+        marcador, texto = mensagem.split("]", 1)
+        marcador = marcador.strip("[]")
+        componentes = {
+            "CLIENTE": "CLIENTE WEB",
+            "AS": "AS",
+            "TGS": "TGS",
+            "PORTAL": "PORTAL NOTAS",
+        }
+        return componentes.get(marcador, marcador), texto.strip()
+
+    return "CLIENTE WEB", mensagem
+
+
+def registrar_etapa(logs, mensagem, componente=None, status=None, dados=None):
     """
     @brief Registra uma etapa do fluxo para exibicao e depuracao.
 
     @param logs Lista de mensagens da sessao.
     @param mensagem Texto a ser registrado.
     """
-    logs.append(mensagem)
-    log_evento("CLIENTE WEB", mensagem)
+    componente, mensagem = _normalizar_componente(mensagem, componente)
+    registrar_log_interface(
+        logs,
+        componente,
+        mensagem,
+        status=status,
+        dados=dados,
+    )
+    log_evento(componente, mensagem, dados=dados, nivel=status)
 
 
 def autenticar_com_kerberos(
@@ -86,6 +111,17 @@ def autenticar_com_kerberos(
             "usar_rede": usar_rede,
         },
     )
+    registrar_etapa(
+        logs,
+        "Login recebido pelo Cliente Web",
+        componente="CLIENTE WEB",
+        status="ETAPA 1",
+        dados={
+            "usuario": usuario,
+            "senha_informada": bool(senha),
+            "usar_rede": usar_rede,
+        },
+    )
     registrar_etapa(logs, "[CLIENTE] Senha informada localmente pelo usuario.")
     registrar_etapa(logs, "[CLIENTE] Solicitando autenticacao ao AS.")
 
@@ -98,6 +134,18 @@ def autenticar_com_kerberos(
         "CLIENTE WEB",
         "ETAPA 2 - Parametros do AS recebidos",
         {
+            "usuario": parametros_as.get("usuario"),
+            "salt": parametros_as.get("salt"),
+            "iteracoes_kdf": parametros_as.get("iteracoes_kdf"),
+            "desafio": parametros_as.get("desafio"),
+        },
+    )
+    registrar_etapa(
+        logs,
+        "Parametros de desafio recebidos do AS",
+        componente="AS",
+        status="OK",
+        dados={
             "usuario": parametros_as.get("usuario"),
             "salt": parametros_as.get("salt"),
             "iteracoes_kdf": parametros_as.get("iteracoes_kdf"),
@@ -119,6 +167,18 @@ def autenticar_com_kerberos(
             "tamanho_chave_as_bytes": len(chave_cliente),
         },
     )
+    registrar_etapa(
+        logs,
+        "KDF executada localmente para obter a chave do cliente",
+        componente="CLIENTE WEB",
+        status="OK",
+        dados={
+            "algoritmo": "PBKDF2-HMAC-SHA256",
+            "iteracoes": ITERACOES_PBKDF2,
+            "tamanho_chave_derivada_bytes": len(chave_derivada),
+            "tamanho_chave_as_bytes": len(chave_cliente),
+        },
+    )
     prova = gerar_prova_as(
         chave_cliente,
         usuario,
@@ -128,6 +188,17 @@ def autenticar_com_kerberos(
         "CLIENTE WEB",
         "ETAPA 3 - Prova HMAC criada para o desafio do AS",
         {
+            "usuario": usuario,
+            "desafio": parametros_as["desafio"],
+            "prova": prova,
+        },
+    )
+    registrar_etapa(
+        logs,
+        "Prova HMAC preparada para envio ao AS",
+        componente="CLIENTE WEB",
+        status="OK",
+        dados={
             "usuario": usuario,
             "desafio": parametros_as["desafio"],
             "prova": prova,
@@ -149,6 +220,13 @@ def autenticar_com_kerberos(
         "CLIENTE WEB",
         "AS-REP cifrado recebido",
         {"resposta_as_criptografada": resposta_as_criptografada},
+    )
+    registrar_etapa(
+        logs,
+        "AS validou a prova e devolveu AS-REP cifrado",
+        componente="AS",
+        status="OK",
+        dados={"resposta_as_criptografada": resposta_as_criptografada},
     )
     registrar_etapa(
         logs,
@@ -174,12 +252,38 @@ def autenticar_com_kerberos(
             "nonce_tgt": resposta_as.get("nonce_tgt"),
         },
     )
+    registrar_etapa(
+        logs,
+        "Cliente abriu AS-REP e recebeu TGT transportavel",
+        componente="CLIENTE WEB",
+        status="OK",
+        dados={
+            "id_tgs": resposta_as.get("id_tgs"),
+            "chave_sessao_cliente_tgs": resposta_as.get(
+                "chave_sessao_cliente_tgs"
+            ),
+            "tgt": resposta_as.get("tgt"),
+            "timestamp_expiracao": resposta_as.get("timestamp_expiracao"),
+        },
+    )
     chave_sessao_cliente_tgs = resposta_as["chave_sessao_cliente_tgs"]
     autenticador_tgs = criar_autenticador(usuario, chave_sessao_cliente_tgs)
     log_evento(
         "CLIENTE WEB",
         "ETAPA 4 - Autenticador Cliente-TGS criado",
         {"autenticador_tgs": autenticador_tgs},
+    )
+    registrar_etapa(
+        logs,
+        "TGT e autenticador Cliente-TGS preparados para o TGS",
+        componente="CLIENTE WEB",
+        status="ETAPA 4",
+        dados={
+            "usuario": usuario,
+            "servico_destino": "notas",
+            "tgt": resposta_as["tgt"],
+            "autenticador_tgs": autenticador_tgs,
+        },
     )
     registrar_etapa(logs, "[CLIENTE] Autenticador Cliente-TGS criado.")
 
@@ -206,6 +310,17 @@ def autenticar_com_kerberos(
             "resposta_cliente": resposta_tgs.get("resposta_cliente"),
         },
     )
+    registrar_etapa(
+        logs,
+        "TGS validou TGT/autenticador e emitiu Service Ticket",
+        componente="TGS",
+        status="OK",
+        dados={
+            "servico": resposta_tgs.get("servico"),
+            "ticket_servico": resposta_tgs.get("ticket_servico"),
+            "resposta_cliente": resposta_tgs.get("resposta_cliente"),
+        },
+    )
     registrar_etapa(logs, "[TGS] TGT e autenticador Cliente-TGS validados.")
     registrar_etapa(logs, "[TGS] Service Ticket para o Portal de Notas emitido.")
 
@@ -223,6 +338,21 @@ def autenticar_com_kerberos(
                 "chave_sessao_cliente_servico"
             ),
             "timestamp_emissao": dados_cliente.get("timestamp_emissao"),
+            "timestamp_expiracao": dados_cliente.get("timestamp_expiracao"),
+            "nonce_ticket": dados_cliente.get("nonce_ticket"),
+        },
+    )
+    registrar_etapa(
+        logs,
+        "Cliente abriu resposta do TGS e obteve chave Cliente-Servico",
+        componente="CLIENTE WEB",
+        status="OK",
+        dados={
+            "usuario": dados_cliente.get("usuario"),
+            "servico": dados_cliente.get("servico"),
+            "chave_sessao_cliente_servico": dados_cliente.get(
+                "chave_sessao_cliente_servico"
+            ),
             "timestamp_expiracao": dados_cliente.get("timestamp_expiracao"),
             "nonce_ticket": dados_cliente.get("nonce_ticket"),
         },
@@ -248,6 +378,18 @@ def autenticar_com_kerberos(
             "dados_autenticador": dados_autenticador,
         },
     )
+    registrar_etapa(
+        logs,
+        "Service Ticket e autenticador Cliente-Servico preparados para o Portal",
+        componente="CLIENTE WEB",
+        status="ETAPA 5",
+        dados={
+            "ticket_servico": resposta_tgs["ticket_servico"],
+            "autenticador_portal": autenticador_portal,
+            "timestamp_autenticador": dados_autenticador.get("timestamp"),
+            "nonce_portal": nonce_portal,
+        },
+    )
     registrar_etapa(logs, "[CLIENTE] Service Ticket e autenticador enviados ao Portal.")
 
     if usar_rede:
@@ -265,6 +407,13 @@ def autenticar_com_kerberos(
         "Confirmacao cifrada do Portal recebida",
         {"confirmacao_portal": confirmacao_portal},
     )
+    registrar_etapa(
+        logs,
+        "Portal recebeu Service Ticket e devolveu confirmacao cifrada",
+        componente="PORTAL NOTAS",
+        status="OK",
+        dados={"confirmacao_portal": confirmacao_portal},
+    )
     registrar_etapa(logs, "[PORTAL] Service Ticket validado.")
     registrar_etapa(logs, "[PORTAL] Autenticador Cliente-Servico validado.")
 
@@ -278,6 +427,18 @@ def autenticar_com_kerberos(
         "CLIENTE WEB",
         "Autenticacao mutua com o Portal confirmada",
         {
+            "usuario": usuario,
+            "servico": "notas",
+            "timestamp_validado": dados_autenticador["timestamp"],
+            "nonce_validado": nonce_portal,
+        },
+    )
+    registrar_etapa(
+        logs,
+        "Cliente validou timestamp e nonce da autenticacao mutua",
+        componente="CLIENTE WEB",
+        status="OK",
+        dados={
             "usuario": usuario,
             "servico": "notas",
             "timestamp_validado": dados_autenticador["timestamp"],
@@ -384,6 +545,18 @@ def executar_operacao_kerberos(dados_sessao, acao, dados=None):
         "Entrada da operacao Kerberos",
         requisicao,
     )
+    registrar_etapa(
+        dados_sessao["logs"],
+        "Operacao protegida iniciada no Cliente Web",
+        componente="CLIENTE WEB",
+        status="ETAPA OPERACAO",
+        dados={
+            "usuario": usuario,
+            "acao": acao,
+            "dados": dados or {},
+            "nonce_operacao": nonce_operacao,
+        },
+    )
     hash_requisicao = calcular_hash_requisicao(requisicao)
     requisicao_criptografada = criptografar_json(
         base64_para_bytes(chave_sessao),
@@ -406,6 +579,18 @@ def executar_operacao_kerberos(dados_sessao, acao, dados=None):
             "requisicao_criptografada": requisicao_criptografada,
             "autenticador": autenticador,
             "dados_autenticador": dados_autenticador,
+        },
+    )
+    registrar_etapa(
+        dados_sessao["logs"],
+        "Requisicao foi cifrada e amarrada ao autenticador",
+        componente="CLIENTE WEB",
+        status="OK",
+        dados={
+            "acao": acao,
+            "hash_requisicao": hash_requisicao,
+            "requisicao_criptografada": requisicao_criptografada,
+            "autenticador": autenticador,
         },
     )
 
@@ -436,6 +621,16 @@ def executar_operacao_kerberos(dados_sessao, acao, dados=None):
     )
     registrar_etapa(
         dados_sessao["logs"],
+        "Portal respondeu a operacao protegida",
+        componente="PORTAL NOTAS",
+        status="OK",
+        dados={
+            "acao": acao,
+            "resposta_criptografada": resposta_criptografada,
+        },
+    )
+    registrar_etapa(
+        dados_sessao["logs"],
         f"[PORTAL] Ticket, autenticador e requisicao {acao} validados.",
     )
 
@@ -450,6 +645,19 @@ def executar_operacao_kerberos(dados_sessao, acao, dados=None):
         "CLIENTE WEB",
         "Resposta do Portal validada pelo cliente",
         {
+            "acao": resposta.get("acao"),
+            "status": resposta.get("status"),
+            "timestamp_resposta": resposta.get("timestamp_resposta"),
+            "nonce_autenticador": resposta.get("nonce_autenticador"),
+            "resultado": resposta.get("resultado"),
+        },
+    )
+    registrar_etapa(
+        dados_sessao["logs"],
+        "Cliente validou resposta cifrada da operacao",
+        componente="CLIENTE WEB",
+        status="OK",
+        dados={
             "acao": resposta.get("acao"),
             "status": resposta.get("status"),
             "timestamp_resposta": resposta.get("timestamp_resposta"),
@@ -586,6 +794,19 @@ def create_app(usar_rede=True, cliente_tcp=None):
                         "notas": notas_formulario,
                     }
 
+                registrar_etapa(
+                    dados_sessao["logs"],
+                    "Formulario de lancamento de nota recebido",
+                    componente="CLIENTE WEB",
+                    status="ENTRADA",
+                    dados={
+                        "usuario": usuario,
+                        "acao": acao,
+                        "aluno": request.form.get("aluno"),
+                        "quantidade_notas": len(notas_formulario),
+                        "notas": notas_formulario,
+                    },
+                )
                 executar_operacao_kerberos(
                     dados_sessao,
                     acao,
@@ -631,6 +852,18 @@ def create_app(usar_rede=True, cliente_tcp=None):
             if not dados_sessao:
                 return redirect(url_for("login"))
 
+            registrar_etapa(
+                dados_sessao["logs"],
+                "Formulario de edicao de nota recebido",
+                componente="CLIENTE WEB",
+                status="ENTRADA",
+                dados={
+                    "nota_id": nota_id,
+                    "disciplina": request.form.get("disciplina"),
+                    "nota": request.form.get("nota"),
+                    "observacao": request.form.get("observacao"),
+                },
+            )
             executar_operacao_kerberos(
                 dados_sessao,
                 "editar_nota",
@@ -662,6 +895,13 @@ def create_app(usar_rede=True, cliente_tcp=None):
             if not dados_sessao:
                 return redirect(url_for("login"))
 
+            registrar_etapa(
+                dados_sessao["logs"],
+                "Solicitacao de exclusao de nota recebida",
+                componente="CLIENTE WEB",
+                status="ENTRADA",
+                dados={"nota_id": nota_id},
+            )
             executar_operacao_kerberos(
                 dados_sessao,
                 "excluir_nota",
@@ -684,6 +924,26 @@ def create_app(usar_rede=True, cliente_tcp=None):
     def logout():
         """@brief Remove a sessao Kerberos do servidor Flask e encerra o acesso."""
         id_sessao = session.pop("id_sessao_kerberos", None)
+        dados_sessao = sessoes_kerberos.get(id_sessao) if id_sessao else None
+        if dados_sessao:
+            registrar_etapa(
+                dados_sessao["logs"],
+                "Logout solicitado pelo usuario",
+                componente="CLIENTE WEB",
+                status="OK",
+                dados={
+                    "usuario": dados_sessao.get("usuario"),
+                    "perfil": dados_sessao.get("perfil"),
+                    "portal_autenticado": dados_sessao.get("portal_autenticado"),
+                    "id_sessao": id_sessao,
+                },
+            )
+        else:
+            log_ok(
+                "CLIENTE WEB",
+                "Logout solicitado sem sessao Kerberos ativa",
+                {"id_sessao": id_sessao},
+            )
         if id_sessao:
             sessoes_kerberos.pop(id_sessao, None)
         session.clear()
