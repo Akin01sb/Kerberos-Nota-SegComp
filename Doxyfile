@@ -3,6 +3,7 @@ PROJECT_BRIEF          = "Portal de Notas protegido por Kerberos academico"
 OUTPUT_DIRECTORY       = docs
 OUTPUT_LANGUAGE        = Brazilian
 INPUT                  = README.md doxygen_pages run.py scripts src tests
+LAYOUT_FILE            = DoxygenLayout.xml
 RECURSIVE              = YES
 FILE_PATTERNS          = *.py *.md
 MARKDOWN_SUPPORT       = YES

@@ -31,6 +31,7 @@ var NAVTREE =
     [ "Fluxo Kerberos", "index.html#autotoc_md25", null ],
     [ "Como navegar na documentacao", "index.html#autotoc_md26", null ],
     [ "Limitacoes academicas", "index.html#autotoc_md27", null ],
+    [ "Como executar o código", "como_executar.html", null ],
     [ "Portal de Notas Escolares com Kerberos", "md__r_e_a_d_m_e.html", [
       [ "Arquitetura", "md__r_e_a_d_m_e.html#autotoc_md1", null ],
       [ "Fluxo Kerberos", "md__r_e_a_d_m_e.html#autotoc_md2", null ],
@@ -42,7 +43,7 @@ var NAVTREE =
       [ "Estrutura", "md__r_e_a_d_m_e.html#autotoc_md8", null ],
       [ "Limitações acadêmicas", "md__r_e_a_d_m_e.html#autotoc_md9", null ]
     ] ],
-    [ "Como executar o codigo", "como_executar.html", [
+    [ "Como executar o código", "como_executar.html", [
       [ "Pre-requisitos", "como_executar.html#autotoc_md10", null ],
       [ "Criar a venv", "como_executar.html#autotoc_md11", null ],
       [ "Ativar a venv no Linux/WSL", "como_executar.html#autotoc_md12", null ],
@@ -83,7 +84,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "____init_____8py.html",
-"namespacekerberos__notas_1_1rede_1_1protocolo.html"
+"namespacekerberos__notas_1_1rede_1_1cliente__tcp.html"
 ];
 
 const SYNCONMSG = 'clique para desativar a sincronização do painel';

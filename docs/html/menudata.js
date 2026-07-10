@@ -24,6 +24,7 @@
 */
 var menudata={children:[
 {text:"Página Principal",url:"index.html"},
+{text:"Como executar o código",url:"como_executar.html"},
 {text:"Páginas relacionadas",url:"pages.html"},
 {text:"Namespaces",url:"namespaces.html",children:[
 {text:"Lista de Namespaces",url:"namespaces.html"},

@@ -1,4 +1,4 @@
-# Como executar o codigo {#como_executar}
+# Como executar o código {#como_executar}
 
 ## Pre-requisitos
 

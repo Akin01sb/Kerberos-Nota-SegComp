@@ -12,7 +12,7 @@ var searchData=
   ['execucao_2emd_9',['execucao.md',['../execucao_8md.html',1,'']]],
   ['executar_10',['Executar',['../md__r_e_a_d_m_e.html#autotoc_md5',1,'']]],
   ['executar_20aplicacao_20flask_11',['Executar aplicacao Flask',['../como_executar.html#autotoc_md16',1,'']]],
-  ['executar_20o_20codigo_12',['Como executar o codigo',['../como_executar.html',1,'']]],
+  ['executar_20o_20código_12',['Como executar o código',['../como_executar.html',1,'']]],
   ['executar_20servidores_13',['Executar servidores',['../como_executar.html#autotoc_md15',1,'']]],
   ['executar_20testes_20com_20pytest_14',['Executar testes com Pytest',['../como_executar.html#autotoc_md20',1,'']]],
   ['executar_5foperacao_15',['executar_operacao',['../classkerberos__notas_1_1rede_1_1cliente__tcp_1_1_cliente_kerberos_t_c_p.html#a9221508956129af7b2fb9980fcbc6d56',1,'kerberos_notas::rede::cliente_tcp::ClienteKerberosTCP']]],
