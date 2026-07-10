@@ -1,3 +1,12 @@
+"""
+@file criar_usuario.py
+@brief Script interativo para cadastrar usuarios Kerberos.
+
+@details
+Solicita usuario, perfil e senha. A senha e processada por PBKDF2-HMAC-SHA256
+e apenas salt, verificador e perfil sao gravados em `data/usuarios.json`.
+"""
+
 import json
 from getpass import getpass
 from pathlib import Path
@@ -15,6 +24,11 @@ CAMINHO_USUARIOS = Path(__file__).resolve().parents[1] / "data" / "usuarios.json
 
 
 def carregar_usuarios() -> dict:
+    """
+    @brief Carrega usuarios cadastrados do arquivo JSON.
+
+    @return Dicionario com a chave `usuarios`.
+    """
     if not CAMINHO_USUARIOS.exists():
         return {"usuarios": {}}
     
@@ -23,11 +37,24 @@ def carregar_usuarios() -> dict:
     
 
 def salvar_usuarios(dados: dict) -> None:
+    """
+    @brief Persiste usuarios cadastrados no arquivo JSON.
+
+    @param dados Estrutura contendo usuarios, salts, verificadores e perfis.
+    """
     with open(CAMINHO_USUARIOS, "w", encoding="utf-8") as arquivo:
         json.dump(dados,arquivo, indent=4, ensure_ascii=False)
 
 
 def criar_usuario(nome_usuario: str, senha: str, perfil: str = "aluno") -> None:
+    """
+    @brief Cadastra um usuario com senha derivada por KDF.
+
+    @param nome_usuario Nome do usuario.
+    @param senha Senha em texto claro apenas durante o cadastro.
+    @param perfil Perfil `aluno` ou `professor`.
+    @throws ValueError Quando o perfil informado e invalido.
+    """
     dados= carregar_usuarios()
 
     if nome_usuario in dados["usuarios"]:
@@ -53,6 +80,7 @@ def criar_usuario(nome_usuario: str, senha: str, perfil: str = "aluno") -> None:
 
 
 def main():
+    """@brief Executa o cadastro interativo pelo terminal."""
     print("=== Cadastro de usuário Kerberos ===")
 
     nome_usuario = input("Usuario: ").strip()

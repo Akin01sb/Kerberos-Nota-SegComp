@@ -1,3 +1,5 @@
+"""Testes de integracao do fluxo Kerberos completo em modo local."""
+
 import json
 
 import pytest
@@ -14,6 +16,7 @@ from kerberos_notas.notes import repository
 
 @pytest.fixture
 def ambiente_completo(tmp_path, monkeypatch):
+    """Prepara usuarios e notas isolados para o fluxo completo local."""
     usuarios = {}
     for usuario, senha, perfil in (
         ("professor_demo", "prof123", "professor"),

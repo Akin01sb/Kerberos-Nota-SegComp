@@ -1,3 +1,14 @@
+"""
+@file routes.py
+@brief Aplicacao Flask que atua como cliente Kerberos.
+
+@details
+As rotas web recebem usuario e senha, coordenam o fluxo Cliente-AS-TGS-Servico
+e mantem no servidor Flask os tickets e chaves de sessao. Cada acao do Portal
+de Notas cria novo autenticador, cifra a requisicao e valida a resposta cifrada
+do servico.
+"""
+
 import os
 import secrets
 from pathlib import Path
@@ -37,6 +48,12 @@ BASE_DIR = Path(__file__).resolve().parents[3]
 
 
 def registrar_etapa(logs, mensagem):
+    """
+    @brief Registra uma etapa do fluxo para exibicao e depuracao.
+
+    @param logs Lista de mensagens da sessao.
+    @param mensagem Texto a ser registrado.
+    """
     logs.append(mensagem)
     print(mensagem)
 
@@ -47,6 +64,16 @@ def autenticar_com_kerberos(
         usar_rede=True,
         cliente_tcp=None
 ):
+    """
+    @brief Executa o fluxo completo Cliente-AS-TGS-Portal.
+
+    @param usuario Usuario informado no login.
+    @param senha Senha usada localmente para derivar a chave do cliente.
+    @param usar_rede Define se AS, TGS e Notas serao chamados por TCP.
+    @param cliente_tcp Cliente TCP injetavel para testes.
+    @return Dados de sessao Kerberos mantidos no servidor Flask.
+    @throws ValueError Quando qualquer validacao Kerberos falha.
+    """
     logs = []
     registrar_etapa(logs, "[CLIENTE] Senha informada localmente pelo usuario.")
     registrar_etapa(logs, "[CLIENTE] Solicitando autenticacao ao AS.")
@@ -170,6 +197,13 @@ def autenticar_com_kerberos(
 
 
 def validar_ticket_notas(usuario, ticket_servico):
+    """
+    @brief Valida se o Service Ticket pertence ao usuario da sessao.
+
+    @param usuario Usuario esperado.
+    @param ticket_servico Ticket recebido do TGS.
+    @return Ticket aberto.
+    """
     ticket = validar_ticket_portal(ticket_servico)
 
     if ticket.get("usuario") != usuario:
@@ -179,6 +213,13 @@ def validar_ticket_notas(usuario, ticket_servico):
 
 
 def validar_sessao_portal(dados_sessao):
+    """
+    @brief Confere se a sessao Flask concluiu autenticacao mutua no Portal.
+
+    @param dados_sessao Dados Kerberos guardados no servidor Flask.
+    @return Ticket aberto no modo local ou None no modo TCP.
+    @throws ValueError Quando a sessao nao esta autenticada.
+    """
     if not dados_sessao or not dados_sessao.get("portal_autenticado"):
         raise ValueError("Autenticacao mutua com o Portal nao foi concluida.")
 
@@ -194,6 +235,17 @@ def validar_sessao_portal(dados_sessao):
 
 
 def executar_operacao_kerberos(dados_sessao, acao, dados=None):
+    """
+    @brief Executa uma operacao do Portal usando Kerberos fim a fim.
+
+    @param dados_sessao Sessao Kerberos criada no login.
+    @param acao Operacao do Portal de Notas.
+    @param dados Dados especificos da operacao.
+    @return Resultado validado enviado pelo servico.
+
+    A funcao cria uma requisicao cifrada, calcula seu hash, prende esse hash no
+    autenticador e valida a resposta do Portal com timestamp e nonce esperados.
+    """
     usuario = dados_sessao["usuario"]
     chave_sessao = dados_sessao["chave_sessao_servico"]
     nonce_operacao = secrets.token_hex(16)
@@ -254,6 +306,13 @@ def executar_operacao_kerberos(dados_sessao, acao, dados=None):
 
 
 def create_app(usar_rede=True, cliente_tcp=None):
+    """
+    @brief Cria a aplicacao Flask do Portal de Notas.
+
+    @param usar_rede Define se as rotas usam os servidores TCP reais.
+    @param cliente_tcp Cliente TCP opcional usado em testes automatizados.
+    @return Instancia Flask configurada.
+    """
     app = Flask(
         __name__,
         template_folder=str(BASE_DIR / "templates"),
@@ -269,12 +328,14 @@ def create_app(usar_rede=True, cliente_tcp=None):
     app.extensions["sessoes_kerberos"] = sessoes_kerberos
 
     def obter_sessao_kerberos():
+        """@brief Recupera a sessao Kerberos associada ao cookie Flask."""
         id_sessao = session.get("id_sessao_kerberos")
         if not id_sessao:
             return None
         return sessoes_kerberos.get(id_sessao)
 
     def exigir_sessao_kerberos():
+        """@brief Recupera e valida a sessao Kerberos antes das rotas protegidas."""
         dados_sessao = obter_sessao_kerberos()
         if not dados_sessao:
             return None
@@ -283,12 +344,14 @@ def create_app(usar_rede=True, cliente_tcp=None):
 
     @app.route("/")
     def index():
+        """@brief Redireciona o usuario para login ou painel de notas."""
         if obter_sessao_kerberos():
             return redirect(url_for("notas"))
         return redirect(url_for("login"))
 
     @app.route("/login", methods=["GET", "POST"])
     def login():
+        """@brief Exibe o formulario de login e inicia autenticacao Kerberos."""
         if request.method == "GET":
             return render_template("login.html")
 
@@ -319,6 +382,7 @@ def create_app(usar_rede=True, cliente_tcp=None):
 
     @app.route("/notas", methods=["GET", "POST"])
     def notas():
+        """@brief Lista notas ou cria novas notas via operacao Kerberos protegida."""
         try:
             dados_sessao = exigir_sessao_kerberos()
         except Exception as erro:
@@ -402,6 +466,7 @@ def create_app(usar_rede=True, cliente_tcp=None):
 
     @app.post("/notas/<nota_id>/editar")
     def editar(nota_id):
+        """@brief Edita uma nota usando uma operacao Kerberos protegida."""
         try:
             dados_sessao = exigir_sessao_kerberos()
             if not dados_sessao:
@@ -432,6 +497,7 @@ def create_app(usar_rede=True, cliente_tcp=None):
 
     @app.post("/notas/<nota_id>/excluir")
     def excluir(nota_id):
+        """@brief Exclui uma nota usando uma operacao Kerberos protegida."""
         try:
             dados_sessao = exigir_sessao_kerberos()
             if not dados_sessao:
@@ -457,6 +523,7 @@ def create_app(usar_rede=True, cliente_tcp=None):
 
     @app.route("/logout")
     def logout():
+        """@brief Remove a sessao Kerberos do servidor Flask e encerra o acesso."""
         id_sessao = session.pop("id_sessao_kerberos", None)
         if id_sessao:
             sessoes_kerberos.pop(id_sessao, None)

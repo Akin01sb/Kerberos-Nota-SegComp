@@ -1,3 +1,13 @@
+"""
+@file protocolo.py
+@brief Protocolo simples de mensagens JSON sobre TCP.
+
+@details
+Cada mensagem possui um cabecalho de 4 bytes em ordem de rede informando o
+tamanho do JSON UTF-8. Isso evita leitura parcial de pacotes e permite que AS,
+TGS e Portal de Notas troquem dicionarios de forma previsivel por sockets.
+"""
+
 import json
 import struct
 
@@ -8,6 +18,14 @@ TAMANHO_CABECALHO = struct.calcsize(FORMATO_CABECALHO)
 
 
 def _receber_exatamente(conexao, quantidade):
+    """
+    @brief Le exatamente a quantidade de bytes solicitada.
+
+    @param conexao Socket conectado.
+    @param quantidade Numero de bytes esperados.
+    @return Bytes recebidos.
+    @throws ConnectionError Quando a conexao encerra antes da mensagem completa.
+    """
     partes = []
     restante = quantidade
 
@@ -22,6 +40,13 @@ def _receber_exatamente(conexao, quantidade):
 
 
 def enviar_mensagem(conexao, dados):
+    """
+    @brief Envia um dicionario JSON com cabecalho de tamanho.
+
+    @param conexao Socket conectado.
+    @param dados Dicionario serializavel em JSON.
+    @throws ValueError Quando a mensagem excede o limite configurado.
+    """
     conteudo = json.dumps(
         dados,
         ensure_ascii=False,
@@ -35,6 +60,13 @@ def enviar_mensagem(conexao, dados):
 
 
 def receber_mensagem(conexao):
+    """
+    @brief Recebe e decodifica uma mensagem JSON completa.
+
+    @param conexao Socket conectado.
+    @return Dicionario decodificado do JSON recebido.
+    @throws ValueError Quando o tamanho anunciado e invalido.
+    """
     cabecalho = _receber_exatamente(conexao, TAMANHO_CABECALHO)
     tamanho = struct.unpack(FORMATO_CABECALHO, cabecalho)[0]
     if tamanho <= 0 or tamanho > TAMANHO_MAXIMO_MENSAGEM:

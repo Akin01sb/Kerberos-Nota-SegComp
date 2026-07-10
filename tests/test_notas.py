@@ -1,3 +1,5 @@
+"""Testes do Portal de Notas, regras professor/aluno e protecao Kerberos."""
+
 import json
 
 import pytest
@@ -37,6 +39,7 @@ from kerberos_notas.notes.service import (
 
 @pytest.fixture
 def dados_portal(tmp_path, monkeypatch):
+    """Prepara usuarios e notas isolados para testes do servico de notas."""
     NONCES_UTILIZADOS.clear()
     caminho_notas = tmp_path / "notas.json"
     caminho_notas.write_text('{"notas": {}}', encoding="utf-8")
@@ -67,6 +70,7 @@ def dados_portal(tmp_path, monkeypatch):
 
 
 def criar_ticket_notas(usuario):
+    """Cria Service Ticket valido para o usuario informado."""
     chave_base64 = bytes_para_base64(gerar_chave_simetrica())
     ticket = criar_ticket_servico(
         usuario=usuario,
@@ -80,6 +84,7 @@ def criar_ticket_notas(usuario):
 
 
 def criar_sessao_web(app, cliente, usuario, perfil):
+    """Insere uma sessao Kerberos simulada no cliente Flask de teste."""
     ticket, chave = criar_ticket_notas(usuario)
     id_sessao = f"sessao-{usuario}"
     app.extensions["sessoes_kerberos"][id_sessao] = {
@@ -95,6 +100,7 @@ def criar_sessao_web(app, cliente, usuario, perfil):
 
 
 def montar_operacao(usuario, chave, acao, dados=None, nonce="nonce-operacao"):
+    """Monta autenticador e requisicao cifrada para uma operacao do Portal."""
     requisicao = {
         "usuario": usuario,
         "acao": acao,

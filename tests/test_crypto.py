@@ -1,3 +1,5 @@
+"""Testes das primitivas criptograficas e da KDF usada pelo projeto."""
+
 import base64
 
 import pytest

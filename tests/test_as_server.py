@@ -1,3 +1,5 @@
+"""Testes do Authentication Server, desafio HMAC e emissao de TGT."""
+
 import json
 
 import pytest
@@ -26,6 +28,7 @@ from kerberos_notas.kerberos.tgs_server import emitir_ticket_servico
 
 @pytest.fixture
 def usuario_teste(tmp_path, monkeypatch):
+    """Cria um usuario temporario com salt e verificador para o AS."""
     caminho_usuarios = tmp_path / "usuarios.json"
     salt = gerar_salt()
     senha = "senha123"
@@ -56,6 +59,7 @@ def usuario_teste(tmp_path, monkeypatch):
 
 
 def autenticar_por_desafio(usuario, senha):
+    """Executa o desafio AS em modo local e retorna a resposta cifrada."""
     parametros = criar_desafio_as(usuario)
     chave_derivada = derivar_chave_senha(senha, parametros["salt"])
     chave_cliente = obter_chave_autenticacao_as(chave_derivada)
@@ -73,6 +77,7 @@ def autenticar_por_desafio(usuario, senha):
 
 
 def abrir_resposta_as(usuario_teste):
+    """Autentica o usuario de fixture e abre a resposta AS-REP."""
     resposta_criptografada, chave_cliente = autenticar_por_desafio(
         usuario_teste["usuario"],
         usuario_teste["senha"],

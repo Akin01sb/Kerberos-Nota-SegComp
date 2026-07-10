@@ -1,3 +1,5 @@
+"""Testes do fluxo Kerberos usando AS, TGS e Notas por sockets TCP."""
+
 import json
 import threading
 
@@ -25,6 +27,7 @@ from kerberos_notas.servidores.servidor_tgs import criar_servidor_tgs
 
 @pytest.fixture
 def ambiente_tcp(tmp_path, monkeypatch):
+    """Prepara usuarios, notas e tres servidores TCP em portas livres."""
     usuarios = {}
     for usuario, senha, perfil in (
         ("professor_tcp", "prof123", "professor"),
@@ -58,6 +61,7 @@ def ambiente_tcp(tmp_path, monkeypatch):
     processador_as = servidores[0].processador
 
     def registrar_requisicao_as(requisicao):
+        """Registra mensagens recebidas pelo AS para verificar ausencia de senha."""
         requisicoes_as.append(dict(requisicao))
         return processador_as(requisicao)
 

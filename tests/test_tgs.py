@@ -1,3 +1,5 @@
+"""Testes de emissao e validacao de Service Tickets pelo TGS."""
+
 import pytest
 
 from kerberos_notas.config import CHAVE_SECRETA_SERVICO_NOTAS, CHAVE_SECRETA_TGS
@@ -22,6 +24,7 @@ from kerberos_notas.kerberos.tickets import (
 
 
 def montar_tgt(usuario="ana", validade_segundos=600, timestamp_emissao=None):
+    """Monta um TGT cifrado para cenarios de teste do TGS."""
     chave_sessao = gerar_chave_simetrica()
     chave_sessao_base64 = bytes_para_base64(chave_sessao)
 

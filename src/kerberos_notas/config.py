@@ -1,3 +1,13 @@
+"""
+@file config.py
+@brief Configuracoes compartilhadas entre cliente, AS, TGS e servico.
+
+@details
+Este modulo centraliza chaves simetricas de servico, endereco dos servidores
+TCP e parametros de timeout. As chaves podem vir de variaveis de ambiente ou
+dos valores didaticos usados em ambiente local.
+"""
+
 import os
 
 from kerberos_notas.crypto.crypto_utils import base64_para_bytes
@@ -8,6 +18,14 @@ CHAVE_SECRETA_SERVICO_NOTAS_PADRAO_BASE64 = "MTExMTExMTExMTExMTExMTExMTExMTExMTE
 
 
 def _carregar_chave_base64(nome_variavel, valor_padrao):
+    """
+    @brief Carrega uma chave AES-256 codificada em Base64.
+
+    @param nome_variavel Nome da variavel de ambiente consultada.
+    @param valor_padrao Valor usado quando a variavel nao esta definida.
+    @return Tupla com o texto Base64 e a chave em bytes.
+    @throws ValueError Quando a chave decodificada nao possui 32 bytes.
+    """
     valor = os.environ.get(nome_variavel, valor_padrao)
     chave = base64_para_bytes(valor)
     if len(chave) != 32:

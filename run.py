@@ -1,3 +1,12 @@
+"""
+@file run.py
+@brief Ponto de entrada da aplicacao Flask.
+
+@details
+Cria o cliente web configurado para usar os servidores TCP reais de AS, TGS e
+Portal de Notas. O modo debug depende da variavel de ambiente `FLASK_DEBUG`.
+"""
+
 import os
 import sys
 from pathlib import Path

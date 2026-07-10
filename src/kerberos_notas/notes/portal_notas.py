@@ -1,3 +1,14 @@
+"""
+@file portal_notas.py
+@brief Servico de Notas protegido por Kerberos.
+
+@details
+Este modulo representa o servico protegido. Ele valida Service Tickets,
+autenticadores Cliente-Servico, timestamps, nonces e hash da requisicao antes
+de chamar as regras de negocio de notas. As respostas sao cifradas com a chave
+de sessao Cliente-Servico para permitir autenticacao mutua.
+"""
+
 import hashlib
 import hmac
 import json
@@ -30,6 +41,12 @@ BLOQUEIO_NONCES = RLock()
 
 
 def calcular_hash_requisicao(requisicao):
+    """
+    @brief Calcula hash canonico de uma requisicao protegida.
+
+    @param requisicao Dicionario com usuario, acao, dados e nonce.
+    @return Digest SHA-256 hexadecimal usado no autenticador.
+    """
     texto = json.dumps(
         requisicao,
         ensure_ascii=False,
@@ -40,6 +57,13 @@ def calcular_hash_requisicao(requisicao):
 
 
 def validar_ticket_portal(ticket_servico_criptografado):
+    """
+    @brief Abre e valida o Service Ticket destinado ao Portal de Notas.
+
+    @param ticket_servico_criptografado Ticket cifrado pelo TGS.
+    @return Ticket de servico em claro.
+    @throws ValueError Quando o ticket nao foi informado ou e invalido.
+    """
     if not ticket_servico_criptografado:
         raise ValueError("Service Ticket do Portal de Notas nao informado.")
 
@@ -47,6 +71,14 @@ def validar_ticket_portal(ticket_servico_criptografado):
 
 
 def _registrar_nonce(usuario, nonce, timestamp):
+    """
+    @brief Registra nonce de autenticador Cliente-Servico contra replay.
+
+    @param usuario Usuario dono do autenticador.
+    @param nonce Valor unico enviado pelo cliente.
+    @param timestamp Timestamp do autenticador validado.
+    @throws ValueError Quando o nonce esta ausente ou ja foi usado.
+    """
     if not nonce:
         raise ValueError("Autenticador Cliente-Servico sem nonce.")
 
@@ -68,6 +100,14 @@ def _registrar_nonce(usuario, nonce, timestamp):
 
 
 def _validar_autenticador_portal(ticket, autenticador_criptografado):
+    """
+    @brief Valida autenticador Cliente-Servico usando a chave do ticket.
+
+    @param ticket Service Ticket ja aberto.
+    @param autenticador_criptografado Autenticador cifrado pelo cliente.
+    @return Autenticador em claro.
+    @throws ValueError Para autenticador invalido, expirado, futuro ou reutilizado.
+    """
     chave_sessao_base64 = ticket["chave_sessao_cliente_servico"]
 
     try:
@@ -99,6 +139,13 @@ def autenticar_portal_notas(
         ticket_servico_criptografado,
         autenticador_criptografado
 ):
+    """
+    @brief Realiza a autenticacao inicial Cliente-Servico no Portal.
+
+    @param ticket_servico_criptografado Service Ticket emitido pelo TGS.
+    @param autenticador_criptografado Autenticador cifrado com a chave Cliente-Servico.
+    @return Confirmacao cifrada com timestamp incrementado e nonce do autenticador.
+    """
     ticket = validar_ticket_portal(ticket_servico_criptografado)
     autenticador = _validar_autenticador_portal(
         ticket,
@@ -125,6 +172,15 @@ def validar_confirmacao_portal(
         timestamp_esperado,
         nonce_esperado
 ):
+    """
+    @brief Valida a resposta de autenticacao mutua enviada pelo Portal.
+
+    @param chave_sessao_cliente_servico_base64 Chave Cliente-Servico.
+    @param confirmacao_criptografada Confirmacao cifrada pelo servico.
+    @param timestamp_esperado Timestamp original do autenticador.
+    @param nonce_esperado Nonce original do autenticador.
+    @return Confirmacao em claro se a autenticacao mutua for valida.
+    """
     chave_sessao = base64_para_bytes(chave_sessao_cliente_servico_base64)
 
     try:
@@ -148,6 +204,16 @@ def validar_confirmacao_portal(
 
 
 def _executar_acao(usuario, acao, dados):
+    """
+    @brief Executa a regra de negocio depois da validacao Kerberos.
+
+    @param usuario Usuario autenticado pelo Service Ticket.
+    @param acao Nome da operacao solicitada.
+    @param dados Dados da operacao.
+    @return Resultado da acao de notas.
+    @throws ValueError Quando a operacao nao existe.
+    @throws PermissionError Quando o perfil nao pode alterar notas.
+    """
     perfil = obter_perfil_usuario(usuario)
 
     if acao == "carregar_painel":
@@ -199,6 +265,15 @@ def processar_operacao_portal(
         autenticador_criptografado,
         requisicao_criptografada
 ):
+    """
+    @brief Processa uma operacao de notas protegida por Kerberos.
+
+    @param ticket_servico_criptografado Service Ticket do usuario.
+    @param autenticador_criptografado Autenticador amarrado a acao e requisicao.
+    @param requisicao_criptografada Requisicao cifrada com a chave Cliente-Servico.
+    @return Resposta cifrada com o resultado da operacao.
+    @throws ValueError Quando ticket, autenticador, nonce, acao ou hash falham.
+    """
     ticket = validar_ticket_portal(ticket_servico_criptografado)
     autenticador = _validar_autenticador_portal(
         ticket,
@@ -255,6 +330,16 @@ def validar_resposta_operacao(
         timestamp_esperado,
         nonce_esperado
 ):
+    """
+    @brief Valida a resposta cifrada do Portal para uma operacao.
+
+    @param chave_sessao_cliente_servico_base64 Chave Cliente-Servico.
+    @param resposta_criptografada Resposta cifrada pelo Portal.
+    @param acao_esperada Acao que o cliente executou.
+    @param timestamp_esperado Timestamp do autenticador enviado.
+    @param nonce_esperado Nonce usado na operacao.
+    @return Resposta em claro validada.
+    """
     chave_sessao = base64_para_bytes(chave_sessao_cliente_servico_base64)
 
     try:

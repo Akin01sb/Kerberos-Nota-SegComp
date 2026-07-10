@@ -1,3 +1,12 @@
+"""
+@file iniciar_servidores.py
+@brief Inicia AS, TGS e Portal de Notas em processos separados.
+
+@details
+O script facilita a demonstracao da separacao real por sockets, mantendo cada
+componente Kerberos em um processo proprio.
+"""
+
 import multiprocessing
 import sys
 from pathlib import Path
@@ -12,6 +21,7 @@ from kerberos_notas.servidores.servidor_tgs import executar_servidor_tgs
 
 
 def main():
+    """@brief Sobe os tres servidores e aguarda ate Ctrl+C."""
     processos = [
         multiprocessing.Process(
             target=executar_servidor_as,

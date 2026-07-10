@@ -1,3 +1,12 @@
+"""
+@file repository.py
+@brief Persistencia das notas em arquivo JSON.
+
+@details
+O repositorio guarda notas em `data/notas.json`, agrupadas por aluno. Um lock
+protege as operacoes de leitura/escrita durante requisicoes simultaneas.
+"""
+
 from pathlib import Path
 from datetime import datetime, timezone
 from threading import RLock
@@ -11,6 +20,12 @@ BLOQUEIO_NOTAS = RLock()
 
 
 def _normalizar_dados(dados):
+    """
+    @brief Garante que a estrutura raiz de notas esteja no formato esperado.
+
+    @param dados Conteudo carregado do JSON.
+    @return Dicionario com a chave `notas`.
+    """
     if not isinstance(dados, dict):
         return {"notas": {}}
 
@@ -24,21 +39,30 @@ def _normalizar_dados(dados):
 
 
 def carregar_notas():
+    """@brief Carrega o arquivo de notas ou retorna estrutura vazia."""
     dados = carregar_json(CAMINHO_NOTAS, {"notas": {}})
     return _normalizar_dados(dados)
 
 
 def salvar_notas(dados):
+    """@brief Salva o arquivo de notas apos normalizar a estrutura."""
     salvar_json(CAMINHO_NOTAS, _normalizar_dados(dados))
 
 
 def listar_notas_usuario(usuario):
+    """
+    @brief Lista as notas de um aluno especifico.
+
+    @param usuario Aluno dono das notas.
+    @return Lista de notas do aluno.
+    """
     with BLOQUEIO_NOTAS:
         dados = carregar_notas()
         return list(dados["notas"].get(usuario, []))
 
 
 def listar_todas_notas():
+    """@brief Retorna todas as notas, incluindo o aluno em cada item."""
     with BLOQUEIO_NOTAS:
         dados = carregar_notas()
         notas = []
@@ -53,6 +77,13 @@ def listar_todas_notas():
 
 
 def adicionar_nota_usuario(usuario, nota):
+    """
+    @brief Adiciona uma nota ao aluno informado.
+
+    @param usuario Aluno dono da nota.
+    @param nota Dados ja validados pela camada de servico.
+    @return Nota salva com id e timestamps.
+    """
     with BLOQUEIO_NOTAS:
         dados = carregar_notas()
         notas_usuario = dados["notas"].setdefault(usuario, [])
@@ -75,6 +106,12 @@ def adicionar_nota_usuario(usuario, nota):
 
 
 def buscar_nota_por_id(nota_id):
+    """
+    @brief Procura uma nota pelo identificador global.
+
+    @param nota_id Identificador da nota.
+    @return Copia da nota encontrada ou None.
+    """
     with BLOQUEIO_NOTAS:
         dados = carregar_notas()
 
@@ -89,6 +126,14 @@ def buscar_nota_por_id(nota_id):
 
 
 def atualizar_nota_por_id(nota_id, campos):
+    """
+    @brief Atualiza campos de uma nota existente.
+
+    @param nota_id Identificador da nota.
+    @param campos Campos validados para sobrescrever.
+    @return Copia da nota atualizada.
+    @throws ValueError Quando a nota nao existe.
+    """
     with BLOQUEIO_NOTAS:
         dados = carregar_notas()
 
@@ -107,6 +152,13 @@ def atualizar_nota_por_id(nota_id, campos):
 
 
 def excluir_nota_por_id(nota_id):
+    """
+    @brief Remove uma nota pelo identificador.
+
+    @param nota_id Identificador da nota.
+    @return Nota removida.
+    @throws ValueError Quando a nota nao existe.
+    """
     with BLOQUEIO_NOTAS:
         dados = carregar_notas()
 
