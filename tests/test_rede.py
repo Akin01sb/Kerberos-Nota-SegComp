@@ -225,13 +225,13 @@ def test_desafio_do_as_nao_pode_ser_reutilizado(ambiente_tcp):
         parametros["desafio"],
     )
 
-    cliente.autenticar_no_as(
+    cliente.enviar_prova_as(
         "professor_tcp",
         parametros["desafio"],
         prova,
     )
     with pytest.raises(ValueError, match="Desafio de autenticacao invalido"):
-        cliente.autenticar_no_as(
+        cliente.enviar_prova_as(
             "professor_tcp",
             parametros["desafio"],
             prova,

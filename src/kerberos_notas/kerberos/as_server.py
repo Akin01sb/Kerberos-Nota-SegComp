@@ -14,9 +14,7 @@ from kerberos_notas.crypto.crypto_utils import (
 )
 from kerberos_notas.crypto.kdf import (
     ITERACOES_PBKDF2,
-    derivar_chave_senha,
     gerar_prova_as,
-    gerar_verificador_chave,
 )
 from kerberos_notas.kerberos.tickets import criar_tgt, timestamp_atual
 
@@ -34,26 +32,6 @@ def carregar_usuarios() -> dict:
 
     with open(CAMINHO_USUARIOS, "r", encoding="utf-8") as arquivo:
         return json.load(arquivo)
-
-
-def validar_usuario_no_as(nome_usuario: str, senha: str) -> bytes:
-    dados_usuarios = carregar_usuarios()
-    usuarios = dados_usuarios.get("usuarios", {})
-
-    if nome_usuario not in usuarios:
-        raise ValueError("Usuario nao encontrado.")
-
-    dados_usuario = usuarios[nome_usuario]
-    salt = dados_usuario["salt"]
-    verificador_salvo = dados_usuario["verificador"]
-
-    chave_cliente = derivar_chave_senha(senha, salt)
-    verificador_calculado = gerar_verificador_chave(chave_cliente)
-
-    if verificador_calculado != verificador_salvo:
-        raise ValueError("Senha invalida.")
-
-    return chave_cliente
 
 
 def obter_dados_usuario(nome_usuario: str) -> dict:
@@ -167,17 +145,3 @@ def gerar_tgt(
     tgt["nonce"] = uuid.uuid4().hex
 
     return tgt
-
-
-def autenticar_no_as(
-        nome_usuario: str,
-        senha: str,
-        validade_segundos: int = TEMPO_VALIDADE_TGT
-) -> dict:
-    # valida usuario e senha usando a chave derivada pela KDF
-    chave_cliente = validar_usuario_no_as(nome_usuario, senha)
-    return _emitir_resposta_as(
-        nome_usuario,
-        chave_cliente,
-        validade_segundos,
-    )

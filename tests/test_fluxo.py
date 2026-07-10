@@ -40,7 +40,11 @@ def ambiente_completo(tmp_path, monkeypatch):
 
 
 def test_fluxo_as_tgs_portal_com_autenticacao_mutua(ambiente_completo):
-    resultado = autenticar_com_kerberos("professor_demo", "prof123")
+    resultado = autenticar_com_kerberos(
+        "professor_demo",
+        "prof123",
+        usar_rede=False,
+    )
 
     assert resultado["perfil"] == "professor"
     assert resultado["portal_autenticado"] is True
@@ -54,7 +58,7 @@ def test_fluxo_as_tgs_portal_com_autenticacao_mutua(ambiente_completo):
 
 
 def test_fluxo_web_professor_lanca_e_aluno_consulta(ambiente_completo):
-    app = create_app()
+    app = create_app(usar_rede=False)
     app.config["TESTING"] = True
 
     with app.test_client() as professor:

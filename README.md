@@ -81,6 +81,9 @@ python -m venv .venv
 python -m pip install -e .
 ```
 
+Esse comando instala as dependências da aplicação e dos testes: Flask,
+Cryptography e Pytest.
+
 ## Executar
 
 Abra dois terminais na raiz do projeto.
@@ -106,6 +109,13 @@ As portas podem ser alteradas pelas variáveis `KERBEROS_PORTA_AS`,
 
 As chaves acadêmicas padrão permitem executar o projeto imediatamente. Para
 substituí-las, defina valores Base64 que representem 32 bytes:
+
+```powershell
+python scripts/gerar_chaves.py
+```
+
+Use os comandos gerados no terminal dos servidores e no terminal do Flask antes
+de iniciar a aplicação:
 
 ```powershell
 $env:KERBEROS_CHAVE_TGS='<chave-base64>'
@@ -145,7 +155,9 @@ scripts/
   iniciar_servidores.py
 data/           usuários e notas em JSON
 tests/          testes unitários e de integração TCP
-docs/           relatório e roteiro de apresentação
+docs/
+  relatorio_tecnico.md
+  roteiro_video_apresentacao.md
 ```
 
 ## Limitações acadêmicas

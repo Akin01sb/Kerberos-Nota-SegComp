@@ -50,7 +50,7 @@ kerberos-notas-base/
 |   `-- test_fluxo.py
 `-- docs/
     |-- fluxo_kerberos.md
-    |-- relatorio_tecnico_base.md
+    |-- relatorio_tecnico.md
     `-- README_TESTES_E_DEMO.md
 ```
 
@@ -279,7 +279,7 @@ No explorador do VS Code, expanda:
 Abra rapidamente `run.py` e mostre:
 
 ```python
-app = create_app()
+app = create_app(usar_rede=True)
 ```
 
 ### Requisitos comprovados
@@ -752,7 +752,7 @@ Tempo estimado: 1 minuto.
 Abra:
 
 - `README.md`, seção “Limitações acadêmicas”;
-- `docs/relatorio_tecnico_base.md`, seção “Limitações”.
+- `docs/relatorio_tecnico.md`, seção “Limitações”.
 
 ### O que falar
 
@@ -802,7 +802,7 @@ Abra:
 | 21. Sem ticket não acessa | Sessão e ticket obrigatórios | `routes.py`: `exigir_sessao_kerberos`, `validar_ticket_notas`; `test_rota_recusa_acesso_sem_service_ticket` | Abrir rota sem login e mostrar teste |
 | 22. Testes | 48 testes automatizados | pasta `tests/` | Executar `python -m pytest -q` |
 | 23. Logs didáticos | Etapas armazenadas e exibidas | `routes.py`: `registrar_etapa`; `templates/notas.html` | Abrir os logs no painel |
-| 24. Limitações | Restrições documentadas | `README.md`; `docs/relatorio_tecnico_base.md` | Mostrar a seção final |
+| 24. Limitações | Restrições documentadas | `README.md`; `docs/relatorio_tecnico.md` | Mostrar a seção final |
 
 # Pontos de atenção e lacunas
 

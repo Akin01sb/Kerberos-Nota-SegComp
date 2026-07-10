@@ -245,7 +245,7 @@ def test_portal_rejeita_autenticador_de_outra_acao(dados_portal):
 
 
 def test_rota_professor_salva_e_exibe_nota(dados_portal):
-    app = create_app()
+    app = create_app(usar_rede=False)
     app.config["TESTING"] = True
 
     with app.test_client() as cliente:
@@ -271,7 +271,7 @@ def test_rota_professor_salva_e_exibe_nota(dados_portal):
 
 def test_rotas_editar_e_excluir_usam_operacao_kerberos(dados_portal):
     nota = criar_nota("prof", "ana", "Redes", 7)
-    app = create_app()
+    app = create_app(usar_rede=False)
     app.config["TESTING"] = True
 
     with app.test_client() as cliente:
@@ -298,7 +298,7 @@ def test_rotas_editar_e_excluir_usam_operacao_kerberos(dados_portal):
 
 def test_rota_impede_aluno_de_editar_nota(dados_portal):
     nota = criar_nota("prof", "ana", "Redes", 7)
-    app = create_app()
+    app = create_app(usar_rede=False)
     app.config["TESTING"] = True
 
     with app.test_client() as cliente:
@@ -318,7 +318,7 @@ def test_rota_impede_aluno_de_editar_nota(dados_portal):
 
 def test_rota_impede_aluno_de_excluir_nota(dados_portal):
     nota = criar_nota("prof", "ana", "Redes", 7)
-    app = create_app()
+    app = create_app(usar_rede=False)
     app.config["TESTING"] = True
 
     with app.test_client() as cliente:
@@ -330,7 +330,7 @@ def test_rota_impede_aluno_de_excluir_nota(dados_portal):
 
 
 def test_rota_impede_aluno_de_lancar_nota(dados_portal):
-    app = create_app()
+    app = create_app(usar_rede=False)
     app.config["TESTING"] = True
 
     with app.test_client() as cliente:
@@ -376,7 +376,7 @@ def test_portal_recusa_ticket_expirado_durante_operacao(dados_portal):
 
 
 def test_rota_recusa_acesso_sem_service_ticket(dados_portal):
-    app = create_app()
+    app = create_app(usar_rede=False)
     app.config["TESTING"] = True
 
     with app.test_client() as cliente:

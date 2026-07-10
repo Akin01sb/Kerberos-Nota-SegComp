@@ -10,11 +10,16 @@ from kerberos_notas.crypto.crypto_utils import (
 )
 from kerberos_notas.crypto.kdf import (
     derivar_chave_senha,
+    gerar_prova_as,
     gerar_salt,
     gerar_verificador_chave,
+    obter_chave_autenticacao_as,
 )
 from kerberos_notas.kerberos import as_server
-from kerberos_notas.kerberos.as_server import autenticar_no_as
+from kerberos_notas.kerberos.as_server import (
+    autenticar_no_as_com_prova,
+    criar_desafio_as,
+)
 from kerberos_notas.kerberos.authenticator import criar_autenticador
 from kerberos_notas.kerberos.tgs_server import emitir_ticket_servico
 
@@ -46,18 +51,35 @@ def usuario_teste(tmp_path, monkeypatch):
         "usuario": "ana",
         "senha": senha,
         "salt": salt,
-        "chave_cliente": chave_cliente
+        "chave_cliente": obter_chave_autenticacao_as(chave_cliente),
     }
 
 
+def autenticar_por_desafio(usuario, senha):
+    parametros = criar_desafio_as(usuario)
+    chave_derivada = derivar_chave_senha(senha, parametros["salt"])
+    chave_cliente = obter_chave_autenticacao_as(chave_derivada)
+    prova = gerar_prova_as(
+        chave_cliente,
+        usuario,
+        parametros["desafio"],
+    )
+    resposta_criptografada = autenticar_no_as_com_prova(
+        usuario,
+        parametros["desafio"],
+        prova,
+    )
+    return resposta_criptografada, chave_cliente
+
+
 def abrir_resposta_as(usuario_teste):
-    resposta_criptografada = autenticar_no_as(
+    resposta_criptografada, chave_cliente = autenticar_por_desafio(
         usuario_teste["usuario"],
-        usuario_teste["senha"]
+        usuario_teste["senha"],
     )
 
     return descriptografar_json(
-        usuario_teste["chave_cliente"],
+        chave_cliente,
         resposta_criptografada
     )
 
@@ -72,12 +94,12 @@ def test_as_autentica_usuario_valido(usuario_teste):
 
 def test_as_rejeita_usuario_inexistente(usuario_teste):
     with pytest.raises(ValueError, match="Usuario nao encontrado"):
-        autenticar_no_as("usuario_errado", "senha123")
+        criar_desafio_as("usuario_errado")
 
 
 def test_as_rejeita_senha_invalida(usuario_teste):
     with pytest.raises(ValueError, match="Senha invalida"):
-        autenticar_no_as("ana", "senha_errada")
+        autenticar_por_desafio("ana", "senha_errada")
 
 
 def test_as_gera_tgt_valido_com_dados_necessarios(usuario_teste):
@@ -124,7 +146,7 @@ def test_tgt_do_as_e_aceito_pelo_tgs(usuario_teste):
 
 
 def test_resposta_do_as_pode_seguir_fluxo_do_cliente(usuario_teste):
-    resultado = autenticar_com_kerberos("ana", "senha123")
+    resultado = autenticar_com_kerberos("ana", "senha123", usar_rede=False)
 
     assert resultado["ticket_servico"]
     assert resultado["chave_sessao_servico"]

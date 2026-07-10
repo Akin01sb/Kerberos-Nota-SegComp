@@ -53,7 +53,7 @@ class ClienteKerberosTCP:
             {"acao": "obter_parametros", "usuario": usuario},
         )
 
-    def autenticar_no_as(self, usuario, desafio, prova):
+    def enviar_prova_as(self, usuario, desafio, prova):
         return self._solicitar(
             self.porta_as,
             {

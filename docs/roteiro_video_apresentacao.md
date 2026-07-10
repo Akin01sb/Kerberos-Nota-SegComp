@@ -107,7 +107,7 @@ Mostrar:
 - `scripts/iniciar_servidores.py`, linhas 16, 20 e 24;
 - `src/kerberos_notas/rede/servidor.py`, linhas 6, 19 e 31;
 - `src/kerberos_notas/rede/protocolo.py`, linhas 24 e 37;
-- `src/kerberos_notas/rede/cliente_tcp.py`, linhas 13, 35, 36, 50, 67 e 95;
+- `src/kerberos_notas/rede/cliente_tcp.py`, linhas 13, 35, 36, 50, 56, 67 e 95;
 - `run.py`, linha 11.
 
 Fala para ler:
@@ -124,14 +124,14 @@ O que destacar na tela:
 - `multiprocessing.Process` para AS, TGS e Notas;
 - `ThreadingTCPServer`;
 - `enviar_mensagem` e `receber_mensagem`;
-- metodos `solicitar_parametros_as`, `solicitar_ticket_servico` e
-  `executar_operacao`.
+- metodos `solicitar_parametros_as`, `enviar_prova_as`,
+  `solicitar_ticket_servico` e `executar_operacao`.
 
 ### Cena 2: criptografia simetrica e primitivas permitidas
 
 Mostrar:
 
-- `src/kerberos_notas/config.py`, linhas 6, 10, 15 e 16;
+- `src/kerberos_notas/config.py`, linhas 6, 10, 20, 25 e 32;
 - `src/kerberos_notas/crypto/crypto_utils.py`, linhas 4, 26, 33, 38, 50, 55 e
   59.
 
@@ -156,7 +156,7 @@ O que destacar na tela:
 Mostrar:
 
 - `src/kerberos_notas/crypto/kdf.py`, linhas 8, 37, 41 e 71;
-- `src/kerberos_notas/client/routes.py`, linhas 53, 54, 59 e 83;
+- `src/kerberos_notas/client/routes.py`, linhas 56, 60, 63, 65 e 90;
 - `data/usuarios.json`, mostrando apenas `salt`, `verificador` e `perfil`.
 
 Fala para ler:
@@ -179,8 +179,8 @@ O que destacar na tela:
 Mostrar:
 
 - `src/kerberos_notas/servidores/servidor_as.py`, linhas 14 e 17;
-- `src/kerberos_notas/kerberos/as_server.py`, linhas 66, 87, 105, 115, 118, 134
-  e 157;
+- `src/kerberos_notas/kerberos/as_server.py`, linhas 44, 65, 83, 93, 96, 112
+  e 135;
 - `src/kerberos_notas/kerberos/tickets.py`, linha 20.
 
 Fala para ler:
@@ -254,7 +254,7 @@ O que destacar na tela:
 
 Mostrar:
 
-- `src/kerberos_notas/client/routes.py`, linhas 112, 129 e 136;
+- `src/kerberos_notas/client/routes.py`, linhas 119, 131 e 143;
 - `src/kerberos_notas/notes/portal_notas.py`, linhas 98, 119, 122 e 131.
 
 Fala para ler:
@@ -277,8 +277,8 @@ O que destacar na tela:
 
 Mostrar:
 
-- `src/kerberos_notas/client/routes.py`, linhas 189, 200, 204, 219, 360, 375,
-  404 e 434;
+- `src/kerberos_notas/client/routes.py`, linhas 196, 207, 211, 226, 366, 381,
+  410 e 440;
 - `src/kerberos_notas/notes/portal_notas.py`, linhas 197, 211, 229, 248, 261,
   160, 170, 178 e 188;
 - `src/kerberos_notas/notes/service.py`, linhas 48, 63, 94, 128 e 153.
@@ -744,7 +744,7 @@ Para finalizar, vamos falar das limitacoes. O projeto foi feito para fins
 academicos, entao existem escolhas didaticas:
 
 - as chaves padrao existem para facilitar a execucao, mas podem ser trocadas
-  por variaveis de ambiente;
+  por variaveis de ambiente geradas com `scripts/gerar_chaves.py`;
 - os servidores usam TCP local, mas em um ambiente real entre maquinas seria
   recomendado usar TLS;
 - o navegador conversa com o Flask por HTTP local, mas em producao seria

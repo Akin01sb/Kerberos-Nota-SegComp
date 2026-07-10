@@ -15,7 +15,10 @@ from kerberos_notas.crypto.kdf import (
     gerar_prova_as,
     obter_chave_autenticacao_as,
 )
-from kerberos_notas.kerberos.as_server import autenticar_no_as, carregar_usuarios
+from kerberos_notas.kerberos.as_server import (
+    autenticar_no_as_com_prova,
+    criar_desafio_as,
+)
 from kerberos_notas.kerberos.authenticator import abrir_autenticador, criar_autenticador
 from kerberos_notas.kerberos.tgs_server import emitir_ticket_servico
 from kerberos_notas.notes.portal_notas import (
@@ -41,41 +44,45 @@ def registrar_etapa(logs, mensagem):
 def autenticar_com_kerberos(
         usuario,
         senha,
-        usar_rede=False,
+        usar_rede=True,
         cliente_tcp=None
 ):
     logs = []
     registrar_etapa(logs, "[CLIENTE] Senha informada localmente pelo usuario.")
     registrar_etapa(logs, "[CLIENTE] Solicitando autenticacao ao AS.")
 
+    cliente_tcp = cliente_tcp or ClienteKerberosTCP()
     if usar_rede:
-        cliente_tcp = cliente_tcp or ClienteKerberosTCP()
         parametros_as = cliente_tcp.solicitar_parametros_as(usuario)
-        if parametros_as.get("iteracoes_kdf") != ITERACOES_PBKDF2:
-            raise ValueError("Parametros KDF recebidos do AS sao invalidos.")
+    else:
+        parametros_as = criar_desafio_as(usuario)
 
-        chave_derivada = derivar_chave_senha(senha, parametros_as["salt"])
-        chave_cliente = obter_chave_autenticacao_as(chave_derivada)
-        prova = gerar_prova_as(
-            chave_cliente,
-            usuario,
-            parametros_as["desafio"],
-        )
-        resposta_as_criptografada = cliente_tcp.autenticar_no_as(
+    if parametros_as.get("iteracoes_kdf") != ITERACOES_PBKDF2:
+        raise ValueError("Parametros KDF recebidos do AS sao invalidos.")
+
+    chave_derivada = derivar_chave_senha(senha, parametros_as["salt"])
+    chave_cliente = obter_chave_autenticacao_as(chave_derivada)
+    prova = gerar_prova_as(
+        chave_cliente,
+        usuario,
+        parametros_as["desafio"],
+    )
+    if usar_rede:
+        resposta_as_criptografada = cliente_tcp.enviar_prova_as(
             usuario,
             parametros_as["desafio"],
             prova,
         )
-        registrar_etapa(
-            logs,
-            "[AS] Prova criptografica do usuario validada.",
-        )
     else:
-        resposta_as_criptografada = autenticar_no_as(usuario, senha)
-        usuarios = carregar_usuarios().get("usuarios", {})
-        salt = usuarios[usuario]["salt"]
-        chave_cliente = derivar_chave_senha(senha, salt)
-        registrar_etapa(logs, "[AS] Usuario encontrado e senha validada.")
+        resposta_as_criptografada = autenticar_no_as_com_prova(
+            usuario,
+            parametros_as["desafio"],
+            prova,
+        )
+    registrar_etapa(
+        logs,
+        "[AS] Prova criptografica do usuario validada.",
+    )
 
     registrar_etapa(logs, "[AS] TGT emitido com sucesso.")
     registrar_etapa(logs, "[CLIENTE] Chave derivada com PBKDF2-HMAC-SHA256.")
@@ -246,7 +253,7 @@ def executar_operacao_kerberos(dados_sessao, acao, dados=None):
     return resposta["resultado"]
 
 
-def create_app(usar_rede=False, cliente_tcp=None):
+def create_app(usar_rede=True, cliente_tcp=None):
     app = Flask(
         __name__,
         template_folder=str(BASE_DIR / "templates"),
@@ -254,8 +261,7 @@ def create_app(usar_rede=False, cliente_tcp=None):
     )
     app.secret_key = os.environ.get(
         "FLASK_SECRET_KEY",
-        "chave-dev-apenas-para-trabalho",
-    )
+    ) or secrets.token_hex(32)
     app.config["KERBEROS_USAR_REDE"] = usar_rede
 
     # O cookie recebe somente este identificador. Tickets e chaves ficam no servidor.

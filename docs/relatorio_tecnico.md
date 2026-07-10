@@ -1,4 +1,9 @@
-# Relatório técnico base
+# Relatório técnico - Portal de Notas com Kerberos
+
+Este documento descreve a versão final do projeto acadêmico de Segurança
+Computacional. O foco é evidenciar a implementação manual do fluxo Kerberos,
+sem bibliotecas prontas do protocolo, usando somente primitivas criptográficas
+básicas.
 
 ## 1. Introdução
 
@@ -132,10 +137,36 @@ operação, CRUD, isolamento entre alunos, fluxo web e comunicação TCP real.
 
 As chaves didáticas possuem valores padrão, os dados ficam em JSON e sessões e
 nonces utilizados são mantidos somente em memória. As chaves podem ser
-substituídas por variáveis de ambiente. Em uma implantação real seriam usados
-um banco de dados, HTTPS entre navegador e Flask e TLS entre máquinas.
+substituídas por variáveis de ambiente, e o script `scripts/gerar_chaves.py`
+gera valores Base64 adequados para essa configuração. Em uma implantação real
+seriam usados um banco de dados, HTTPS entre navegador e Flask e TLS entre
+máquinas.
 
-## 12. Conclusão
+Também existe um modo local usado pelos testes automatizados para chamar as
+funções do AS, TGS e Portal no mesmo processo. Esse modo não envia senha ao AS:
+ele usa o mesmo mecanismo de desafio e prova HMAC do fluxo TCP. A execução real
+do projeto via `run.py` usa `create_app(usar_rede=True)` e passa pelos sockets
+AS, TGS e Portal.
+
+## 12. Dificuldades e aprendizados
+
+As principais dificuldades foram separar o fluxo Kerberos em etapas claras,
+evitar que a senha atravessasse a rede, proteger tickets e autenticadores contra
+adulteração e replay, e manter o serviço de notas simples sem enfraquecer a
+autenticação.
+
+Os principais aprendizados foram:
+
+- a senha não deve ser usada diretamente como segredo trafegado;
+- tickets precisam ser protegidos com chaves conhecidas apenas pelos servidores
+  corretos;
+- autenticadores precisam de timestamp e nonce para evitar reutilização;
+- autenticação mútua exige que o serviço também prove conhecer a chave de
+  sessão;
+- separar AS, TGS e serviço por sockets torna o fluxo mais fiel ao Kerberos
+  apresentado em aula.
+
+## 13. Conclusão
 
 O projeto demonstra o caminho completo Cliente -> AS -> TGS -> Portal de Notas.
 A senha é usada somente na autenticação inicial; depois, tickets, autenticadores
