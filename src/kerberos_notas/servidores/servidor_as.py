@@ -12,6 +12,7 @@ from kerberos_notas.kerberos.as_server import (
     autenticar_no_as_com_prova,
     criar_desafio_as,
 )
+from kerberos_notas.logs import log_erro, log_evento, log_ok
 from kerberos_notas.rede.servidor import criar_servidor_tcp
 
 
@@ -25,17 +26,38 @@ def processar_requisicao_as(requisicao):
     """
     acao = requisicao.get("acao")
     usuario = requisicao.get("usuario", "")
+    log_evento(
+        "AS",
+        "Processando acao recebida pelo servidor de autenticacao",
+        {
+            "acao": acao,
+            "usuario": usuario,
+        },
+    )
 
     if acao == "obter_parametros":
-        return criar_desafio_as(usuario)
+        resposta = criar_desafio_as(usuario)
+        log_ok(
+            "AS",
+            "Parametros de autenticacao enviados ao cliente",
+            resposta,
+        )
+        return resposta
 
     if acao == "autenticar":
-        return autenticar_no_as_com_prova(
+        resposta = autenticar_no_as_com_prova(
             usuario,
             requisicao.get("desafio", ""),
             requisicao.get("prova", ""),
         )
+        log_ok(
+            "AS",
+            "AS-REP cifrado emitido para o cliente",
+            {"usuario": usuario, "resposta_as": resposta},
+        )
+        return resposta
 
+    log_erro("AS", "Acao desconhecida recebida", {"acao": acao})
     raise ValueError("Acao desconhecida no AS.")
 
 
@@ -58,7 +80,11 @@ def criar_servidor_as(host=HOST_KERBEROS, porta=PORTA_AS):
 def executar_servidor_as(host=HOST_KERBEROS, porta=PORTA_AS):
     """@brief Executa o AS em loop ate interrupcao externa."""
     with criar_servidor_as(host, porta) as servidor:
-        print(f"[AS] Servidor ouvindo em {host}:{servidor.server_address[1]}.")
+        log_ok(
+            "AS",
+            "Servidor de Autenticacao ouvindo",
+            {"host": host, "porta": servidor.server_address[1]},
+        )
         servidor.serve_forever()
 
 

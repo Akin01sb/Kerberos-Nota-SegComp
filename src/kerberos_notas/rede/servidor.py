@@ -9,6 +9,7 @@ processador especifico de negocio, como AS, TGS ou Portal de Notas.
 
 import socketserver
 
+from kerberos_notas.logs import log_erro, log_evento, log_ok
 from kerberos_notas.rede.protocolo import enviar_mensagem, receber_mensagem
 
 
@@ -35,19 +36,50 @@ class ManipuladorKerberos(socketserver.BaseRequestHandler):
 
     def handle(self):
         """@brief Recebe uma requisicao, executa o processador e envia resposta."""
+        componente = (
+            "PORTAL NOTAS"
+            if self.server.nome == "NOTAS"
+            else self.server.nome
+        )
         try:
             requisicao = receber_mensagem(self.request)
             acao = requisicao.get("acao", "desconhecida")
-            print(f"[{self.server.nome}] {self.client_address[0]} solicitou {acao}.")
+            log_evento(
+                componente,
+                "Requisicao TCP recebida",
+                {
+                    "cliente": self.client_address[0],
+                    "acao": acao,
+                    "requisicao": requisicao,
+                },
+            )
             resultado = self.server.processador(requisicao)
             resposta = {"sucesso": True, "resultado": resultado}
+            log_ok(
+                componente,
+                "Requisicao TCP processada com sucesso",
+                {
+                    "acao": acao,
+                    "resposta": resposta,
+                },
+            )
         except Exception as erro:
             resposta = {
                 "sucesso": False,
                 "tipo_erro": type(erro).__name__,
                 "erro": str(erro),
             }
+            log_erro(
+                componente,
+                "Erro ao processar requisicao TCP",
+                resposta,
+            )
 
+        log_evento(
+            componente,
+            "Enviando resposta TCP",
+            {"resposta": resposta},
+        )
         enviar_mensagem(self.request, resposta)
 
 

@@ -38,6 +38,7 @@ from kerberos_notas.crypto.kdf import (
     gerar_prova_as,
 )
 from kerberos_notas.kerberos.tickets import criar_tgt, timestamp_atual
+from kerberos_notas.logs import log_erro, log_evento, log_ok
 
 
 CAMINHO_USUARIOS = Path(__file__).resolve().parents[3] / "data" / "usuarios.json"
@@ -119,6 +120,7 @@ def obter_dados_usuario(nome_usuario: str) -> dict:
     """
     usuarios = carregar_usuarios().get("usuarios", {})
     if nome_usuario not in usuarios:
+        log_erro("AS", "Usuario nao encontrado no cadastro", {"usuario": nome_usuario})
         raise ValueError("Usuario nao encontrado.")
     return usuarios[nome_usuario]
 
@@ -157,6 +159,11 @@ def criar_desafio_as(nome_usuario: str) -> dict:
     conhecimento da senha.
     ***************************************************************************
     """
+    log_evento(
+        "AS",
+        "AS-REQ recebido: cliente pediu parametros de autenticacao",
+        {"usuario": nome_usuario},
+    )
     dados_usuario = obter_dados_usuario(nome_usuario)
     agora = timestamp_atual()
 
@@ -174,12 +181,18 @@ def criar_desafio_as(nome_usuario: str) -> dict:
             "usuario": nome_usuario,
             "timestamp": agora,
         }
-    return {
+    resposta = {
         "usuario": nome_usuario,
         "salt": dados_usuario["salt"],
         "iteracoes_kdf": ITERACOES_PBKDF2,
         "desafio": desafio,
     }
+    log_ok(
+        "AS",
+        "Desafio de autenticacao criado",
+        resposta,
+    )
+    return resposta
 
 
 def _emitir_resposta_as(
@@ -222,6 +235,14 @@ def _emitir_resposta_as(
     com a chave secreta do TGS.
     ***************************************************************************
     """
+    log_evento(
+        "AS",
+        "Emitindo resposta AS-REP cifrada",
+        {
+            "usuario": nome_usuario,
+            "validade_segundos": validade_segundos,
+        },
+    )
     chave_sessao_cliente_tgs = gerar_chave_simetrica()
     chave_sessao_cliente_tgs_base64 = bytes_para_base64(chave_sessao_cliente_tgs)
 
@@ -240,7 +261,16 @@ def _emitir_resposta_as(
         "validade_segundos": tgt["validade_segundos"],
         "nonce_tgt": tgt["nonce"],
     }
-    return criptografar_json(chave_cliente, resposta_para_cliente)
+    resposta_cifrada = criptografar_json(chave_cliente, resposta_para_cliente)
+    log_ok(
+        "AS",
+        "AS-REP criado com chave Cliente-TGS e TGT cifrado",
+        {
+            "resposta_para_cliente": resposta_para_cliente,
+            "resposta_cifrada": resposta_cifrada,
+        },
+    )
+    return resposta_cifrada
 
 
 def autenticar_no_as_com_prova(
@@ -286,12 +316,36 @@ def autenticar_no_as_com_prova(
     senha por desafio e HMAC.
     ***************************************************************************
     """
+    log_evento(
+        "AS",
+        "Validando prova HMAC enviada pelo cliente",
+        {
+            "usuario": nome_usuario,
+            "desafio": desafio,
+            "prova": prova,
+            "validade_segundos": validade_segundos,
+        },
+    )
     with BLOQUEIO_DESAFIOS_AS:
         dados_desafio = DESAFIOS_AS.pop(desafio, None)
     if not dados_desafio or dados_desafio["usuario"] != nome_usuario:
+        log_erro(
+            "AS",
+            "Desafio invalido ou pertencente a outro usuario",
+            {"usuario": nome_usuario, "desafio": desafio},
+        )
         raise ValueError("Desafio de autenticacao invalido.")
 
     if dados_desafio["timestamp"] < timestamp_atual() - TEMPO_VALIDADE_DESAFIO:
+        log_erro(
+            "AS",
+            "Desafio expirado",
+            {
+                "usuario": nome_usuario,
+                "desafio": desafio,
+                "timestamp_desafio": dados_desafio["timestamp"],
+            },
+        )
         raise ValueError("Desafio de autenticacao expirado.")
 
     dados_usuario = obter_dados_usuario(nome_usuario)
@@ -302,8 +356,22 @@ def autenticar_no_as_com_prova(
         desafio,
     )
     if not hmac.compare_digest(prova_esperada, prova):
+        log_erro(
+            "AS",
+            "Prova HMAC nao corresponde ao verificador do usuario",
+            {
+                "usuario": nome_usuario,
+                "prova_recebida": prova,
+                "prova_esperada": prova_esperada,
+            },
+        )
         raise ValueError("Senha invalida.")
 
+    log_ok(
+        "AS",
+        "Prova HMAC validada; usuario autenticado no AS",
+        {"usuario": nome_usuario},
+    )
     return _emitir_resposta_as(
         nome_usuario,
         chave_autenticacao,
@@ -351,6 +419,11 @@ def gerar_tgt(
     ***************************************************************************
     """
     if validade_segundos <= 0:
+        log_erro(
+            "AS",
+            "Validade invalida para TGT",
+            {"usuario": nome_usuario, "validade_segundos": validade_segundos},
+        )
         raise ValueError("Validade do TGT invalida.")
 
     tgt = criar_tgt(
@@ -365,4 +438,12 @@ def gerar_tgt(
     tgt["timestamp_expiracao"] = tgt["timestamp_emissao"] + validade_segundos
     tgt["nonce"] = uuid.uuid4().hex
 
+    log_ok(
+        "AS",
+        "TGT em claro montado antes da cifragem",
+        {
+            "usuario": nome_usuario,
+            "tgt": tgt,
+        },
+    )
     return tgt

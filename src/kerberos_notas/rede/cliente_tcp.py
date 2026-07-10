@@ -17,6 +17,7 @@ from kerberos_notas.config import (
     PORTA_TGS,
     TIMEOUT_REDE,
 )
+from kerberos_notas.logs import log_erro, log_evento, log_ok
 from kerberos_notas.rede.protocolo import enviar_mensagem, receber_mensagem
 
 
@@ -57,6 +58,21 @@ class ClienteKerberosTCP:
         @throws PermissionError Quando o servidor remoto negou permissao.
         @throws ValueError Para demais erros remotos.
         """
+        destino = {
+            self.porta_as: "AS",
+            self.porta_tgs: "TGS",
+            self.porta_notas: "PORTAL NOTAS",
+        }.get(porta, f"PORTA {porta}")
+        log_evento(
+            "CLIENTE TCP",
+            "Enviando requisicao TCP",
+            {
+                "destino": destino,
+                "host": self.host,
+                "porta": porta,
+                "requisicao": requisicao,
+            },
+        )
         try:
             with socket.create_connection(
                 (self.host, porta),
@@ -66,14 +82,51 @@ class ClienteKerberosTCP:
                 enviar_mensagem(conexao, requisicao)
                 resposta = receber_mensagem(conexao)
         except OSError as erro:
+            log_erro(
+                "CLIENTE TCP",
+                "Falha ao conectar com servico remoto",
+                {
+                    "destino": destino,
+                    "porta": porta,
+                    "erro": str(erro),
+                },
+            )
             raise ConnectionError(
                 f"Nao foi possivel conectar ao servico na porta {porta}."
             ) from erro
 
+        log_evento(
+            "CLIENTE TCP",
+            "Resposta TCP recebida",
+            {
+                "destino": destino,
+                "porta": porta,
+                "resposta": resposta,
+            },
+        )
         if resposta.get("sucesso"):
+            log_ok(
+                "CLIENTE TCP",
+                "Servidor remoto respondeu com sucesso",
+                {
+                    "destino": destino,
+                    "porta": porta,
+                    "resultado": resposta.get("resultado"),
+                },
+            )
             return resposta["resultado"]
 
         mensagem = resposta.get("erro", "Erro remoto sem detalhes.")
+        log_erro(
+            "CLIENTE TCP",
+            "Servidor remoto retornou erro",
+            {
+                "destino": destino,
+                "porta": porta,
+                "tipo_erro": resposta.get("tipo_erro"),
+                "erro": mensagem,
+            },
+        )
         if resposta.get("tipo_erro") == "PermissionError":
             raise PermissionError(mensagem)
         raise ValueError(mensagem)

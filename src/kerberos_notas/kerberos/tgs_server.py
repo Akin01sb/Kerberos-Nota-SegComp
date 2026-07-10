@@ -28,6 +28,7 @@ from kerberos_notas.kerberos.tickets import (
     ticket_expirou_por_timestamp,
     timestamp_atual,
 )
+from kerberos_notas.logs import log_erro, log_evento, log_ok
 
 
 TEMPO_MAXIMO_AUTENTICADOR = 60 * 5
@@ -48,8 +49,10 @@ def obter_chave_servico(servico: str) -> bytes:
     @throws ValueError Quando o servico nao esta cadastrado no TGS.
     """
     if servico not in CHAVES_SERVICOS:
+        log_erro("TGS", "Servico solicitado nao cadastrado", {"servico": servico})
         raise ValueError("Servico desconhecido.")
 
+    log_ok("TGS", "Chave do servico localizada", {"servico": servico})
     return CHAVES_SERVICOS[servico]
 
 
@@ -63,6 +66,7 @@ def _registrar_nonce_tgs(usuario, nonce, timestamp):
     @throws ValueError Quando o nonce esta ausente ou foi reutilizado.
     """
     if not nonce:
+        log_erro("TGS", "Autenticador Cliente-TGS sem nonce", {"usuario": usuario})
         raise ValueError("Autenticador sem nonce.")
 
     with BLOQUEIO_NONCES_TGS:
@@ -77,9 +81,19 @@ def _registrar_nonce_tgs(usuario, nonce, timestamp):
 
         chave_nonce = (usuario, nonce)
         if chave_nonce in NONCES_TGS_UTILIZADOS:
+            log_erro(
+                "TGS",
+                "Nonce de autenticador Cliente-TGS reutilizado",
+                {"usuario": usuario, "nonce": nonce},
+            )
             raise ValueError("Autenticador reutilizado no TGS: possivel replay.")
 
         NONCES_TGS_UTILIZADOS[chave_nonce] = timestamp
+    log_ok(
+        "TGS",
+        "Nonce Cliente-TGS registrado para protecao contra replay",
+        {"usuario": usuario, "nonce": nonce, "timestamp": timestamp},
+    )
 
 
 def validar_tgt(usuario: str, tgt_criptografado: dict) -> dict:
@@ -91,24 +105,47 @@ def validar_tgt(usuario: str, tgt_criptografado: dict) -> dict:
     @return TGT em claro depois da validacao.
     @throws ValueError Para TGT ausente, adulterado, expirado ou de outro usuario.
     """
+    log_evento("TGS", "Validando TGT recebido", {"usuario": usuario, "tgt": tgt_criptografado})
     if not tgt_criptografado:
+        log_erro("TGS", "TGT nao informado", {"usuario": usuario})
         raise ValueError("TGT nao informado.")
 
     try:
         tgt = descriptografar_json(CHAVE_SECRETA_TGS, tgt_criptografado)
     except Exception as erro:
+        log_erro(
+            "TGS",
+            "TGT invalido ou nao descriptografavel",
+            {"usuario": usuario, "erro": str(erro)},
+        )
         raise ValueError("TGT invalido ou nao pode ser descriptografado.") from erro
 
     if tgt.get("id_cliente") != usuario:
+        log_erro(
+            "TGS",
+            "TGT pertence a outro usuario",
+            {"usuario_requisicao": usuario, "usuario_tgt": tgt.get("id_cliente")},
+        )
         raise ValueError("TGT pertence a outro usuario.")
 
     chave_sessao = tgt.get("chave_sessao_cliente_tgs")
     if not chave_sessao:
+        log_erro("TGS", "TGT sem chave Cliente-TGS", {"usuario": usuario, "tgt": tgt})
         raise ValueError("TGT nao contem chave de sessao Cliente-TGS.")
 
     if ticket_expirou(tgt["timestamp_emissao"], tgt["validade_segundos"]):
+        log_erro(
+            "TGS",
+            "TGT expirado",
+            {
+                "usuario": usuario,
+                "timestamp_emissao": tgt["timestamp_emissao"],
+                "validade_segundos": tgt["validade_segundos"],
+            },
+        )
         raise ValueError("TGT expirado.")
 
+    log_ok("TGS", "TGT descriptografado e validado", {"usuario": usuario, "tgt": tgt})
     return tgt
 
 
@@ -122,7 +159,13 @@ def validar_autenticador(usuario: str, tgt: dict, autenticador_criptografado: di
     @return Autenticador em claro.
     @throws ValueError Para autenticador invalido, expirado, futuro ou reutilizado.
     """
+    log_evento(
+        "TGS",
+        "Validando autenticador Cliente-TGS",
+        {"usuario": usuario, "autenticador": autenticador_criptografado},
+    )
     if not autenticador_criptografado:
+        log_erro("TGS", "Autenticador Cliente-TGS nao informado", {"usuario": usuario})
         raise ValueError("Autenticador nao informado.")
 
     chave_sessao = tgt["chave_sessao_cliente_tgs"]
@@ -130,22 +173,51 @@ def validar_autenticador(usuario: str, tgt: dict, autenticador_criptografado: di
     try:
         autenticador = abrir_autenticador(chave_sessao, autenticador_criptografado)
     except Exception as erro:
+        log_erro(
+            "TGS",
+            "Autenticador Cliente-TGS invalido",
+            {"usuario": usuario, "erro": str(erro)},
+        )
         raise ValueError("Autenticador invalido ou nao pode ser descriptografado.") from erro
 
     if autenticador.get("usuario") != usuario:
+        log_erro(
+            "TGS",
+            "Usuario do autenticador diferente do usuario do TGT",
+            {
+                "usuario_requisicao": usuario,
+                "usuario_autenticador": autenticador.get("usuario"),
+            },
+        )
         raise ValueError("Usuario do autenticador diferente do usuario do TGT.")
 
     timestamp = autenticador.get("timestamp")
     if timestamp is None:
+        log_erro("TGS", "Autenticador Cliente-TGS sem timestamp", autenticador)
         raise ValueError("Autenticador sem timestamp.")
 
     if ticket_expirou(timestamp, TEMPO_MAXIMO_AUTENTICADOR):
+        log_erro(
+            "TGS",
+            "Autenticador Cliente-TGS expirado",
+            {"usuario": usuario, "timestamp": timestamp},
+        )
         raise ValueError("Autenticador expirado.")
 
     if timestamp > timestamp_atual() + TEMPO_MAXIMO_AUTENTICADOR:
+        log_erro(
+            "TGS",
+            "Autenticador Cliente-TGS com timestamp futuro invalido",
+            {"usuario": usuario, "timestamp": timestamp},
+        )
         raise ValueError("Autenticador com timestamp invalido.")
 
     _registrar_nonce_tgs(usuario, autenticador.get("nonce"), timestamp)
+    log_ok(
+        "TGS",
+        "Autenticador Cliente-TGS validado",
+        autenticador,
+    )
     return autenticador
 
 
@@ -164,6 +236,16 @@ def emitir_ticket_servico(
     @param autenticador_criptografado Prova recente cifrada com a chave Cliente-TGS.
     @return Pacote com Service Ticket cifrado e resposta cifrada para o cliente.
     """
+    log_evento(
+        "TGS",
+        "TGS-REQ recebido: cliente solicitou Service Ticket",
+        {
+            "usuario": usuario,
+            "servico": servico,
+            "tgt": tgt_criptografado,
+            "autenticador": autenticador_criptografado,
+        },
+    )
     chave_servico = obter_chave_servico(servico)
     tgt = validar_tgt(usuario, tgt_criptografado)
     validar_autenticador(usuario, tgt, autenticador_criptografado)
@@ -175,6 +257,11 @@ def emitir_ticket_servico(
         usuario=usuario,
         servico=servico,
         chave_sessao_cliente_servico_base64=chave_sessao_cliente_servico_base64
+    )
+    log_ok(
+        "TGS",
+        "Service Ticket montado antes da cifragem",
+        {"ticket_servico": ticket_servico},
     )
 
     ticket_servico_criptografado = criptografar_json(chave_servico, ticket_servico)
@@ -192,11 +279,17 @@ def emitir_ticket_servico(
         }
     )
 
-    return {
+    resposta = {
         "servico": servico,
         "ticket_servico": ticket_servico_criptografado,
         "resposta_cliente": resposta_cliente
     }
+    log_ok(
+        "TGS",
+        "Ticket de servico criado e criptografado",
+        resposta,
+    )
+    return resposta
 
 
 def abrir_ticket_servico(servico: str, ticket_servico_criptografado: dict) -> dict:
@@ -208,17 +301,48 @@ def abrir_ticket_servico(servico: str, ticket_servico_criptografado: dict) -> di
     @return Ticket de servico em claro.
     @throws ValueError Quando o ticket e invalido, de outro servico ou expirou.
     """
+    log_evento(
+        "PORTAL NOTAS",
+        "Abrindo Service Ticket recebido do cliente",
+        {"servico": servico, "ticket_servico": ticket_servico_criptografado},
+    )
     chave_servico = obter_chave_servico(servico)
 
     try:
         ticket_servico = descriptografar_json(chave_servico, ticket_servico_criptografado)
     except Exception as erro:
+        log_erro(
+            "PORTAL NOTAS",
+            "Service Ticket invalido ou adulterado",
+            {"servico": servico, "erro": str(erro)},
+        )
         raise ValueError("Ticket de servico invalido ou nao pode ser descriptografado.") from erro
 
     if ticket_servico.get("servico") != servico:
+        log_erro(
+            "PORTAL NOTAS",
+            "Service Ticket foi emitido para outro servico",
+            {
+                "servico_esperado": servico,
+                "servico_ticket": ticket_servico.get("servico"),
+            },
+        )
         raise ValueError("Ticket foi emitido para outro servico.")
 
     if ticket_expirou_por_timestamp(ticket_servico["timestamp_expiracao"]):
+        log_erro(
+            "PORTAL NOTAS",
+            "Service Ticket expirado",
+            {
+                "servico": servico,
+                "timestamp_expiracao": ticket_servico["timestamp_expiracao"],
+            },
+        )
         raise ValueError("Ticket de servico expirado.")
 
+    log_ok(
+        "PORTAL NOTAS",
+        "Service Ticket validado pelo servico protegido",
+        ticket_servico,
+    )
     return ticket_servico

@@ -18,6 +18,7 @@ sys.path.insert(0, str(BASE_DIR / "src"))
 from kerberos_notas.servidores.servidor_as import executar_servidor_as
 from kerberos_notas.servidores.servidor_notas import executar_servidor_notas
 from kerberos_notas.servidores.servidor_tgs import executar_servidor_tgs
+from kerberos_notas.logs import log_evento, log_titulo
 
 
 def main():
@@ -40,14 +41,19 @@ def main():
     for processo in processos:
         processo.start()
 
-    print("[SISTEMA] AS, TGS e Portal de Notas iniciados.")
-    print("[SISTEMA] Pressione Ctrl+C para encerrar os tres servidores.")
+    log_titulo("SISTEMA", "Servidores Kerberos academicos iniciados")
+    log_evento(
+        "SISTEMA",
+        "AS, TGS e Portal de Notas estao rodando em processos separados",
+        {"processos": [processo.name for processo in processos]},
+    )
+    log_evento("SISTEMA", "Pressione Ctrl+C para encerrar os tres servidores")
 
     try:
         for processo in processos:
             processo.join()
     except KeyboardInterrupt:
-        print("\n[SISTEMA] Encerrando servidores...")
+        log_evento("SISTEMA", "Encerrando servidores")
         for processo in processos:
             processo.terminate()
         for processo in processos:
