@@ -1,0 +1,334 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.17.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Kerberos Notas: Código-Fonte de src/kerberos_notas/notes/repository.py</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="codefolding.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+const theme = 'default';
+mermaid.initialize({ startOnLoad: true, theme: theme });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Kerberos Notas
+   </div>
+   <div id="projectbrief">Portal de Notas protegido por Kerberos academico</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Gerado por Doxygen 1.17.0 -->
+<script type="text/javascript">
+let searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', codefold.init);
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu('',true);
+  init_search();
+});
+</script>
+<div id="main-nav-mobile">
+<div class="sm sm-dox"><input id="main-menu-state" type="checkbox"/>
+<label class="main-menu-btn" for="main-menu-state">
+<span class="main-menu-btn-icon"></span> Toggle main menu visibility</label>
+<span id="searchBoxPos1" style="position:absolute;right:8px;top:8px;height:36px;"></span>
+</div>
+</div><!-- main-nav-mobile -->
+<div id="main-nav">
+  <ul class="sm sm-dox" id="main-menu">
+    <li id="searchBoxPos2" style="float:right">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect" class="search-icon" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()"><span class="search-icon-dropdown"></span></span>
+          <input type="text" id="MSearchField" value="" placeholder="Busca" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><div id="MSearchCloseImg" class="close-icon"></div></a>
+          </span>
+        </div>
+    </li>
+  </ul>
+</div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('repository_8py_source.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Carregando...</div>
+<div class="SRStatus" id="Searching">Procurando...</div>
+<div class="SRStatus" id="NoMatches">Nenhuma entrada encontrado</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">repository.py</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="repository_8py.html">Ir para a documentação desse arquivo.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno"><a class="line" href="namespacekerberos__notas_1_1notes_1_1repository.html">    1</a></span><span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="stringliteral">@file repository.py</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="stringliteral">@brief Persistencia das notas em arquivo JSON.</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="stringliteral">@details</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="stringliteral">O repositorio guarda notas em `data/notas.json`, agrupadas por aluno. Um lock</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="stringliteral">protege as operacoes de leitura/escrita durante requisicoes simultaneas.</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">from</span> pathlib <span class="keyword">import</span> Path</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime, timezone</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">from</span> threading <span class="keyword">import</span> RLock</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">from</span> uuid <span class="keyword">import</span> uuid4</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">from</span> <a class="code hl_namespace" href="namespacekerberos__notas_1_1storage_1_1json__store.html">kerberos_notas.storage.json_store</a> <span class="keyword">import</span> carregar_json, salvar_json</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="namespacekerberos__notas_1_1notes_1_1repository.html#a59345ebc9eb17921711dbfdce62e71bd">   18</a></span>CAMINHO_NOTAS = Path(__file__).resolve().parents[3] / <span class="stringliteral">&quot;data&quot;</span> / <span class="stringliteral">&quot;notas.json&quot;</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="namespacekerberos__notas_1_1notes_1_1repository.html#a1fa15b6e2ae8a83a05173bf59e9e0ee7">   19</a></span>BLOQUEIO_NOTAS = RLock()</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="foldopen" id="foldopen00022" data-start="" data-end="">
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="namespacekerberos__notas_1_1notes_1_1repository.html#ae7a393d0132dccc29507d656fb2fdf00">   22</a></span><span class="keyword">def </span><a class="code hl_function" href="namespacekerberos__notas_1_1notes_1_1repository.html#ae7a393d0132dccc29507d656fb2fdf00">_normalizar_dados</a>(dados):</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="stringliteral">    @brief Garante que a estrutura raiz de notas esteja no formato esperado.</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="stringliteral">    @param dados Conteudo carregado do JSON.</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="stringliteral">    @return Dicionario com a chave `notas`.</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keywordflow">if</span> <span class="keywordflow">not</span> isinstance(dados, dict):</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <span class="keywordflow">return</span> {<span class="stringliteral">&quot;notas&quot;</span>: {}}</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordflow">if</span> <span class="stringliteral">&quot;notas&quot;</span> <span class="keywordflow">not</span> <span class="keywordflow">in</span> dados:</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <span class="keywordflow">return</span> {<span class="stringliteral">&quot;notas&quot;</span>: {}}</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keywordflow">if</span> <span class="keywordflow">not</span> isinstance(dados[<span class="stringliteral">&quot;notas&quot;</span>], dict):</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        <span class="keywordflow">return</span> {<span class="stringliteral">&quot;notas&quot;</span>: {}}</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keywordflow">return</span> dados</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+</div>
+<div class="foldopen" id="foldopen00041" data-start="" data-end="">
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="namespacekerberos__notas_1_1notes_1_1repository.html#aa2d008508b2ce8260f96a1dde569b3c7">   41</a></span><span class="keyword">def </span><a class="code hl_function" href="namespacekerberos__notas_1_1notes_1_1repository.html#aa2d008508b2ce8260f96a1dde569b3c7">carregar_notas</a>():</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="stringliteral">&quot;&quot;&quot;@brief Carrega o arquivo de notas ou retorna estrutura vazia.&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    dados = carregar_json(CAMINHO_NOTAS, {<span class="stringliteral">&quot;notas&quot;</span>: {}})</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacekerberos__notas_1_1notes_1_1repository.html#ae7a393d0132dccc29507d656fb2fdf00">_normalizar_dados</a>(dados)</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+</div>
+<div class="foldopen" id="foldopen00047" data-start="" data-end="">
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="namespacekerberos__notas_1_1notes_1_1repository.html#aa437e914348d485ab09b117b70919985">   47</a></span><span class="keyword">def </span><a class="code hl_function" href="namespacekerberos__notas_1_1notes_1_1repository.html#aa437e914348d485ab09b117b70919985">salvar_notas</a>(dados):</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="stringliteral">&quot;&quot;&quot;@brief Salva o arquivo de notas apos normalizar a estrutura.&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    salvar_json(CAMINHO_NOTAS, <a class="code hl_function" href="namespacekerberos__notas_1_1notes_1_1repository.html#ae7a393d0132dccc29507d656fb2fdf00">_normalizar_dados</a>(dados))</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+</div>
+<div class="foldopen" id="foldopen00052" data-start="" data-end="">
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="namespacekerberos__notas_1_1notes_1_1repository.html#af4068c5a81cef4353caf5420c7a07fb9">   52</a></span><span class="keyword">def </span><a class="code hl_function" href="namespacekerberos__notas_1_1notes_1_1repository.html#af4068c5a81cef4353caf5420c7a07fb9">listar_notas_usuario</a>(usuario):</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="stringliteral">    @brief Lista as notas de um aluno especifico.</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="stringliteral">    @param usuario Aluno dono das notas.</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="stringliteral">    @return Lista de notas do aluno.</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keyword">with</span> BLOQUEIO_NOTAS:</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        dados = <a class="code hl_function" href="namespacekerberos__notas_1_1notes_1_1repository.html#aa2d008508b2ce8260f96a1dde569b3c7">carregar_notas</a>()</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        <span class="keywordflow">return</span> list(dados[<span class="stringliteral">&quot;notas&quot;</span>].get(usuario, []))</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+</div>
+<div class="foldopen" id="foldopen00064" data-start="" data-end="">
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="namespacekerberos__notas_1_1notes_1_1repository.html#a3d7600142708b0bd3bd5aa82e847e125">   64</a></span><span class="keyword">def </span><a class="code hl_function" href="namespacekerberos__notas_1_1notes_1_1repository.html#a3d7600142708b0bd3bd5aa82e847e125">listar_todas_notas</a>():</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="stringliteral">&quot;&quot;&quot;@brief Retorna todas as notas, incluindo o aluno em cada item.&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="keyword">with</span> BLOQUEIO_NOTAS:</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        dados = <a class="code hl_function" href="namespacekerberos__notas_1_1notes_1_1repository.html#aa2d008508b2ce8260f96a1dde569b3c7">carregar_notas</a>()</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        notas = []</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        <span class="keywordflow">for</span> aluno, notas_aluno <span class="keywordflow">in</span> dados[<span class="stringliteral">&quot;notas&quot;</span>].items():</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>            <span class="keywordflow">for</span> nota <span class="keywordflow">in</span> notas_aluno:</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>                nota_com_aluno = dict(nota)</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>                nota_com_aluno.setdefault(<span class="stringliteral">&quot;aluno&quot;</span>, aluno)</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>                notas.append(nota_com_aluno)</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        <span class="keywordflow">return</span> notas</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+</div>
+<div class="foldopen" id="foldopen00079" data-start="" data-end="">
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="namespacekerberos__notas_1_1notes_1_1repository.html#a71a492d8b028202dc993bef6b49b0875">   79</a></span><span class="keyword">def </span><a class="code hl_function" href="namespacekerberos__notas_1_1notes_1_1repository.html#a71a492d8b028202dc993bef6b49b0875">adicionar_nota_usuario</a>(usuario, nota):</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="stringliteral">    @brief Adiciona uma nota ao aluno informado.</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="stringliteral">    @param usuario Aluno dono da nota.</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="stringliteral">    @param nota Dados ja validados pela camada de servico.</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="stringliteral">    @return Nota salva com id e timestamps.</span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    <span class="keyword">with</span> BLOQUEIO_NOTAS:</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        dados = <a class="code hl_function" href="namespacekerberos__notas_1_1notes_1_1repository.html#aa2d008508b2ce8260f96a1dde569b3c7">carregar_notas</a>()</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        notas_usuario = dados[<span class="stringliteral">&quot;notas&quot;</span>].setdefault(usuario, [])</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        agora = datetime.now(timezone.utc).isoformat(timespec=<span class="stringliteral">&quot;seconds&quot;</span>)</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        nota_salva = {</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>            <span class="stringliteral">&quot;id&quot;</span>: uuid4().hex,</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>            <span class="stringliteral">&quot;aluno&quot;</span>: usuario,</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>            <span class="stringliteral">&quot;disciplina&quot;</span>: nota[<span class="stringliteral">&quot;disciplina&quot;</span>],</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>            <span class="stringliteral">&quot;nota&quot;</span>: nota[<span class="stringliteral">&quot;nota&quot;</span>],</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>            <span class="stringliteral">&quot;observacao&quot;</span>: nota.get(<span class="stringliteral">&quot;observacao&quot;</span>, <span class="stringliteral">&quot;&quot;</span>),</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>            <span class="stringliteral">&quot;professor&quot;</span>: nota[<span class="stringliteral">&quot;professor&quot;</span>],</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>            <span class="stringliteral">&quot;criado_em&quot;</span>: agora,</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>            <span class="stringliteral">&quot;atualizado_em&quot;</span>: agora,</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        }</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        notas_usuario.append(nota_salva)</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        <a class="code hl_function" href="namespacekerberos__notas_1_1notes_1_1repository.html#aa437e914348d485ab09b117b70919985">salvar_notas</a>(dados)</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        <span class="keywordflow">return</span> nota_salva</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+</div>
+<div class="foldopen" id="foldopen00108" data-start="" data-end="">
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno"><a class="line" href="namespacekerberos__notas_1_1notes_1_1repository.html#a51a0fe20d5f03ac0c173912569bbe844">  108</a></span><span class="keyword">def </span><a class="code hl_function" href="namespacekerberos__notas_1_1notes_1_1repository.html#a51a0fe20d5f03ac0c173912569bbe844">buscar_nota_por_id</a>(nota_id):</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span><span class="stringliteral">    @brief Procura uma nota pelo identificador global.</span></div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="stringliteral">    @param nota_id Identificador da nota.</span></div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="stringliteral">    @return Copia da nota encontrada ou None.</span></div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    <span class="keyword">with</span> BLOQUEIO_NOTAS:</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        dados = <a class="code hl_function" href="namespacekerberos__notas_1_1notes_1_1repository.html#aa2d008508b2ce8260f96a1dde569b3c7">carregar_notas</a>()</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        <span class="keywordflow">for</span> aluno, notas_aluno <span class="keywordflow">in</span> dados[<span class="stringliteral">&quot;notas&quot;</span>].items():</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>            <span class="keywordflow">for</span> nota <span class="keywordflow">in</span> notas_aluno:</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>                <span class="keywordflow">if</span> nota.get(<span class="stringliteral">&quot;id&quot;</span>) == nota_id:</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>                    nota_encontrada = dict(nota)</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>                    nota_encontrada.setdefault(<span class="stringliteral">&quot;aluno&quot;</span>, aluno)</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>                    <span class="keywordflow">return</span> nota_encontrada</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span> </div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        <span class="keywordflow">return</span> <span class="keywordtype">None</span></div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
+</div>
+<div class="foldopen" id="foldopen00128" data-start="" data-end="">
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno"><a class="line" href="namespacekerberos__notas_1_1notes_1_1repository.html#a0e50de56d66d2e6bf7c2de9681cab688">  128</a></span><span class="keyword">def </span><a class="code hl_function" href="namespacekerberos__notas_1_1notes_1_1repository.html#a0e50de56d66d2e6bf7c2de9681cab688">atualizar_nota_por_id</a>(nota_id, campos):</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span><span class="stringliteral">    @brief Atualiza campos de uma nota existente.</span></div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span><span class="stringliteral">    @param nota_id Identificador da nota.</span></div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span><span class="stringliteral">    @param campos Campos validados para sobrescrever.</span></div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span><span class="stringliteral">    @return Copia da nota atualizada.</span></div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span><span class="stringliteral">    @throws ValueError Quando a nota nao existe.</span></div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    <span class="keyword">with</span> BLOQUEIO_NOTAS:</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>        dados = <a class="code hl_function" href="namespacekerberos__notas_1_1notes_1_1repository.html#aa2d008508b2ce8260f96a1dde569b3c7">carregar_notas</a>()</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span> </div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>        <span class="keywordflow">for</span> aluno, notas_aluno <span class="keywordflow">in</span> dados[<span class="stringliteral">&quot;notas&quot;</span>].items():</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>            <span class="keywordflow">for</span> nota <span class="keywordflow">in</span> notas_aluno:</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>                <span class="keywordflow">if</span> nota.get(<span class="stringliteral">&quot;id&quot;</span>) == nota_id:</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>                    nota.update(campos)</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>                    nota[<span class="stringliteral">&quot;aluno&quot;</span>] = aluno</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>                    nota[<span class="stringliteral">&quot;atualizado_em&quot;</span>] = datetime.now(timezone.utc).isoformat(</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>                        timespec=<span class="stringliteral">&quot;seconds&quot;</span></div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>                    )</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>                    <a class="code hl_function" href="namespacekerberos__notas_1_1notes_1_1repository.html#aa437e914348d485ab09b117b70919985">salvar_notas</a>(dados)</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>                    <span class="keywordflow">return</span> dict(nota)</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span> </div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;Nota nao encontrada.&quot;</span>)</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span> </div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
+</div>
+<div class="foldopen" id="foldopen00154" data-start="" data-end="">
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno"><a class="line" href="namespacekerberos__notas_1_1notes_1_1repository.html#a80e4699d8cd4d80fd34a72e738f7975f">  154</a></span><span class="keyword">def </span><a class="code hl_function" href="namespacekerberos__notas_1_1notes_1_1repository.html#a80e4699d8cd4d80fd34a72e738f7975f">excluir_nota_por_id</a>(nota_id):</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span><span class="stringliteral">    @brief Remove uma nota pelo identificador.</span></div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span><span class="stringliteral">    @param nota_id Identificador da nota.</span></div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span><span class="stringliteral">    @return Nota removida.</span></div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span><span class="stringliteral">    @throws ValueError Quando a nota nao existe.</span></div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    <span class="keyword">with</span> BLOQUEIO_NOTAS:</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>        dados = <a class="code hl_function" href="namespacekerberos__notas_1_1notes_1_1repository.html#aa2d008508b2ce8260f96a1dde569b3c7">carregar_notas</a>()</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span> </div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>        <span class="keywordflow">for</span> notas_aluno <span class="keywordflow">in</span> dados[<span class="stringliteral">&quot;notas&quot;</span>].values():</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>            <span class="keywordflow">for</span> indice, nota <span class="keywordflow">in</span> enumerate(notas_aluno):</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>                <span class="keywordflow">if</span> nota.get(<span class="stringliteral">&quot;id&quot;</span>) == nota_id:</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>                    nota_excluida = notas_aluno.pop(indice)</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>                    <a class="code hl_function" href="namespacekerberos__notas_1_1notes_1_1repository.html#aa437e914348d485ab09b117b70919985">salvar_notas</a>(dados)</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>                    <span class="keywordflow">return</span> nota_excluida</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span> </div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;Nota nao encontrada.&quot;</span>)</div>
+</div>
+<div class="ttc" id="anamespacekerberos__notas_1_1notes_1_1repository_html_a0e50de56d66d2e6bf7c2de9681cab688"><div class="ttname"><a href="namespacekerberos__notas_1_1notes_1_1repository.html#a0e50de56d66d2e6bf7c2de9681cab688">kerberos_notas.notes.repository.atualizar_nota_por_id</a></div><div class="ttdeci">atualizar_nota_por_id(nota_id, campos)</div><div class="ttdef"><b>Definição</b> <a href="#l00128">repository.py:128</a></div></div>
+<div class="ttc" id="anamespacekerberos__notas_1_1notes_1_1repository_html_a3d7600142708b0bd3bd5aa82e847e125"><div class="ttname"><a href="namespacekerberos__notas_1_1notes_1_1repository.html#a3d7600142708b0bd3bd5aa82e847e125">kerberos_notas.notes.repository.listar_todas_notas</a></div><div class="ttdeci">listar_todas_notas()</div><div class="ttdef"><b>Definição</b> <a href="#l00064">repository.py:64</a></div></div>
+<div class="ttc" id="anamespacekerberos__notas_1_1notes_1_1repository_html_a51a0fe20d5f03ac0c173912569bbe844"><div class="ttname"><a href="namespacekerberos__notas_1_1notes_1_1repository.html#a51a0fe20d5f03ac0c173912569bbe844">kerberos_notas.notes.repository.buscar_nota_por_id</a></div><div class="ttdeci">buscar_nota_por_id(nota_id)</div><div class="ttdef"><b>Definição</b> <a href="#l00108">repository.py:108</a></div></div>
+<div class="ttc" id="anamespacekerberos__notas_1_1notes_1_1repository_html_a71a492d8b028202dc993bef6b49b0875"><div class="ttname"><a href="namespacekerberos__notas_1_1notes_1_1repository.html#a71a492d8b028202dc993bef6b49b0875">kerberos_notas.notes.repository.adicionar_nota_usuario</a></div><div class="ttdeci">adicionar_nota_usuario(usuario, nota)</div><div class="ttdef"><b>Definição</b> <a href="#l00079">repository.py:79</a></div></div>
+<div class="ttc" id="anamespacekerberos__notas_1_1notes_1_1repository_html_a80e4699d8cd4d80fd34a72e738f7975f"><div class="ttname"><a href="namespacekerberos__notas_1_1notes_1_1repository.html#a80e4699d8cd4d80fd34a72e738f7975f">kerberos_notas.notes.repository.excluir_nota_por_id</a></div><div class="ttdeci">excluir_nota_por_id(nota_id)</div><div class="ttdef"><b>Definição</b> <a href="#l00154">repository.py:154</a></div></div>
+<div class="ttc" id="anamespacekerberos__notas_1_1notes_1_1repository_html_aa2d008508b2ce8260f96a1dde569b3c7"><div class="ttname"><a href="namespacekerberos__notas_1_1notes_1_1repository.html#aa2d008508b2ce8260f96a1dde569b3c7">kerberos_notas.notes.repository.carregar_notas</a></div><div class="ttdeci">carregar_notas()</div><div class="ttdef"><b>Definição</b> <a href="#l00041">repository.py:41</a></div></div>
+<div class="ttc" id="anamespacekerberos__notas_1_1notes_1_1repository_html_aa437e914348d485ab09b117b70919985"><div class="ttname"><a href="namespacekerberos__notas_1_1notes_1_1repository.html#aa437e914348d485ab09b117b70919985">kerberos_notas.notes.repository.salvar_notas</a></div><div class="ttdeci">salvar_notas(dados)</div><div class="ttdef"><b>Definição</b> <a href="#l00047">repository.py:47</a></div></div>
+<div class="ttc" id="anamespacekerberos__notas_1_1notes_1_1repository_html_ae7a393d0132dccc29507d656fb2fdf00"><div class="ttname"><a href="namespacekerberos__notas_1_1notes_1_1repository.html#ae7a393d0132dccc29507d656fb2fdf00">kerberos_notas.notes.repository._normalizar_dados</a></div><div class="ttdeci">_normalizar_dados(dados)</div><div class="ttdef"><b>Definição</b> <a href="#l00022">repository.py:22</a></div></div>
+<div class="ttc" id="anamespacekerberos__notas_1_1notes_1_1repository_html_af4068c5a81cef4353caf5420c7a07fb9"><div class="ttname"><a href="namespacekerberos__notas_1_1notes_1_1repository.html#af4068c5a81cef4353caf5420c7a07fb9">kerberos_notas.notes.repository.listar_notas_usuario</a></div><div class="ttdeci">listar_notas_usuario(usuario)</div><div class="ttdef"><b>Definição</b> <a href="#l00052">repository.py:52</a></div></div>
+<div class="ttc" id="anamespacekerberos__notas_1_1storage_1_1json__store_html"><div class="ttname"><a href="namespacekerberos__notas_1_1storage_1_1json__store.html">kerberos_notas.storage.json_store</a></div><div class="ttdef"><b>Definição</b> <a href="json__store_8py_source.html#l00001">json_store.py:1</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a href="dir_541d11015eb38b267f0d9c2af7f58c42.html">kerberos_notas</a></li><li class="navelem"><a href="dir_9a29fc195f52cc66ea83268d7eeb752c.html">notes</a></li><li class="navelem"><a href="repository_8py.html">repository.py</a></li>
+    <li class="footer">Gerado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
+</body>
+</html>

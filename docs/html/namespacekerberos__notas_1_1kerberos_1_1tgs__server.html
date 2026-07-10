@@ -1,0 +1,614 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.17.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Kerberos Notas: Refência do Namespace kerberos_notas.kerberos.tgs_server</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="codefolding.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+const theme = 'default';
+mermaid.initialize({ startOnLoad: true, theme: theme });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Kerberos Notas
+   </div>
+   <div id="projectbrief">Portal de Notas protegido por Kerberos academico</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Gerado por Doxygen 1.17.0 -->
+<script type="text/javascript">
+let searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', codefold.init);
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu('',true);
+  init_search();
+});
+</script>
+<div id="main-nav-mobile">
+<div class="sm sm-dox"><input id="main-menu-state" type="checkbox"/>
+<label class="main-menu-btn" for="main-menu-state">
+<span class="main-menu-btn-icon"></span> Toggle main menu visibility</label>
+<span id="searchBoxPos1" style="position:absolute;right:8px;top:8px;height:36px;"></span>
+</div>
+</div><!-- main-nav-mobile -->
+<div id="main-nav">
+  <ul class="sm sm-dox" id="main-menu">
+    <li id="searchBoxPos2" style="float:right">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect" class="search-icon" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()"><span class="search-icon-dropdown"></span></span>
+          <input type="text" id="MSearchField" value="" placeholder="Busca" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><div id="MSearchCloseImg" class="close-icon"></div></a>
+          </span>
+        </div>
+    </li>
+  </ul>
+</div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('namespacekerberos__notas_1_1kerberos_1_1tgs__server.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Carregando...</div>
+<div class="SRStatus" id="Searching">Procurando...</div>
+<div class="SRStatus" id="NoMatches">Nenhuma entrada encontrado</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Refência do Namespace kerberos_notas.kerberos.tgs_server</div></div>
+</div><!--header-->
+<div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
+Funções</h2></td></tr>
+<tr class="memitem:a9947601ea4bd811b0ad65fecea3c9e35" id="r_a9947601ea4bd811b0ad65fecea3c9e35"><td class="memItemLeft">bytes&#160;</td><td class="memItemRight"><a class="el" href="#a9947601ea4bd811b0ad65fecea3c9e35">obter_chave_servico</a> (str servico)</td></tr>
+<tr class="memitem:abb25b18b811f1dfb26a4ba10d86e5c75" id="r_abb25b18b811f1dfb26a4ba10d86e5c75"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#abb25b18b811f1dfb26a4ba10d86e5c75">_registrar_nonce_tgs</a> (usuario, nonce, timestamp)</td></tr>
+<tr class="memitem:a9f6b087a28730d57db233b50ba30f9c8" id="r_a9f6b087a28730d57db233b50ba30f9c8"><td class="memItemLeft">dict&#160;</td><td class="memItemRight"><a class="el" href="#a9f6b087a28730d57db233b50ba30f9c8">validar_tgt</a> (str usuario, dict tgt_criptografado)</td></tr>
+<tr class="memitem:ae87cc0a74f2975b7cf13b5f6bab4836f" id="r_ae87cc0a74f2975b7cf13b5f6bab4836f"><td class="memItemLeft">dict&#160;</td><td class="memItemRight"><a class="el" href="#ae87cc0a74f2975b7cf13b5f6bab4836f">validar_autenticador</a> (str usuario, dict tgt, dict autenticador_criptografado)</td></tr>
+<tr class="memitem:ab0642da9a841e7ad6bf2d0d31c681e96" id="r_ab0642da9a841e7ad6bf2d0d31c681e96"><td class="memItemLeft">dict&#160;</td><td class="memItemRight"><a class="el" href="#ab0642da9a841e7ad6bf2d0d31c681e96">emitir_ticket_servico</a> (str usuario, str servico, dict tgt_criptografado, dict autenticador_criptografado)</td></tr>
+<tr class="memitem:aa51c5e709574ef65d170ccf6a28e5ce9" id="r_aa51c5e709574ef65d170ccf6a28e5ce9"><td class="memItemLeft">dict&#160;</td><td class="memItemRight"><a class="el" href="#aa51c5e709574ef65d170ccf6a28e5ce9">abrir_ticket_servico</a> (str servico, dict ticket_servico_criptografado)</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
+Variáveis</h2></td></tr>
+<tr class="memitem:a9234c718e34975943544d716ac167f1a" id="r_a9234c718e34975943544d716ac167f1a"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a9234c718e34975943544d716ac167f1a">TEMPO_MAXIMO_AUTENTICADOR</a> = 60 * 5</td></tr>
+<tr class="memitem:abe17e4e2a6b55385ba924ed2c31d7fb8" id="r_abe17e4e2a6b55385ba924ed2c31d7fb8"><td class="memItemLeft">dict&#160;</td><td class="memItemRight"><a class="el" href="#abe17e4e2a6b55385ba924ed2c31d7fb8">NONCES_TGS_UTILIZADOS</a> = {}</td></tr>
+<tr class="memitem:aea0e62ff67184e787f686cbe54b506d3" id="r_aea0e62ff67184e787f686cbe54b506d3"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aea0e62ff67184e787f686cbe54b506d3">BLOQUEIO_NONCES_TGS</a> = RLock()</td></tr>
+<tr class="memitem:a21850c263a7b7c0cddf8ae47d2c15135" id="r_a21850c263a7b7c0cddf8ae47d2c15135"><td class="memItemLeft">dict&#160;</td><td class="memItemRight"><a class="el" href="#a21850c263a7b7c0cddf8ae47d2c15135">CHAVES_SERVICOS</a></td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Descrição detalhada</h2>
+<div class="textblock"><pre class="fragment">@file tgs_server.py
+@brief Regras do Ticket Granting Server (TGS).
+
+@details
+O TGS valida TGTs emitidos pelo AS, confere autenticadores Cliente-TGS e emite
+Service Tickets para o Portal de Notas. O cliente recebe a chave de sessao
+Cliente-Servico cifrada com a chave Cliente-TGS, enquanto o ticket de servico
+fica cifrado com a chave secreta do servico de notas.
+</pre> </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Funções</h2>
+<a id="abb25b18b811f1dfb26a4ba10d86e5c75" name="abb25b18b811f1dfb26a4ba10d86e5c75"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb25b18b811f1dfb26a4ba10d86e5c75">&#9670;&#160;</a></span>_registrar_nonce_tgs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">_registrar_nonce_tgs </td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>usuario</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>nonce</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>timestamp</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<pre class="fragment">@brief Registra nonces ja usados em autenticadores Cliente-TGS.
+
+@param usuario Usuario dono do autenticador.
+@param nonce Valor unico informado pelo cliente.
+@param timestamp Timestamp do autenticador validado.
+@throws ValueError Quando o nonce esta ausente ou foi reutilizado.
+</pre> 
+<p class="definition">Definição na linha <a class="el" href="tgs__server_8py_source.html#l00056">56</a> do arquivo <a class="el" href="tgs__server_8py_source.html">tgs_server.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   56</span><span class="keyword">def </span>_registrar_nonce_tgs(usuario, nonce, timestamp):</div>
+<div class="line"><span class="lineno">   57</span>    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   58</span><span class="stringliteral">    @brief Registra nonces ja usados em autenticadores Cliente-TGS.</span></div>
+<div class="line"><span class="lineno">   59</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   60</span><span class="stringliteral">    @param usuario Usuario dono do autenticador.</span></div>
+<div class="line"><span class="lineno">   61</span><span class="stringliteral">    @param nonce Valor unico informado pelo cliente.</span></div>
+<div class="line"><span class="lineno">   62</span><span class="stringliteral">    @param timestamp Timestamp do autenticador validado.</span></div>
+<div class="line"><span class="lineno">   63</span><span class="stringliteral">    @throws ValueError Quando o nonce esta ausente ou foi reutilizado.</span></div>
+<div class="line"><span class="lineno">   64</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   65</span>    <span class="keywordflow">if</span> <span class="keywordflow">not</span> nonce:</div>
+<div class="line"><span class="lineno">   66</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;Autenticador sem nonce.&quot;</span>)</div>
+<div class="line"><span class="lineno">   67</span> </div>
+<div class="line"><span class="lineno">   68</span>    <span class="keyword">with</span> BLOQUEIO_NONCES_TGS:</div>
+<div class="line"><span class="lineno">   69</span>        limite = timestamp_atual() - TEMPO_MAXIMO_AUTENTICADOR</div>
+<div class="line"><span class="lineno">   70</span>        expirados = [</div>
+<div class="line"><span class="lineno">   71</span>            chave</div>
+<div class="line"><span class="lineno">   72</span>            <span class="keywordflow">for</span> chave, momento <span class="keywordflow">in</span> NONCES_TGS_UTILIZADOS.items()</div>
+<div class="line"><span class="lineno">   73</span>            <span class="keywordflow">if</span> momento &lt; limite</div>
+<div class="line"><span class="lineno">   74</span>        ]</div>
+<div class="line"><span class="lineno">   75</span>        <span class="keywordflow">for</span> chave <span class="keywordflow">in</span> expirados:</div>
+<div class="line"><span class="lineno">   76</span>            NONCES_TGS_UTILIZADOS.pop(chave, <span class="keywordtype">None</span>)</div>
+<div class="line"><span class="lineno">   77</span> </div>
+<div class="line"><span class="lineno">   78</span>        chave_nonce = (usuario, nonce)</div>
+<div class="line"><span class="lineno">   79</span>        <span class="keywordflow">if</span> chave_nonce <span class="keywordflow">in</span> NONCES_TGS_UTILIZADOS:</div>
+<div class="line"><span class="lineno">   80</span>            <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;Autenticador reutilizado no TGS: possivel replay.&quot;</span>)</div>
+<div class="line"><span class="lineno">   81</span> </div>
+<div class="line"><span class="lineno">   82</span>        NONCES_TGS_UTILIZADOS[chave_nonce] = timestamp</div>
+<div class="line"><span class="lineno">   83</span> </div>
+<div class="line"><span class="lineno">   84</span> </div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="aa51c5e709574ef65d170ccf6a28e5ce9" name="aa51c5e709574ef65d170ccf6a28e5ce9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa51c5e709574ef65d170ccf6a28e5ce9">&#9670;&#160;</a></span>abrir_ticket_servico()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"> dict abrir_ticket_servico </td>
+          <td>(</td>
+          <td class="paramtype">str</td>          <td class="paramname"><span class="paramname"><em>servico</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">dict</td>          <td class="paramname"><span class="paramname"><em>ticket_servico_criptografado</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">@brief Abre e valida um Service Ticket no servico protegido.
+
+@param servico Nome do servico que esta recebendo o ticket.
+@param ticket_servico_criptografado Ticket cifrado com a chave do servico.
+@return Ticket de servico em claro.
+@throws ValueError Quando o ticket e invalido, de outro servico ou expirou.
+</pre> 
+<p class="definition">Definição na linha <a class="el" href="tgs__server_8py_source.html#l00202">202</a> do arquivo <a class="el" href="tgs__server_8py_source.html">tgs_server.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  202</span><span class="keyword">def </span>abrir_ticket_servico(servico: str, ticket_servico_criptografado: dict) -&gt; dict:</div>
+<div class="line"><span class="lineno">  203</span>    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  204</span><span class="stringliteral">    @brief Abre e valida um Service Ticket no servico protegido.</span></div>
+<div class="line"><span class="lineno">  205</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  206</span><span class="stringliteral">    @param servico Nome do servico que esta recebendo o ticket.</span></div>
+<div class="line"><span class="lineno">  207</span><span class="stringliteral">    @param ticket_servico_criptografado Ticket cifrado com a chave do servico.</span></div>
+<div class="line"><span class="lineno">  208</span><span class="stringliteral">    @return Ticket de servico em claro.</span></div>
+<div class="line"><span class="lineno">  209</span><span class="stringliteral">    @throws ValueError Quando o ticket e invalido, de outro servico ou expirou.</span></div>
+<div class="line"><span class="lineno">  210</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  211</span>    chave_servico = obter_chave_servico(servico)</div>
+<div class="line"><span class="lineno">  212</span> </div>
+<div class="line"><span class="lineno">  213</span>    <span class="keywordflow">try</span>:</div>
+<div class="line"><span class="lineno">  214</span>        ticket_servico = descriptografar_json(chave_servico, ticket_servico_criptografado)</div>
+<div class="line"><span class="lineno">  215</span>    <span class="keywordflow">except</span> Exception <span class="keyword">as</span> erro:</div>
+<div class="line"><span class="lineno">  216</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;Ticket de servico invalido ou nao pode ser descriptografado.&quot;</span>) <span class="keyword">from</span> erro</div>
+<div class="line"><span class="lineno">  217</span> </div>
+<div class="line"><span class="lineno">  218</span>    <span class="keywordflow">if</span> ticket_servico.get(<span class="stringliteral">&quot;servico&quot;</span>) != servico:</div>
+<div class="line"><span class="lineno">  219</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;Ticket foi emitido para outro servico.&quot;</span>)</div>
+<div class="line"><span class="lineno">  220</span> </div>
+<div class="line"><span class="lineno">  221</span>    <span class="keywordflow">if</span> ticket_expirou_por_timestamp(ticket_servico[<span class="stringliteral">&quot;timestamp_expiracao&quot;</span>]):</div>
+<div class="line"><span class="lineno">  222</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;Ticket de servico expirado.&quot;</span>)</div>
+<div class="line"><span class="lineno">  223</span> </div>
+<div class="line"><span class="lineno">  224</span>    <span class="keywordflow">return</span> ticket_servico</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="ab0642da9a841e7ad6bf2d0d31c681e96" name="ab0642da9a841e7ad6bf2d0d31c681e96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0642da9a841e7ad6bf2d0d31c681e96">&#9670;&#160;</a></span>emitir_ticket_servico()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"> dict emitir_ticket_servico </td>
+          <td>(</td>
+          <td class="paramtype">str</td>          <td class="paramname"><span class="paramname"><em>usuario</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">str</td>          <td class="paramname"><span class="paramname"><em>servico</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">dict</td>          <td class="paramname"><span class="paramname"><em>tgt_criptografado</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">dict
+</td>          <td class="paramname"><span class="paramname"><em>autenticador_criptografado</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">@brief Emite Service Ticket e chave Cliente-Servico.
+
+@param usuario Usuario autenticado no AS.
+@param servico Servico protegido solicitado.
+@param tgt_criptografado Ticket Granting Ticket transportado pelo cliente.
+@param autenticador_criptografado Prova recente cifrada com a chave Cliente-TGS.
+@return Pacote com Service Ticket cifrado e resposta cifrada para o cliente.
+</pre> 
+<p class="definition">Definição na linha <a class="el" href="tgs__server_8py_source.html#l00152">152</a> do arquivo <a class="el" href="tgs__server_8py_source.html">tgs_server.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  157</span>) -&gt; dict:</div>
+<div class="line"><span class="lineno">  158</span>    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  159</span><span class="stringliteral">    @brief Emite Service Ticket e chave Cliente-Servico.</span></div>
+<div class="line"><span class="lineno">  160</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  161</span><span class="stringliteral">    @param usuario Usuario autenticado no AS.</span></div>
+<div class="line"><span class="lineno">  162</span><span class="stringliteral">    @param servico Servico protegido solicitado.</span></div>
+<div class="line"><span class="lineno">  163</span><span class="stringliteral">    @param tgt_criptografado Ticket Granting Ticket transportado pelo cliente.</span></div>
+<div class="line"><span class="lineno">  164</span><span class="stringliteral">    @param autenticador_criptografado Prova recente cifrada com a chave Cliente-TGS.</span></div>
+<div class="line"><span class="lineno">  165</span><span class="stringliteral">    @return Pacote com Service Ticket cifrado e resposta cifrada para o cliente.</span></div>
+<div class="line"><span class="lineno">  166</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  167</span>    chave_servico = obter_chave_servico(servico)</div>
+<div class="line"><span class="lineno">  168</span>    tgt = validar_tgt(usuario, tgt_criptografado)</div>
+<div class="line"><span class="lineno">  169</span>    validar_autenticador(usuario, tgt, autenticador_criptografado)</div>
+<div class="line"><span class="lineno">  170</span> </div>
+<div class="line"><span class="lineno">  171</span>    chave_sessao_cliente_servico = gerar_chave_simetrica()</div>
+<div class="line"><span class="lineno">  172</span>    chave_sessao_cliente_servico_base64 = bytes_para_base64(chave_sessao_cliente_servico)</div>
+<div class="line"><span class="lineno">  173</span> </div>
+<div class="line"><span class="lineno">  174</span>    ticket_servico = criar_ticket_servico(</div>
+<div class="line"><span class="lineno">  175</span>        usuario=usuario,</div>
+<div class="line"><span class="lineno">  176</span>        servico=servico,</div>
+<div class="line"><span class="lineno">  177</span>        chave_sessao_cliente_servico_base64=chave_sessao_cliente_servico_base64</div>
+<div class="line"><span class="lineno">  178</span>    )</div>
+<div class="line"><span class="lineno">  179</span> </div>
+<div class="line"><span class="lineno">  180</span>    ticket_servico_criptografado = criptografar_json(chave_servico, ticket_servico)</div>
+<div class="line"><span class="lineno">  181</span>    chave_cliente_tgs = base64_para_bytes(tgt[<span class="stringliteral">&quot;chave_sessao_cliente_tgs&quot;</span>])</div>
+<div class="line"><span class="lineno">  182</span> </div>
+<div class="line"><span class="lineno">  183</span>    resposta_cliente = criptografar_json(</div>
+<div class="line"><span class="lineno">  184</span>        chave_cliente_tgs,</div>
+<div class="line"><span class="lineno">  185</span>        {</div>
+<div class="line"><span class="lineno">  186</span>            <span class="stringliteral">&quot;usuario&quot;</span>: usuario,</div>
+<div class="line"><span class="lineno">  187</span>            <span class="stringliteral">&quot;servico&quot;</span>: servico,</div>
+<div class="line"><span class="lineno">  188</span>            <span class="stringliteral">&quot;chave_sessao_cliente_servico&quot;</span>: chave_sessao_cliente_servico_base64,</div>
+<div class="line"><span class="lineno">  189</span>            <span class="stringliteral">&quot;timestamp_emissao&quot;</span>: ticket_servico[<span class="stringliteral">&quot;timestamp_emissao&quot;</span>],</div>
+<div class="line"><span class="lineno">  190</span>            <span class="stringliteral">&quot;timestamp_expiracao&quot;</span>: ticket_servico[<span class="stringliteral">&quot;timestamp_expiracao&quot;</span>],</div>
+<div class="line"><span class="lineno">  191</span>            <span class="stringliteral">&quot;nonce_ticket&quot;</span>: ticket_servico[<span class="stringliteral">&quot;nonce&quot;</span>]</div>
+<div class="line"><span class="lineno">  192</span>        }</div>
+<div class="line"><span class="lineno">  193</span>    )</div>
+<div class="line"><span class="lineno">  194</span> </div>
+<div class="line"><span class="lineno">  195</span>    <span class="keywordflow">return</span> {</div>
+<div class="line"><span class="lineno">  196</span>        <span class="stringliteral">&quot;servico&quot;</span>: servico,</div>
+<div class="line"><span class="lineno">  197</span>        <span class="stringliteral">&quot;ticket_servico&quot;</span>: ticket_servico_criptografado,</div>
+<div class="line"><span class="lineno">  198</span>        <span class="stringliteral">&quot;resposta_cliente&quot;</span>: resposta_cliente</div>
+<div class="line"><span class="lineno">  199</span>    }</div>
+<div class="line"><span class="lineno">  200</span> </div>
+<div class="line"><span class="lineno">  201</span> </div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a9947601ea4bd811b0ad65fecea3c9e35" name="a9947601ea4bd811b0ad65fecea3c9e35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9947601ea4bd811b0ad65fecea3c9e35">&#9670;&#160;</a></span>obter_chave_servico()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"> bytes obter_chave_servico </td>
+          <td>(</td>
+          <td class="paramtype">str</td>          <td class="paramname"><span class="paramname"><em>servico</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">@brief Recupera a chave simetrica do servico solicitado.
+
+@param servico Nome logico do servico protegido.
+@return Chave secreta compartilhada com o servico.
+@throws ValueError Quando o servico nao esta cadastrado no TGS.
+</pre> 
+<p class="definition">Definição na linha <a class="el" href="tgs__server_8py_source.html#l00042">42</a> do arquivo <a class="el" href="tgs__server_8py_source.html">tgs_server.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   42</span><span class="keyword">def </span>obter_chave_servico(servico: str) -&gt; bytes:</div>
+<div class="line"><span class="lineno">   43</span>    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   44</span><span class="stringliteral">    @brief Recupera a chave simetrica do servico solicitado.</span></div>
+<div class="line"><span class="lineno">   45</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   46</span><span class="stringliteral">    @param servico Nome logico do servico protegido.</span></div>
+<div class="line"><span class="lineno">   47</span><span class="stringliteral">    @return Chave secreta compartilhada com o servico.</span></div>
+<div class="line"><span class="lineno">   48</span><span class="stringliteral">    @throws ValueError Quando o servico nao esta cadastrado no TGS.</span></div>
+<div class="line"><span class="lineno">   49</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   50</span>    <span class="keywordflow">if</span> servico <span class="keywordflow">not</span> <span class="keywordflow">in</span> CHAVES_SERVICOS:</div>
+<div class="line"><span class="lineno">   51</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;Servico desconhecido.&quot;</span>)</div>
+<div class="line"><span class="lineno">   52</span> </div>
+<div class="line"><span class="lineno">   53</span>    <span class="keywordflow">return</span> CHAVES_SERVICOS[servico]</div>
+<div class="line"><span class="lineno">   54</span> </div>
+<div class="line"><span class="lineno">   55</span> </div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="ae87cc0a74f2975b7cf13b5f6bab4836f" name="ae87cc0a74f2975b7cf13b5f6bab4836f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae87cc0a74f2975b7cf13b5f6bab4836f">&#9670;&#160;</a></span>validar_autenticador()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"> dict validar_autenticador </td>
+          <td>(</td>
+          <td class="paramtype">str</td>          <td class="paramname"><span class="paramname"><em>usuario</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">dict</td>          <td class="paramname"><span class="paramname"><em>tgt</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">dict</td>          <td class="paramname"><span class="paramname"><em>autenticador_criptografado</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">@brief Valida o autenticador Cliente-TGS associado a um TGT.
+
+@param usuario Usuario esperado.
+@param tgt TGT ja descriptografado e validado.
+@param autenticador_criptografado Autenticador cifrado com a chave Cliente-TGS.
+@return Autenticador em claro.
+@throws ValueError Para autenticador invalido, expirado, futuro ou reutilizado.
+</pre> 
+<p class="definition">Definição na linha <a class="el" href="tgs__server_8py_source.html#l00115">115</a> do arquivo <a class="el" href="tgs__server_8py_source.html">tgs_server.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  115</span><span class="keyword">def </span>validar_autenticador(usuario: str, tgt: dict, autenticador_criptografado: dict) -&gt; dict:</div>
+<div class="line"><span class="lineno">  116</span>    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  117</span><span class="stringliteral">    @brief Valida o autenticador Cliente-TGS associado a um TGT.</span></div>
+<div class="line"><span class="lineno">  118</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  119</span><span class="stringliteral">    @param usuario Usuario esperado.</span></div>
+<div class="line"><span class="lineno">  120</span><span class="stringliteral">    @param tgt TGT ja descriptografado e validado.</span></div>
+<div class="line"><span class="lineno">  121</span><span class="stringliteral">    @param autenticador_criptografado Autenticador cifrado com a chave Cliente-TGS.</span></div>
+<div class="line"><span class="lineno">  122</span><span class="stringliteral">    @return Autenticador em claro.</span></div>
+<div class="line"><span class="lineno">  123</span><span class="stringliteral">    @throws ValueError Para autenticador invalido, expirado, futuro ou reutilizado.</span></div>
+<div class="line"><span class="lineno">  124</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  125</span>    <span class="keywordflow">if</span> <span class="keywordflow">not</span> autenticador_criptografado:</div>
+<div class="line"><span class="lineno">  126</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;Autenticador nao informado.&quot;</span>)</div>
+<div class="line"><span class="lineno">  127</span> </div>
+<div class="line"><span class="lineno">  128</span>    chave_sessao = tgt[<span class="stringliteral">&quot;chave_sessao_cliente_tgs&quot;</span>]</div>
+<div class="line"><span class="lineno">  129</span> </div>
+<div class="line"><span class="lineno">  130</span>    <span class="keywordflow">try</span>:</div>
+<div class="line"><span class="lineno">  131</span>        autenticador = abrir_autenticador(chave_sessao, autenticador_criptografado)</div>
+<div class="line"><span class="lineno">  132</span>    <span class="keywordflow">except</span> Exception <span class="keyword">as</span> erro:</div>
+<div class="line"><span class="lineno">  133</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;Autenticador invalido ou nao pode ser descriptografado.&quot;</span>) <span class="keyword">from</span> erro</div>
+<div class="line"><span class="lineno">  134</span> </div>
+<div class="line"><span class="lineno">  135</span>    <span class="keywordflow">if</span> autenticador.get(<span class="stringliteral">&quot;usuario&quot;</span>) != usuario:</div>
+<div class="line"><span class="lineno">  136</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;Usuario do autenticador diferente do usuario do TGT.&quot;</span>)</div>
+<div class="line"><span class="lineno">  137</span> </div>
+<div class="line"><span class="lineno">  138</span>    timestamp = autenticador.get(<span class="stringliteral">&quot;timestamp&quot;</span>)</div>
+<div class="line"><span class="lineno">  139</span>    <span class="keywordflow">if</span> timestamp <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><span class="lineno">  140</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;Autenticador sem timestamp.&quot;</span>)</div>
+<div class="line"><span class="lineno">  141</span> </div>
+<div class="line"><span class="lineno">  142</span>    <span class="keywordflow">if</span> ticket_expirou(timestamp, TEMPO_MAXIMO_AUTENTICADOR):</div>
+<div class="line"><span class="lineno">  143</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;Autenticador expirado.&quot;</span>)</div>
+<div class="line"><span class="lineno">  144</span> </div>
+<div class="line"><span class="lineno">  145</span>    <span class="keywordflow">if</span> timestamp &gt; timestamp_atual() + TEMPO_MAXIMO_AUTENTICADOR:</div>
+<div class="line"><span class="lineno">  146</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;Autenticador com timestamp invalido.&quot;</span>)</div>
+<div class="line"><span class="lineno">  147</span> </div>
+<div class="line"><span class="lineno">  148</span>    _registrar_nonce_tgs(usuario, autenticador.get(<span class="stringliteral">&quot;nonce&quot;</span>), timestamp)</div>
+<div class="line"><span class="lineno">  149</span>    <span class="keywordflow">return</span> autenticador</div>
+<div class="line"><span class="lineno">  150</span> </div>
+<div class="line"><span class="lineno">  151</span> </div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a9f6b087a28730d57db233b50ba30f9c8" name="a9f6b087a28730d57db233b50ba30f9c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f6b087a28730d57db233b50ba30f9c8">&#9670;&#160;</a></span>validar_tgt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"> dict validar_tgt </td>
+          <td>(</td>
+          <td class="paramtype">str</td>          <td class="paramname"><span class="paramname"><em>usuario</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">dict</td>          <td class="paramname"><span class="paramname"><em>tgt_criptografado</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">@brief Abre e valida um TGT recebido pelo TGS.
+
+@param usuario Usuario que solicita o Service Ticket.
+@param tgt_criptografado TGT cifrado com a chave secreta do TGS.
+@return TGT em claro depois da validacao.
+@throws ValueError Para TGT ausente, adulterado, expirado ou de outro usuario.
+</pre> 
+<p class="definition">Definição na linha <a class="el" href="tgs__server_8py_source.html#l00085">85</a> do arquivo <a class="el" href="tgs__server_8py_source.html">tgs_server.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   85</span><span class="keyword">def </span>validar_tgt(usuario: str, tgt_criptografado: dict) -&gt; dict:</div>
+<div class="line"><span class="lineno">   86</span>    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   87</span><span class="stringliteral">    @brief Abre e valida um TGT recebido pelo TGS.</span></div>
+<div class="line"><span class="lineno">   88</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   89</span><span class="stringliteral">    @param usuario Usuario que solicita o Service Ticket.</span></div>
+<div class="line"><span class="lineno">   90</span><span class="stringliteral">    @param tgt_criptografado TGT cifrado com a chave secreta do TGS.</span></div>
+<div class="line"><span class="lineno">   91</span><span class="stringliteral">    @return TGT em claro depois da validacao.</span></div>
+<div class="line"><span class="lineno">   92</span><span class="stringliteral">    @throws ValueError Para TGT ausente, adulterado, expirado ou de outro usuario.</span></div>
+<div class="line"><span class="lineno">   93</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   94</span>    <span class="keywordflow">if</span> <span class="keywordflow">not</span> tgt_criptografado:</div>
+<div class="line"><span class="lineno">   95</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;TGT nao informado.&quot;</span>)</div>
+<div class="line"><span class="lineno">   96</span> </div>
+<div class="line"><span class="lineno">   97</span>    <span class="keywordflow">try</span>:</div>
+<div class="line"><span class="lineno">   98</span>        tgt = descriptografar_json(CHAVE_SECRETA_TGS, tgt_criptografado)</div>
+<div class="line"><span class="lineno">   99</span>    <span class="keywordflow">except</span> Exception <span class="keyword">as</span> erro:</div>
+<div class="line"><span class="lineno">  100</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;TGT invalido ou nao pode ser descriptografado.&quot;</span>) <span class="keyword">from</span> erro</div>
+<div class="line"><span class="lineno">  101</span> </div>
+<div class="line"><span class="lineno">  102</span>    <span class="keywordflow">if</span> tgt.get(<span class="stringliteral">&quot;id_cliente&quot;</span>) != usuario:</div>
+<div class="line"><span class="lineno">  103</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;TGT pertence a outro usuario.&quot;</span>)</div>
+<div class="line"><span class="lineno">  104</span> </div>
+<div class="line"><span class="lineno">  105</span>    chave_sessao = tgt.get(<span class="stringliteral">&quot;chave_sessao_cliente_tgs&quot;</span>)</div>
+<div class="line"><span class="lineno">  106</span>    <span class="keywordflow">if</span> <span class="keywordflow">not</span> chave_sessao:</div>
+<div class="line"><span class="lineno">  107</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;TGT nao contem chave de sessao Cliente-TGS.&quot;</span>)</div>
+<div class="line"><span class="lineno">  108</span> </div>
+<div class="line"><span class="lineno">  109</span>    <span class="keywordflow">if</span> ticket_expirou(tgt[<span class="stringliteral">&quot;timestamp_emissao&quot;</span>], tgt[<span class="stringliteral">&quot;validade_segundos&quot;</span>]):</div>
+<div class="line"><span class="lineno">  110</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;TGT expirado.&quot;</span>)</div>
+<div class="line"><span class="lineno">  111</span> </div>
+<div class="line"><span class="lineno">  112</span>    <span class="keywordflow">return</span> tgt</div>
+<div class="line"><span class="lineno">  113</span> </div>
+<div class="line"><span class="lineno">  114</span> </div>
+</div><!-- fragment -->
+</div>
+</div>
+<a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Variáveis</h2>
+<a id="aea0e62ff67184e787f686cbe54b506d3" name="aea0e62ff67184e787f686cbe54b506d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea0e62ff67184e787f686cbe54b506d3">&#9670;&#160;</a></span>BLOQUEIO_NONCES_TGS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">kerberos_notas.kerberos.tgs_server.BLOQUEIO_NONCES_TGS = RLock()</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definição na linha <a class="el" href="tgs__server_8py_source.html#l00035">35</a> do arquivo <a class="el" href="tgs__server_8py_source.html">tgs_server.py</a>.</p>
+
+</div>
+</div>
+<a id="a21850c263a7b7c0cddf8ae47d2c15135" name="a21850c263a7b7c0cddf8ae47d2c15135"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21850c263a7b7c0cddf8ae47d2c15135">&#9670;&#160;</a></span>CHAVES_SERVICOS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">dict kerberos_notas.kerberos.tgs_server.CHAVES_SERVICOS</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Valor inicial:</b><div class="fragment"><div class="line">=  {</div>
+<div class="line">    <span class="stringliteral">&quot;notas&quot;</span>: CHAVE_SECRETA_SERVICO_NOTAS</div>
+<div class="line">}</div>
+</div><!-- fragment -->
+<p class="definition">Definição na linha <a class="el" href="tgs__server_8py_source.html#l00037">37</a> do arquivo <a class="el" href="tgs__server_8py_source.html">tgs_server.py</a>.</p>
+
+</div>
+</div>
+<a id="abe17e4e2a6b55385ba924ed2c31d7fb8" name="abe17e4e2a6b55385ba924ed2c31d7fb8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe17e4e2a6b55385ba924ed2c31d7fb8">&#9670;&#160;</a></span>NONCES_TGS_UTILIZADOS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">dict kerberos_notas.kerberos.tgs_server.NONCES_TGS_UTILIZADOS = {}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definição na linha <a class="el" href="tgs__server_8py_source.html#l00034">34</a> do arquivo <a class="el" href="tgs__server_8py_source.html">tgs_server.py</a>.</p>
+
+</div>
+</div>
+<a id="a9234c718e34975943544d716ac167f1a" name="a9234c718e34975943544d716ac167f1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9234c718e34975943544d716ac167f1a">&#9670;&#160;</a></span>TEMPO_MAXIMO_AUTENTICADOR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int kerberos_notas.kerberos.tgs_server.TEMPO_MAXIMO_AUTENTICADOR = 60 * 5</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definição na linha <a class="el" href="tgs__server_8py_source.html#l00033">33</a> do arquivo <a class="el" href="tgs__server_8py_source.html">tgs_server.py</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="namespacekerberos__notas.html">kerberos_notas</a></li><li class="navelem"><a href="namespacekerberos__notas_1_1kerberos.html">kerberos</a></li><li class="navelem"><a href="namespacekerberos__notas_1_1kerberos_1_1tgs__server.html">tgs_server</a></li>
+    <li class="footer">Gerado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
+</body>
+</html>

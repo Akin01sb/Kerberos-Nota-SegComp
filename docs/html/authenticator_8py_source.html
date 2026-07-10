@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.17.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Kerberos Notas: Código-Fonte de src/kerberos_notas/kerberos/authenticator.py</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="codefolding.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+const theme = 'default';
+mermaid.initialize({ startOnLoad: true, theme: theme });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Kerberos Notas
+   </div>
+   <div id="projectbrief">Portal de Notas protegido por Kerberos academico</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Gerado por Doxygen 1.17.0 -->
+<script type="text/javascript">
+let searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', codefold.init);
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu('',true);
+  init_search();
+});
+</script>
+<div id="main-nav-mobile">
+<div class="sm sm-dox"><input id="main-menu-state" type="checkbox"/>
+<label class="main-menu-btn" for="main-menu-state">
+<span class="main-menu-btn-icon"></span> Toggle main menu visibility</label>
+<span id="searchBoxPos1" style="position:absolute;right:8px;top:8px;height:36px;"></span>
+</div>
+</div><!-- main-nav-mobile -->
+<div id="main-nav">
+  <ul class="sm sm-dox" id="main-menu">
+    <li id="searchBoxPos2" style="float:right">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect" class="search-icon" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()"><span class="search-icon-dropdown"></span></span>
+          <input type="text" id="MSearchField" value="" placeholder="Busca" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><div id="MSearchCloseImg" class="close-icon"></div></a>
+          </span>
+        </div>
+    </li>
+  </ul>
+</div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('authenticator_8py_source.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Carregando...</div>
+<div class="SRStatus" id="Searching">Procurando...</div>
+<div class="SRStatus" id="NoMatches">Nenhuma entrada encontrado</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">authenticator.py</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="authenticator_8py.html">Ir para a documentação desse arquivo.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno"><a class="line" href="namespacekerberos__notas_1_1kerberos_1_1authenticator.html">    1</a></span><span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="stringliteral">@file authenticator.py</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="stringliteral">@brief Criacao e abertura dos autenticadores Kerberos.</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="stringliteral">@details</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="stringliteral">Autenticadores sao mensagens cifradas com chaves de sessao. Eles carregam</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="stringliteral">usuario, timestamp e nonce, e tambem podem prender a mensagem a uma acao e ao</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="stringliteral">hash de uma requisicao protegida.</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">import</span> uuid</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">from</span> <a class="code hl_namespace" href="namespacekerberos__notas_1_1crypto_1_1crypto__utils.html">kerberos_notas.crypto.crypto_utils</a> <span class="keyword">import</span> (</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    base64_para_bytes,</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    criptografar_json,</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    descriptografar_json,</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>)</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">from</span> <a class="code hl_namespace" href="namespacekerberos__notas_1_1kerberos_1_1tickets.html">kerberos_notas.kerberos.tickets</a> <span class="keyword">import</span> timestamp_atual</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="foldopen" id="foldopen00021" data-start="" data-end="">
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="namespacekerberos__notas_1_1kerberos_1_1authenticator.html#a912bf086f5bfaa70c32e7cfad43b4771">   21</a></span><span class="keyword">def </span><a class="code hl_function" href="namespacekerberos__notas_1_1kerberos_1_1authenticator.html#a912bf086f5bfaa70c32e7cfad43b4771">criar_autenticador</a>(</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        usuario: str,</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        chave_sessao_base64: str,</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        nonce: str | <span class="keywordtype">None</span> = <span class="keywordtype">None</span>,</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        acao: str | <span class="keywordtype">None</span> = <span class="keywordtype">None</span>,</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        hash_requisicao: str | <span class="keywordtype">None</span> = <span class="keywordtype">None</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>) -&gt; dict:</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="stringliteral">    @brief Cria autenticador cifrado com uma chave de sessao.</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="stringliteral">    @param usuario Usuario que apresenta o ticket.</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="stringliteral">    @param chave_sessao_base64 Chave de sessao em Base64.</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="stringliteral">    @param nonce Valor unico contra replay; se ausente, e gerado.</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="stringliteral">    @param acao Operacao esperada no servico, quando aplicavel.</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="stringliteral">    @param hash_requisicao Hash da requisicao protegida, quando aplicavel.</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="stringliteral">    @return Pacote AES-GCM contendo os dados do autenticador.</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    chave_sessao = base64_para_bytes(chave_sessao_base64)</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    dados = {</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <span class="stringliteral">&quot;usuario&quot;</span>: usuario,</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="stringliteral">&quot;timestamp&quot;</span>: timestamp_atual(),</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="stringliteral">&quot;nonce&quot;</span>: nonce <span class="keywordflow">or</span> uuid.uuid4().hex</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    }</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordflow">if</span> acao:</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        dados[<span class="stringliteral">&quot;acao&quot;</span>] = acao</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keywordflow">if</span> hash_requisicao:</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        dados[<span class="stringliteral">&quot;hash_requisicao&quot;</span>] = hash_requisicao</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keywordflow">return</span> criptografar_json(chave_sessao, dados)</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+</div>
+<div class="foldopen" id="foldopen00055" data-start="" data-end="">
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="namespacekerberos__notas_1_1kerberos_1_1authenticator.html#ad1b9ca7447aa6a34831e168f50e1d3f4">   55</a></span><span class="keyword">def </span><a class="code hl_function" href="namespacekerberos__notas_1_1kerberos_1_1authenticator.html#ad1b9ca7447aa6a34831e168f50e1d3f4">abrir_autenticador</a>(chave_sessao_base64: str, autenticador_criptografado: dict) -&gt; dict:</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="stringliteral">    @brief Descriptografa um autenticador usando a chave de sessao esperada.</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="stringliteral">    @param chave_sessao_base64 Chave de sessao em Base64.</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="stringliteral">    @param autenticador_criptografado Pacote cifrado recebido do cliente.</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="stringliteral">    @return Dados internos do autenticador.</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="stringliteral">    @throws Exception Quando a chave ou o pacote nao validam no AES-GCM.</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    chave_sessao = base64_para_bytes(chave_sessao_base64)</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="keywordflow">return</span> descriptografar_json(chave_sessao, autenticador_criptografado)</div>
+</div>
+<div class="ttc" id="anamespacekerberos__notas_1_1crypto_1_1crypto__utils_html"><div class="ttname"><a href="namespacekerberos__notas_1_1crypto_1_1crypto__utils.html">kerberos_notas.crypto.crypto_utils</a></div><div class="ttdef"><b>Definição</b> <a href="crypto__utils_8py_source.html#l00001">crypto_utils.py:1</a></div></div>
+<div class="ttc" id="anamespacekerberos__notas_1_1kerberos_1_1authenticator_html_a912bf086f5bfaa70c32e7cfad43b4771"><div class="ttname"><a href="namespacekerberos__notas_1_1kerberos_1_1authenticator.html#a912bf086f5bfaa70c32e7cfad43b4771">kerberos_notas.kerberos.authenticator.criar_autenticador</a></div><div class="ttdeci">dict criar_autenticador(str usuario, str chave_sessao_base64, str|None nonce=None, str|None acao=None, str|None hash_requisicao=None)</div><div class="ttdef"><b>Definição</b> <a href="#l00021">authenticator.py:27</a></div></div>
+<div class="ttc" id="anamespacekerberos__notas_1_1kerberos_1_1authenticator_html_ad1b9ca7447aa6a34831e168f50e1d3f4"><div class="ttname"><a href="namespacekerberos__notas_1_1kerberos_1_1authenticator.html#ad1b9ca7447aa6a34831e168f50e1d3f4">kerberos_notas.kerberos.authenticator.abrir_autenticador</a></div><div class="ttdeci">dict abrir_autenticador(str chave_sessao_base64, dict autenticador_criptografado)</div><div class="ttdef"><b>Definição</b> <a href="#l00055">authenticator.py:55</a></div></div>
+<div class="ttc" id="anamespacekerberos__notas_1_1kerberos_1_1tickets_html"><div class="ttname"><a href="namespacekerberos__notas_1_1kerberos_1_1tickets.html">kerberos_notas.kerberos.tickets</a></div><div class="ttdef"><b>Definição</b> <a href="tickets_8py_source.html#l00001">tickets.py:1</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a href="dir_541d11015eb38b267f0d9c2af7f58c42.html">kerberos_notas</a></li><li class="navelem"><a href="dir_a137207eff458fe4c8f067cea8ba5877.html">kerberos</a></li><li class="navelem"><a href="authenticator_8py.html">authenticator.py</a></li>
+    <li class="footer">Gerado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
+</body>
+</html>

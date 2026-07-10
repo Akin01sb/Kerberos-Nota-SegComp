@@ -1,0 +1,655 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.17.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Kerberos Notas: Refência do Namespace kerberos_notas.crypto.crypto_utils</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="codefolding.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+const theme = 'default';
+mermaid.initialize({ startOnLoad: true, theme: theme });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Kerberos Notas
+   </div>
+   <div id="projectbrief">Portal de Notas protegido por Kerberos academico</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Gerado por Doxygen 1.17.0 -->
+<script type="text/javascript">
+let searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', codefold.init);
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu('',true);
+  init_search();
+});
+</script>
+<div id="main-nav-mobile">
+<div class="sm sm-dox"><input id="main-menu-state" type="checkbox"/>
+<label class="main-menu-btn" for="main-menu-state">
+<span class="main-menu-btn-icon"></span> Toggle main menu visibility</label>
+<span id="searchBoxPos1" style="position:absolute;right:8px;top:8px;height:36px;"></span>
+</div>
+</div><!-- main-nav-mobile -->
+<div id="main-nav">
+  <ul class="sm sm-dox" id="main-menu">
+    <li id="searchBoxPos2" style="float:right">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect" class="search-icon" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()"><span class="search-icon-dropdown"></span></span>
+          <input type="text" id="MSearchField" value="" placeholder="Busca" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><div id="MSearchCloseImg" class="close-icon"></div></a>
+          </span>
+        </div>
+    </li>
+  </ul>
+</div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('namespacekerberos__notas_1_1crypto_1_1crypto__utils.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Carregando...</div>
+<div class="SRStatus" id="Searching">Procurando...</div>
+<div class="SRStatus" id="NoMatches">Nenhuma entrada encontrado</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Refência do Namespace kerberos_notas.crypto.crypto_utils</div></div>
+</div><!--header-->
+<div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
+Funções</h2></td></tr>
+<tr class="memitem:afc97ae4edd477dae75b732a5d52d35da" id="r_afc97ae4edd477dae75b732a5d52d35da"><td class="memItemLeft">bytes&#160;</td><td class="memItemRight"><a class="el" href="#afc97ae4edd477dae75b732a5d52d35da">gerar_chave_simetrica</a> ()</td></tr>
+<tr class="memitem:a7312f382d2eb3bf5597f2c51a1b3697e" id="r_a7312f382d2eb3bf5597f2c51a1b3697e"><td class="memItemLeft">str&#160;</td><td class="memItemRight"><a class="el" href="#a7312f382d2eb3bf5597f2c51a1b3697e">bytes_para_base64</a> (bytes dados)</td></tr>
+<tr class="memitem:af1ccc0d7181a6ca02bc4de824e65d6ee" id="r_af1ccc0d7181a6ca02bc4de824e65d6ee"><td class="memItemLeft">bytes&#160;</td><td class="memItemRight"><a class="el" href="#af1ccc0d7181a6ca02bc4de824e65d6ee">base64_para_bytes</a> (str dados_base64)</td></tr>
+<tr class="memitem:ae752cc4584f71b3d994512eb27be5e4e" id="r_ae752cc4584f71b3d994512eb27be5e4e"><td class="memItemLeft">dict&#160;</td><td class="memItemRight"><a class="el" href="#ae752cc4584f71b3d994512eb27be5e4e">criptografar_json</a> (bytes chave, dict dados)</td></tr>
+<tr class="memitem:a644ab4202a8764fce71e4947d5aed7b3" id="r_a644ab4202a8764fce71e4947d5aed7b3"><td class="memItemLeft">dict&#160;</td><td class="memItemRight"><a class="el" href="#a644ab4202a8764fce71e4947d5aed7b3">descriptografar_json</a> (bytes chave, dict pacote)</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
+Variáveis</h2></td></tr>
+<tr class="memitem:a34a2f7cbbc85757e69ce1118cb9a4f97" id="r_a34a2f7cbbc85757e69ce1118cb9a4f97"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a34a2f7cbbc85757e69ce1118cb9a4f97">TAMANHO_NONCE</a> = 12</td></tr>
+<tr class="memitem:a382d1e91410b1c8bef4fcc8e9c8b670f" id="r_a382d1e91410b1c8bef4fcc8e9c8b670f"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a382d1e91410b1c8bef4fcc8e9c8b670f">TAMANHO_CHAVE_AES</a> = 32</td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Descrição detalhada</h2>
+<div class="textblock"><pre class="fragment">@file crypto_utils.py
+@brief Primitivas simetricas e serializacao segura de JSON.
+
+@details
+Este modulo concentra as funcoes de apoio criptografico usadas pelo AS, TGS,
+cliente e Servico de Notas. Ele gera chaves AES de 32 bytes, converte dados
+entre bytes e Base64 e cifra/decifra dicionarios JSON com AES-GCM.
+
+Componentes principais:
+- gerar_chave_simetrica
+- bytes_para_base64
+- base64_para_bytes
+- criptografar_json
+- descriptografar_json
+
+Papel na arquitetura:
+Camada de criptografia simetrica compartilhada por tickets, autenticadores,
+respostas do AS/TGS e operacoes protegidas do Portal de Notas.
+</pre> </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Funções</h2>
+<a id="af1ccc0d7181a6ca02bc4de824e65d6ee" name="af1ccc0d7181a6ca02bc4de824e65d6ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1ccc0d7181a6ca02bc4de824e65d6ee">&#9670;&#160;</a></span>base64_para_bytes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"> bytes base64_para_bytes </td>
+          <td>(</td>
+          <td class="paramtype">str</td>          <td class="paramname"><span class="paramname"><em>dados_base64</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">***************************************************************************
+Funcao: base64_para_bytes
+
+@brief Decodifica texto Base64 para bytes.
+
+Descricao:
+Reverte a representacao textual usada em mensagens JSON para recuperar
+chaves, nonces e ciphertexts em bytes.
+
+Parametros:
+@param dados_base64 String Base64 a ser decodificada.
+
+Valor retornado:
+@return Bytes decodificados.
+
+Assertiva de entrada:
+@pre A entrada deve ser Base64 valido.
+
+Assertiva de saida:
+@post Retorna a sequencia de bytes original.
+
+Excecoes:
+@throws Exception Pode propagar erro quando a entrada nao for Base64 valido.
+
+Observacoes:
+A funcao nao valida semanticamente se os bytes representam chave ou nonce.
+***************************************************************************
+</pre> 
+<p class="definition">Definição na linha <a class="el" href="crypto__utils_8py_source.html#l00099">99</a> do arquivo <a class="el" href="crypto__utils_8py_source.html">crypto_utils.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   99</span><span class="keyword">def </span>base64_para_bytes(dados_base64: str) -&gt; bytes:</div>
+<div class="line"><span class="lineno">  100</span>    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  101</span><span class="stringliteral">    ***************************************************************************</span></div>
+<div class="line"><span class="lineno">  102</span><span class="stringliteral">    Funcao: base64_para_bytes</span></div>
+<div class="line"><span class="lineno">  103</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  104</span><span class="stringliteral">    @brief Decodifica texto Base64 para bytes.</span></div>
+<div class="line"><span class="lineno">  105</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  106</span><span class="stringliteral">    Descricao:</span></div>
+<div class="line"><span class="lineno">  107</span><span class="stringliteral">    Reverte a representacao textual usada em mensagens JSON para recuperar</span></div>
+<div class="line"><span class="lineno">  108</span><span class="stringliteral">    chaves, nonces e ciphertexts em bytes.</span></div>
+<div class="line"><span class="lineno">  109</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  110</span><span class="stringliteral">    Parametros:</span></div>
+<div class="line"><span class="lineno">  111</span><span class="stringliteral">    @param dados_base64 String Base64 a ser decodificada.</span></div>
+<div class="line"><span class="lineno">  112</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  113</span><span class="stringliteral">    Valor retornado:</span></div>
+<div class="line"><span class="lineno">  114</span><span class="stringliteral">    @return Bytes decodificados.</span></div>
+<div class="line"><span class="lineno">  115</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  116</span><span class="stringliteral">    Assertiva de entrada:</span></div>
+<div class="line"><span class="lineno">  117</span><span class="stringliteral">    @pre A entrada deve ser Base64 valido.</span></div>
+<div class="line"><span class="lineno">  118</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  119</span><span class="stringliteral">    Assertiva de saida:</span></div>
+<div class="line"><span class="lineno">  120</span><span class="stringliteral">    @post Retorna a sequencia de bytes original.</span></div>
+<div class="line"><span class="lineno">  121</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  122</span><span class="stringliteral">    Excecoes:</span></div>
+<div class="line"><span class="lineno">  123</span><span class="stringliteral">    @throws Exception Pode propagar erro quando a entrada nao for Base64 valido.</span></div>
+<div class="line"><span class="lineno">  124</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  125</span><span class="stringliteral">    Observacoes:</span></div>
+<div class="line"><span class="lineno">  126</span><span class="stringliteral">    A funcao nao valida semanticamente se os bytes representam chave ou nonce.</span></div>
+<div class="line"><span class="lineno">  127</span><span class="stringliteral">    ***************************************************************************</span></div>
+<div class="line"><span class="lineno">  128</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  129</span>    <span class="keywordflow">return</span> base64.b64decode(dados_base64)</div>
+<div class="line"><span class="lineno">  130</span> </div>
+<div class="line"><span class="lineno">  131</span> </div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a7312f382d2eb3bf5597f2c51a1b3697e" name="a7312f382d2eb3bf5597f2c51a1b3697e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7312f382d2eb3bf5597f2c51a1b3697e">&#9670;&#160;</a></span>bytes_para_base64()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"> str bytes_para_base64 </td>
+          <td>(</td>
+          <td class="paramtype">bytes</td>          <td class="paramname"><span class="paramname"><em>dados</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">***************************************************************************
+Funcao: bytes_para_base64
+
+@brief Codifica bytes em Base64 textual.
+
+Descricao:
+Converte bytes criptograficos para string Base64, permitindo armazenar e
+transportar chaves, nonces e ciphertexts em JSON.
+
+Parametros:
+@param dados Sequencia de bytes a ser codificada.
+
+Valor retornado:
+@return String Base64.
+
+Assertiva de entrada:
+@pre O parametro deve ser bytes.
+
+Assertiva de saida:
+@post Retorna texto ASCII seguro para JSON.
+
+Excecoes:
+@throws Exception Pode propagar erros de codificacao Base64.
+
+Observacoes:
+Base64 nao criptografa; apenas representa bytes em texto.
+***************************************************************************
+</pre> 
+<p class="definition">Definição na linha <a class="el" href="crypto__utils_8py_source.html#l00066">66</a> do arquivo <a class="el" href="crypto__utils_8py_source.html">crypto_utils.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   66</span><span class="keyword">def </span>bytes_para_base64(dados: bytes) -&gt; str:</div>
+<div class="line"><span class="lineno">   67</span>    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   68</span><span class="stringliteral">    ***************************************************************************</span></div>
+<div class="line"><span class="lineno">   69</span><span class="stringliteral">    Funcao: bytes_para_base64</span></div>
+<div class="line"><span class="lineno">   70</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   71</span><span class="stringliteral">    @brief Codifica bytes em Base64 textual.</span></div>
+<div class="line"><span class="lineno">   72</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   73</span><span class="stringliteral">    Descricao:</span></div>
+<div class="line"><span class="lineno">   74</span><span class="stringliteral">    Converte bytes criptograficos para string Base64, permitindo armazenar e</span></div>
+<div class="line"><span class="lineno">   75</span><span class="stringliteral">    transportar chaves, nonces e ciphertexts em JSON.</span></div>
+<div class="line"><span class="lineno">   76</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   77</span><span class="stringliteral">    Parametros:</span></div>
+<div class="line"><span class="lineno">   78</span><span class="stringliteral">    @param dados Sequencia de bytes a ser codificada.</span></div>
+<div class="line"><span class="lineno">   79</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   80</span><span class="stringliteral">    Valor retornado:</span></div>
+<div class="line"><span class="lineno">   81</span><span class="stringliteral">    @return String Base64.</span></div>
+<div class="line"><span class="lineno">   82</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   83</span><span class="stringliteral">    Assertiva de entrada:</span></div>
+<div class="line"><span class="lineno">   84</span><span class="stringliteral">    @pre O parametro deve ser bytes.</span></div>
+<div class="line"><span class="lineno">   85</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   86</span><span class="stringliteral">    Assertiva de saida:</span></div>
+<div class="line"><span class="lineno">   87</span><span class="stringliteral">    @post Retorna texto ASCII seguro para JSON.</span></div>
+<div class="line"><span class="lineno">   88</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   89</span><span class="stringliteral">    Excecoes:</span></div>
+<div class="line"><span class="lineno">   90</span><span class="stringliteral">    @throws Exception Pode propagar erros de codificacao Base64.</span></div>
+<div class="line"><span class="lineno">   91</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   92</span><span class="stringliteral">    Observacoes:</span></div>
+<div class="line"><span class="lineno">   93</span><span class="stringliteral">    Base64 nao criptografa; apenas representa bytes em texto.</span></div>
+<div class="line"><span class="lineno">   94</span><span class="stringliteral">    ***************************************************************************</span></div>
+<div class="line"><span class="lineno">   95</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   96</span>    <span class="keywordflow">return</span> base64.b64encode(dados).decode(<span class="stringliteral">&quot;utf-8&quot;</span>)</div>
+<div class="line"><span class="lineno">   97</span> </div>
+<div class="line"><span class="lineno">   98</span> </div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="ae752cc4584f71b3d994512eb27be5e4e" name="ae752cc4584f71b3d994512eb27be5e4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae752cc4584f71b3d994512eb27be5e4e">&#9670;&#160;</a></span>criptografar_json()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"> dict criptografar_json </td>
+          <td>(</td>
+          <td class="paramtype">bytes</td>          <td class="paramname"><span class="paramname"><em>chave</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">dict</td>          <td class="paramname"><span class="paramname"><em>dados</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">***************************************************************************
+Funcao: criptografar_json
+
+@brief Cifra um dicionario JSON com AES-GCM.
+
+Descricao:
+Serializa um dicionario em JSON, gera um nonce de 12 bytes e cifra os dados
+com AES-GCM. O retorno contem nonce e ciphertext em Base64, formato usado
+nos tickets, autenticadores e respostas do protocolo.
+
+Parametros:
+@param chave Chave AES de 32 bytes.
+@param dados Dicionario serializavel em JSON.
+
+Valor retornado:
+@return Dicionario com `nonce` e `ciphertext` em Base64.
+
+Assertiva de entrada:
+@pre A chave deve ter tamanho aceito pelo AES-GCM.
+@pre Os dados devem ser serializaveis em JSON.
+
+Assertiva de saida:
+@post Retorna pacote cifrado e autenticado.
+
+Excecoes:
+@throws TypeError Pode ocorrer se os dados nao forem serializaveis.
+@throws Exception Pode propagar erros da biblioteca criptografica.
+
+Observacoes:
+AES-GCM fornece confidencialidade e deteccao de adulteracao. Nao ha dados
+autenticados adicionais associados nesta implementacao.
+***************************************************************************
+</pre> 
+<p class="definition">Definição na linha <a class="el" href="crypto__utils_8py_source.html#l00132">132</a> do arquivo <a class="el" href="crypto__utils_8py_source.html">crypto_utils.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  132</span><span class="keyword">def </span>criptografar_json(chave: bytes, dados: dict) -&gt; dict:</div>
+<div class="line"><span class="lineno">  133</span>    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  134</span><span class="stringliteral">    ***************************************************************************</span></div>
+<div class="line"><span class="lineno">  135</span><span class="stringliteral">    Funcao: criptografar_json</span></div>
+<div class="line"><span class="lineno">  136</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  137</span><span class="stringliteral">    @brief Cifra um dicionario JSON com AES-GCM.</span></div>
+<div class="line"><span class="lineno">  138</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  139</span><span class="stringliteral">    Descricao:</span></div>
+<div class="line"><span class="lineno">  140</span><span class="stringliteral">    Serializa um dicionario em JSON, gera um nonce de 12 bytes e cifra os dados</span></div>
+<div class="line"><span class="lineno">  141</span><span class="stringliteral">    com AES-GCM. O retorno contem nonce e ciphertext em Base64, formato usado</span></div>
+<div class="line"><span class="lineno">  142</span><span class="stringliteral">    nos tickets, autenticadores e respostas do protocolo.</span></div>
+<div class="line"><span class="lineno">  143</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  144</span><span class="stringliteral">    Parametros:</span></div>
+<div class="line"><span class="lineno">  145</span><span class="stringliteral">    @param chave Chave AES de 32 bytes.</span></div>
+<div class="line"><span class="lineno">  146</span><span class="stringliteral">    @param dados Dicionario serializavel em JSON.</span></div>
+<div class="line"><span class="lineno">  147</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  148</span><span class="stringliteral">    Valor retornado:</span></div>
+<div class="line"><span class="lineno">  149</span><span class="stringliteral">    @return Dicionario com `nonce` e `ciphertext` em Base64.</span></div>
+<div class="line"><span class="lineno">  150</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  151</span><span class="stringliteral">    Assertiva de entrada:</span></div>
+<div class="line"><span class="lineno">  152</span><span class="stringliteral">    @pre A chave deve ter tamanho aceito pelo AES-GCM.</span></div>
+<div class="line"><span class="lineno">  153</span><span class="stringliteral">    @pre Os dados devem ser serializaveis em JSON.</span></div>
+<div class="line"><span class="lineno">  154</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  155</span><span class="stringliteral">    Assertiva de saida:</span></div>
+<div class="line"><span class="lineno">  156</span><span class="stringliteral">    @post Retorna pacote cifrado e autenticado.</span></div>
+<div class="line"><span class="lineno">  157</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  158</span><span class="stringliteral">    Excecoes:</span></div>
+<div class="line"><span class="lineno">  159</span><span class="stringliteral">    @throws TypeError Pode ocorrer se os dados nao forem serializaveis.</span></div>
+<div class="line"><span class="lineno">  160</span><span class="stringliteral">    @throws Exception Pode propagar erros da biblioteca criptografica.</span></div>
+<div class="line"><span class="lineno">  161</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  162</span><span class="stringliteral">    Observacoes:</span></div>
+<div class="line"><span class="lineno">  163</span><span class="stringliteral">    AES-GCM fornece confidencialidade e deteccao de adulteracao. Nao ha dados</span></div>
+<div class="line"><span class="lineno">  164</span><span class="stringliteral">    autenticados adicionais associados nesta implementacao.</span></div>
+<div class="line"><span class="lineno">  165</span><span class="stringliteral">    ***************************************************************************</span></div>
+<div class="line"><span class="lineno">  166</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  167</span>    aesgcm = AESGCM(chave)</div>
+<div class="line"><span class="lineno">  168</span>    nonce = os.urandom(TAMANHO_NONCE)</div>
+<div class="line"><span class="lineno">  169</span> </div>
+<div class="line"><span class="lineno">  170</span>    dados_json = json.dumps(dados).encode(<span class="stringliteral">&quot;utf-8&quot;</span>)</div>
+<div class="line"><span class="lineno">  171</span> </div>
+<div class="line"><span class="lineno">  172</span>    ciphertext = aesgcm.encrypt(</div>
+<div class="line"><span class="lineno">  173</span>        nonce,</div>
+<div class="line"><span class="lineno">  174</span>        dados_json,</div>
+<div class="line"><span class="lineno">  175</span>        <span class="keywordtype">None</span></div>
+<div class="line"><span class="lineno">  176</span>    )</div>
+<div class="line"><span class="lineno">  177</span> </div>
+<div class="line"><span class="lineno">  178</span>    <span class="keywordflow">return</span> {</div>
+<div class="line"><span class="lineno">  179</span>        <span class="stringliteral">&quot;nonce&quot;</span>: bytes_para_base64(nonce),</div>
+<div class="line"><span class="lineno">  180</span>        <span class="stringliteral">&quot;ciphertext&quot;</span>: bytes_para_base64(ciphertext)</div>
+<div class="line"><span class="lineno">  181</span>    }</div>
+<div class="line"><span class="lineno">  182</span> </div>
+<div class="line"><span class="lineno">  183</span> </div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a644ab4202a8764fce71e4947d5aed7b3" name="a644ab4202a8764fce71e4947d5aed7b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a644ab4202a8764fce71e4947d5aed7b3">&#9670;&#160;</a></span>descriptografar_json()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"> dict descriptografar_json </td>
+          <td>(</td>
+          <td class="paramtype">bytes</td>          <td class="paramname"><span class="paramname"><em>chave</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">dict</td>          <td class="paramname"><span class="paramname"><em>pacote</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">***************************************************************************
+Funcao: descriptografar_json
+
+@brief Abre um pacote JSON cifrado por criptografar_json.
+
+Descricao:
+Decodifica nonce e ciphertext de Base64, executa a abertura AES-GCM e
+converte o JSON resultante para dicionario Python. Se o pacote tiver sido
+adulterado ou a chave estiver incorreta, a biblioteca criptografica falha.
+
+Parametros:
+@param chave Chave AES usada para abrir o pacote.
+@param pacote Dicionario contendo `nonce` e `ciphertext`.
+
+Valor retornado:
+@return Dicionario original descriptografado.
+
+Assertiva de entrada:
+@pre O pacote deve conter campos `nonce` e `ciphertext` em Base64.
+@pre A chave deve corresponder a usada na cifragem.
+
+Assertiva de saida:
+@post Retorna os dados originais se autenticacao AES-GCM for valida.
+
+Excecoes:
+@throws Exception Pode propagar erro de Base64, JSON ou tag AES-GCM invalida.
+
+Observacoes:
+Esta funcao e usada para abrir TGTs, Service Tickets, autenticadores,
+confirmacoes de autenticacao mutua e requisicoes protegidas.
+***************************************************************************
+</pre> 
+<p class="definition">Definição na linha <a class="el" href="crypto__utils_8py_source.html#l00184">184</a> do arquivo <a class="el" href="crypto__utils_8py_source.html">crypto_utils.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  184</span><span class="keyword">def </span>descriptografar_json(chave: bytes, pacote: dict) -&gt; dict:</div>
+<div class="line"><span class="lineno">  185</span>    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  186</span><span class="stringliteral">    ***************************************************************************</span></div>
+<div class="line"><span class="lineno">  187</span><span class="stringliteral">    Funcao: descriptografar_json</span></div>
+<div class="line"><span class="lineno">  188</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  189</span><span class="stringliteral">    @brief Abre um pacote JSON cifrado por criptografar_json.</span></div>
+<div class="line"><span class="lineno">  190</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  191</span><span class="stringliteral">    Descricao:</span></div>
+<div class="line"><span class="lineno">  192</span><span class="stringliteral">    Decodifica nonce e ciphertext de Base64, executa a abertura AES-GCM e</span></div>
+<div class="line"><span class="lineno">  193</span><span class="stringliteral">    converte o JSON resultante para dicionario Python. Se o pacote tiver sido</span></div>
+<div class="line"><span class="lineno">  194</span><span class="stringliteral">    adulterado ou a chave estiver incorreta, a biblioteca criptografica falha.</span></div>
+<div class="line"><span class="lineno">  195</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  196</span><span class="stringliteral">    Parametros:</span></div>
+<div class="line"><span class="lineno">  197</span><span class="stringliteral">    @param chave Chave AES usada para abrir o pacote.</span></div>
+<div class="line"><span class="lineno">  198</span><span class="stringliteral">    @param pacote Dicionario contendo `nonce` e `ciphertext`.</span></div>
+<div class="line"><span class="lineno">  199</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  200</span><span class="stringliteral">    Valor retornado:</span></div>
+<div class="line"><span class="lineno">  201</span><span class="stringliteral">    @return Dicionario original descriptografado.</span></div>
+<div class="line"><span class="lineno">  202</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  203</span><span class="stringliteral">    Assertiva de entrada:</span></div>
+<div class="line"><span class="lineno">  204</span><span class="stringliteral">    @pre O pacote deve conter campos `nonce` e `ciphertext` em Base64.</span></div>
+<div class="line"><span class="lineno">  205</span><span class="stringliteral">    @pre A chave deve corresponder a usada na cifragem.</span></div>
+<div class="line"><span class="lineno">  206</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  207</span><span class="stringliteral">    Assertiva de saida:</span></div>
+<div class="line"><span class="lineno">  208</span><span class="stringliteral">    @post Retorna os dados originais se autenticacao AES-GCM for valida.</span></div>
+<div class="line"><span class="lineno">  209</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  210</span><span class="stringliteral">    Excecoes:</span></div>
+<div class="line"><span class="lineno">  211</span><span class="stringliteral">    @throws Exception Pode propagar erro de Base64, JSON ou tag AES-GCM invalida.</span></div>
+<div class="line"><span class="lineno">  212</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  213</span><span class="stringliteral">    Observacoes:</span></div>
+<div class="line"><span class="lineno">  214</span><span class="stringliteral">    Esta funcao e usada para abrir TGTs, Service Tickets, autenticadores,</span></div>
+<div class="line"><span class="lineno">  215</span><span class="stringliteral">    confirmacoes de autenticacao mutua e requisicoes protegidas.</span></div>
+<div class="line"><span class="lineno">  216</span><span class="stringliteral">    ***************************************************************************</span></div>
+<div class="line"><span class="lineno">  217</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  218</span>    aesgcm = AESGCM(chave)</div>
+<div class="line"><span class="lineno">  219</span>    nonce = base64_para_bytes(pacote[<span class="stringliteral">&quot;nonce&quot;</span>])</div>
+<div class="line"><span class="lineno">  220</span>    ciphertext = base64_para_bytes(pacote[<span class="stringliteral">&quot;ciphertext&quot;</span>])</div>
+<div class="line"><span class="lineno">  221</span> </div>
+<div class="line"><span class="lineno">  222</span>    dados_json = aesgcm.decrypt(</div>
+<div class="line"><span class="lineno">  223</span>        nonce,</div>
+<div class="line"><span class="lineno">  224</span>        ciphertext,</div>
+<div class="line"><span class="lineno">  225</span>        <span class="keywordtype">None</span></div>
+<div class="line"><span class="lineno">  226</span>    )</div>
+<div class="line"><span class="lineno">  227</span> </div>
+<div class="line"><span class="lineno">  228</span>    <span class="keywordflow">return</span> json.loads(dados_json.decode(<span class="stringliteral">&quot;utf-8&quot;</span>))</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="afc97ae4edd477dae75b732a5d52d35da" name="afc97ae4edd477dae75b732a5d52d35da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc97ae4edd477dae75b732a5d52d35da">&#9670;&#160;</a></span>gerar_chave_simetrica()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"> bytes gerar_chave_simetrica </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">***************************************************************************
+Funcao: gerar_chave_simetrica
+
+@brief Gera uma chave simetrica de 256 bits.
+
+Descricao:
+Usa `os.urandom` para produzir 32 bytes aleatorios. Essas chaves sao usadas
+como chaves de sessao Cliente-TGS e Cliente-Servico durante o fluxo
+Kerberos academico.
+
+Parametros:
+Nao recebe parametros explicitos.
+
+Valor retornado:
+@return Bytes aleatorios com tamanho adequado para AES-256.
+
+Assertiva de entrada:
+@pre O sistema operacional deve disponibilizar gerador seguro de bytes.
+
+Assertiva de saida:
+@post Retorna uma chave nova, independente das anteriores.
+
+Excecoes:
+@throws Exception Pode propagar erros do gerador de aleatoriedade.
+
+Observacoes:
+A chave gerada nao e persistida por esta funcao; o chamador decide como
+transporta-la ou protege-la.
+***************************************************************************
+</pre> 
+<p class="definition">Definição na linha <a class="el" href="crypto__utils_8py_source.html#l00031">31</a> do arquivo <a class="el" href="crypto__utils_8py_source.html">crypto_utils.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   31</span><span class="keyword">def </span>gerar_chave_simetrica() -&gt; bytes:</div>
+<div class="line"><span class="lineno">   32</span>    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   33</span><span class="stringliteral">    ***************************************************************************</span></div>
+<div class="line"><span class="lineno">   34</span><span class="stringliteral">    Funcao: gerar_chave_simetrica</span></div>
+<div class="line"><span class="lineno">   35</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   36</span><span class="stringliteral">    @brief Gera uma chave simetrica de 256 bits.</span></div>
+<div class="line"><span class="lineno">   37</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   38</span><span class="stringliteral">    Descricao:</span></div>
+<div class="line"><span class="lineno">   39</span><span class="stringliteral">    Usa `os.urandom` para produzir 32 bytes aleatorios. Essas chaves sao usadas</span></div>
+<div class="line"><span class="lineno">   40</span><span class="stringliteral">    como chaves de sessao Cliente-TGS e Cliente-Servico durante o fluxo</span></div>
+<div class="line"><span class="lineno">   41</span><span class="stringliteral">    Kerberos academico.</span></div>
+<div class="line"><span class="lineno">   42</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   43</span><span class="stringliteral">    Parametros:</span></div>
+<div class="line"><span class="lineno">   44</span><span class="stringliteral">    Nao recebe parametros explicitos.</span></div>
+<div class="line"><span class="lineno">   45</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   46</span><span class="stringliteral">    Valor retornado:</span></div>
+<div class="line"><span class="lineno">   47</span><span class="stringliteral">    @return Bytes aleatorios com tamanho adequado para AES-256.</span></div>
+<div class="line"><span class="lineno">   48</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   49</span><span class="stringliteral">    Assertiva de entrada:</span></div>
+<div class="line"><span class="lineno">   50</span><span class="stringliteral">    @pre O sistema operacional deve disponibilizar gerador seguro de bytes.</span></div>
+<div class="line"><span class="lineno">   51</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   52</span><span class="stringliteral">    Assertiva de saida:</span></div>
+<div class="line"><span class="lineno">   53</span><span class="stringliteral">    @post Retorna uma chave nova, independente das anteriores.</span></div>
+<div class="line"><span class="lineno">   54</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   55</span><span class="stringliteral">    Excecoes:</span></div>
+<div class="line"><span class="lineno">   56</span><span class="stringliteral">    @throws Exception Pode propagar erros do gerador de aleatoriedade.</span></div>
+<div class="line"><span class="lineno">   57</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   58</span><span class="stringliteral">    Observacoes:</span></div>
+<div class="line"><span class="lineno">   59</span><span class="stringliteral">    A chave gerada nao e persistida por esta funcao; o chamador decide como</span></div>
+<div class="line"><span class="lineno">   60</span><span class="stringliteral">    transporta-la ou protege-la.</span></div>
+<div class="line"><span class="lineno">   61</span><span class="stringliteral">    ***************************************************************************</span></div>
+<div class="line"><span class="lineno">   62</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   63</span>    <span class="keywordflow">return</span> os.urandom(TAMANHO_CHAVE_AES)</div>
+<div class="line"><span class="lineno">   64</span> </div>
+<div class="line"><span class="lineno">   65</span> </div>
+</div><!-- fragment -->
+</div>
+</div>
+<a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Variáveis</h2>
+<a id="a382d1e91410b1c8bef4fcc8e9c8b670f" name="a382d1e91410b1c8bef4fcc8e9c8b670f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a382d1e91410b1c8bef4fcc8e9c8b670f">&#9670;&#160;</a></span>TAMANHO_CHAVE_AES</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int kerberos_notas.crypto.crypto_utils.TAMANHO_CHAVE_AES = 32</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definição na linha <a class="el" href="crypto__utils_8py_source.html#l00028">28</a> do arquivo <a class="el" href="crypto__utils_8py_source.html">crypto_utils.py</a>.</p>
+
+</div>
+</div>
+<a id="a34a2f7cbbc85757e69ce1118cb9a4f97" name="a34a2f7cbbc85757e69ce1118cb9a4f97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34a2f7cbbc85757e69ce1118cb9a4f97">&#9670;&#160;</a></span>TAMANHO_NONCE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int kerberos_notas.crypto.crypto_utils.TAMANHO_NONCE = 12</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definição na linha <a class="el" href="crypto__utils_8py_source.html#l00027">27</a> do arquivo <a class="el" href="crypto__utils_8py_source.html">crypto_utils.py</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="namespacekerberos__notas.html">kerberos_notas</a></li><li class="navelem"><a href="namespacekerberos__notas_1_1crypto.html">crypto</a></li><li class="navelem"><a href="namespacekerberos__notas_1_1crypto_1_1crypto__utils.html">crypto_utils</a></li>
+    <li class="footer">Gerado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
+</body>
+</html>

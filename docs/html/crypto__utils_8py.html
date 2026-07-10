@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.17.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Kerberos Notas: Referência do Arquivo src/kerberos_notas/crypto/crypto_utils.py</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="codefolding.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+const theme = 'default';
+mermaid.initialize({ startOnLoad: true, theme: theme });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Kerberos Notas
+   </div>
+   <div id="projectbrief">Portal de Notas protegido por Kerberos academico</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Gerado por Doxygen 1.17.0 -->
+<script type="text/javascript">
+let searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', codefold.init);
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu('',true);
+  init_search();
+});
+</script>
+<div id="main-nav-mobile">
+<div class="sm sm-dox"><input id="main-menu-state" type="checkbox"/>
+<label class="main-menu-btn" for="main-menu-state">
+<span class="main-menu-btn-icon"></span> Toggle main menu visibility</label>
+<span id="searchBoxPos1" style="position:absolute;right:8px;top:8px;height:36px;"></span>
+</div>
+</div><!-- main-nav-mobile -->
+<div id="main-nav">
+  <ul class="sm sm-dox" id="main-menu">
+    <li id="searchBoxPos2" style="float:right">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect" class="search-icon" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()"><span class="search-icon-dropdown"></span></span>
+          <input type="text" id="MSearchField" value="" placeholder="Busca" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><div id="MSearchCloseImg" class="close-icon"></div></a>
+          </span>
+        </div>
+    </li>
+  </ul>
+</div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('crypto__utils_8py.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Carregando...</div>
+<div class="SRStatus" id="Searching">Procurando...</div>
+<div class="SRStatus" id="NoMatches">Nenhuma entrada encontrado</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Referência do Arquivo crypto_utils.py</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><a href="crypto__utils_8py_source.html">Ir para o código-fonte desse arquivo.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:kerberos_5Fnotas" id="r_kerberos_5Fnotas"><td class="memItemLeft">namespace &#160;</td><td class="memItemRight"><a class="el" href="namespacekerberos__notas.html">kerberos_notas</a></td></tr>
+<tr class="memitem:kerberos_5Fnotas_2Ecrypto" id="r_kerberos_5Fnotas_2Ecrypto"><td class="memItemLeft">namespace &#160;</td><td class="memItemRight"><a class="el" href="namespacekerberos__notas_1_1crypto.html">kerberos_notas.crypto</a></td></tr>
+<tr class="memitem:kerberos_5Fnotas_2Ecrypto_2Ecrypto_5Futils" id="r_kerberos_5Fnotas_2Ecrypto_2Ecrypto_5Futils"><td class="memItemLeft">namespace &#160;</td><td class="memItemRight"><a class="el" href="namespacekerberos__notas_1_1crypto_1_1crypto__utils.html">kerberos_notas.crypto.crypto_utils</a></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
+Funções</h2></td></tr>
+<tr class="memitem:afc97ae4edd477dae75b732a5d52d35da" id="r_afc97ae4edd477dae75b732a5d52d35da"><td class="memItemLeft">bytes&#160;</td><td class="memItemRight"><a class="el" href="namespacekerberos__notas_1_1crypto_1_1crypto__utils.html#afc97ae4edd477dae75b732a5d52d35da">kerberos_notas.crypto.crypto_utils.gerar_chave_simetrica</a> ()</td></tr>
+<tr class="memitem:a7312f382d2eb3bf5597f2c51a1b3697e" id="r_a7312f382d2eb3bf5597f2c51a1b3697e"><td class="memItemLeft">str&#160;</td><td class="memItemRight"><a class="el" href="namespacekerberos__notas_1_1crypto_1_1crypto__utils.html#a7312f382d2eb3bf5597f2c51a1b3697e">kerberos_notas.crypto.crypto_utils.bytes_para_base64</a> (bytes dados)</td></tr>
+<tr class="memitem:af1ccc0d7181a6ca02bc4de824e65d6ee" id="r_af1ccc0d7181a6ca02bc4de824e65d6ee"><td class="memItemLeft">bytes&#160;</td><td class="memItemRight"><a class="el" href="namespacekerberos__notas_1_1crypto_1_1crypto__utils.html#af1ccc0d7181a6ca02bc4de824e65d6ee">kerberos_notas.crypto.crypto_utils.base64_para_bytes</a> (str dados_base64)</td></tr>
+<tr class="memitem:ae752cc4584f71b3d994512eb27be5e4e" id="r_ae752cc4584f71b3d994512eb27be5e4e"><td class="memItemLeft">dict&#160;</td><td class="memItemRight"><a class="el" href="namespacekerberos__notas_1_1crypto_1_1crypto__utils.html#ae752cc4584f71b3d994512eb27be5e4e">kerberos_notas.crypto.crypto_utils.criptografar_json</a> (bytes chave, dict dados)</td></tr>
+<tr class="memitem:a644ab4202a8764fce71e4947d5aed7b3" id="r_a644ab4202a8764fce71e4947d5aed7b3"><td class="memItemLeft">dict&#160;</td><td class="memItemRight"><a class="el" href="namespacekerberos__notas_1_1crypto_1_1crypto__utils.html#a644ab4202a8764fce71e4947d5aed7b3">kerberos_notas.crypto.crypto_utils.descriptografar_json</a> (bytes chave, dict pacote)</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
+Variáveis</h2></td></tr>
+<tr class="memitem:a34a2f7cbbc85757e69ce1118cb9a4f97" id="r_a34a2f7cbbc85757e69ce1118cb9a4f97"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="namespacekerberos__notas_1_1crypto_1_1crypto__utils.html#a34a2f7cbbc85757e69ce1118cb9a4f97">kerberos_notas.crypto.crypto_utils.TAMANHO_NONCE</a> = 12</td></tr>
+<tr class="memitem:a382d1e91410b1c8bef4fcc8e9c8b670f" id="r_a382d1e91410b1c8bef4fcc8e9c8b670f"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="namespacekerberos__notas_1_1crypto_1_1crypto__utils.html#a382d1e91410b1c8bef4fcc8e9c8b670f">kerberos_notas.crypto.crypto_utils.TAMANHO_CHAVE_AES</a> = 32</td></tr>
+</table>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a href="dir_541d11015eb38b267f0d9c2af7f58c42.html">kerberos_notas</a></li><li class="navelem"><a href="dir_e5c3a1ce604af3cff8bbdab86dde944e.html">crypto</a></li><li class="navelem"><a href="crypto__utils_8py.html">crypto_utils.py</a></li>
+    <li class="footer">Gerado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
+</body>
+</html>

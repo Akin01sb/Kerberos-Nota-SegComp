@@ -1,0 +1,380 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.17.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Kerberos Notas: Código-Fonte de src/kerberos_notas/kerberos/tgs_server.py</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="codefolding.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+const theme = 'default';
+mermaid.initialize({ startOnLoad: true, theme: theme });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Kerberos Notas
+   </div>
+   <div id="projectbrief">Portal de Notas protegido por Kerberos academico</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Gerado por Doxygen 1.17.0 -->
+<script type="text/javascript">
+let searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', codefold.init);
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu('',true);
+  init_search();
+});
+</script>
+<div id="main-nav-mobile">
+<div class="sm sm-dox"><input id="main-menu-state" type="checkbox"/>
+<label class="main-menu-btn" for="main-menu-state">
+<span class="main-menu-btn-icon"></span> Toggle main menu visibility</label>
+<span id="searchBoxPos1" style="position:absolute;right:8px;top:8px;height:36px;"></span>
+</div>
+</div><!-- main-nav-mobile -->
+<div id="main-nav">
+  <ul class="sm sm-dox" id="main-menu">
+    <li id="searchBoxPos2" style="float:right">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect" class="search-icon" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()"><span class="search-icon-dropdown"></span></span>
+          <input type="text" id="MSearchField" value="" placeholder="Busca" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><div id="MSearchCloseImg" class="close-icon"></div></a>
+          </span>
+        </div>
+    </li>
+  </ul>
+</div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('tgs__server_8py_source.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Carregando...</div>
+<div class="SRStatus" id="Searching">Procurando...</div>
+<div class="SRStatus" id="NoMatches">Nenhuma entrada encontrado</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">tgs_server.py</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="tgs__server_8py.html">Ir para a documentação desse arquivo.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno"><a class="line" href="namespacekerberos__notas_1_1kerberos_1_1tgs__server.html">    1</a></span><span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="stringliteral">@file tgs_server.py</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="stringliteral">@brief Regras do Ticket Granting Server (TGS).</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="stringliteral">@details</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="stringliteral">O TGS valida TGTs emitidos pelo AS, confere autenticadores Cliente-TGS e emite</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="stringliteral">Service Tickets para o Portal de Notas. O cliente recebe a chave de sessao</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="stringliteral">Cliente-Servico cifrada com a chave Cliente-TGS, enquanto o ticket de servico</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="stringliteral">fica cifrado com a chave secreta do servico de notas.</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">from</span> <a class="code hl_namespace" href="namespacekerberos__notas_1_1config.html">kerberos_notas.config</a> <span class="keyword">import</span> (</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    CHAVE_SECRETA_SERVICO_NOTAS,</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    CHAVE_SECRETA_TGS,</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>)</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">from</span> threading <span class="keyword">import</span> RLock</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">from</span> <a class="code hl_namespace" href="namespacekerberos__notas_1_1crypto_1_1crypto__utils.html">kerberos_notas.crypto.crypto_utils</a> <span class="keyword">import</span> (</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    base64_para_bytes,</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    bytes_para_base64,</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    criptografar_json,</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    descriptografar_json,</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    gerar_chave_simetrica,</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>)</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="keyword">from</span> <a class="code hl_namespace" href="namespacekerberos__notas_1_1kerberos_1_1authenticator.html">kerberos_notas.kerberos.authenticator</a> <span class="keyword">import</span> abrir_autenticador</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keyword">from</span> <a class="code hl_namespace" href="namespacekerberos__notas_1_1kerberos_1_1tickets.html">kerberos_notas.kerberos.tickets</a> <span class="keyword">import</span> (</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    criar_ticket_servico,</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    ticket_expirou,</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    ticket_expirou_por_timestamp,</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    timestamp_atual,</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>)</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="namespacekerberos__notas_1_1kerberos_1_1tgs__server.html#a9234c718e34975943544d716ac167f1a">   33</a></span>TEMPO_MAXIMO_AUTENTICADOR = 60 * 5</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="namespacekerberos__notas_1_1kerberos_1_1tgs__server.html#abe17e4e2a6b55385ba924ed2c31d7fb8">   34</a></span>NONCES_TGS_UTILIZADOS = {}</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="namespacekerberos__notas_1_1kerberos_1_1tgs__server.html#aea0e62ff67184e787f686cbe54b506d3">   35</a></span>BLOQUEIO_NONCES_TGS = RLock()</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="namespacekerberos__notas_1_1kerberos_1_1tgs__server.html#a21850c263a7b7c0cddf8ae47d2c15135">   37</a></span>CHAVES_SERVICOS = {</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="stringliteral">&quot;notas&quot;</span>: CHAVE_SECRETA_SERVICO_NOTAS</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>}</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="foldopen" id="foldopen00042" data-start="" data-end="">
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="namespacekerberos__notas_1_1kerberos_1_1tgs__server.html#a9947601ea4bd811b0ad65fecea3c9e35">   42</a></span><span class="keyword">def </span><a class="code hl_function" href="namespacekerberos__notas_1_1kerberos_1_1tgs__server.html#a9947601ea4bd811b0ad65fecea3c9e35">obter_chave_servico</a>(servico: str) -&gt; bytes:</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="stringliteral">    @brief Recupera a chave simetrica do servico solicitado.</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="stringliteral">    @param servico Nome logico do servico protegido.</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="stringliteral">    @return Chave secreta compartilhada com o servico.</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="stringliteral">    @throws ValueError Quando o servico nao esta cadastrado no TGS.</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordflow">if</span> servico <span class="keywordflow">not</span> <span class="keywordflow">in</span> CHAVES_SERVICOS:</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;Servico desconhecido.&quot;</span>)</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keywordflow">return</span> CHAVES_SERVICOS[servico]</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+</div>
+<div class="foldopen" id="foldopen00056" data-start="" data-end="">
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="namespacekerberos__notas_1_1kerberos_1_1tgs__server.html#abb25b18b811f1dfb26a4ba10d86e5c75">   56</a></span><span class="keyword">def </span><a class="code hl_function" href="namespacekerberos__notas_1_1kerberos_1_1tgs__server.html#abb25b18b811f1dfb26a4ba10d86e5c75">_registrar_nonce_tgs</a>(usuario, nonce, timestamp):</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="stringliteral">    @brief Registra nonces ja usados em autenticadores Cliente-TGS.</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="stringliteral">    @param usuario Usuario dono do autenticador.</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="stringliteral">    @param nonce Valor unico informado pelo cliente.</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="stringliteral">    @param timestamp Timestamp do autenticador validado.</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="stringliteral">    @throws ValueError Quando o nonce esta ausente ou foi reutilizado.</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="keywordflow">if</span> <span class="keywordflow">not</span> nonce:</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;Autenticador sem nonce.&quot;</span>)</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keyword">with</span> BLOQUEIO_NONCES_TGS:</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        limite = timestamp_atual() - TEMPO_MAXIMO_AUTENTICADOR</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        expirados = [</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>            chave</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>            <span class="keywordflow">for</span> chave, momento <span class="keywordflow">in</span> NONCES_TGS_UTILIZADOS.items()</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>            <span class="keywordflow">if</span> momento &lt; limite</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        ]</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        <span class="keywordflow">for</span> chave <span class="keywordflow">in</span> expirados:</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>            NONCES_TGS_UTILIZADOS.pop(chave, <span class="keywordtype">None</span>)</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        chave_nonce = (usuario, nonce)</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        <span class="keywordflow">if</span> chave_nonce <span class="keywordflow">in</span> NONCES_TGS_UTILIZADOS:</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>            <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;Autenticador reutilizado no TGS: possivel replay.&quot;</span>)</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        NONCES_TGS_UTILIZADOS[chave_nonce] = timestamp</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+</div>
+<div class="foldopen" id="foldopen00085" data-start="" data-end="">
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="namespacekerberos__notas_1_1kerberos_1_1tgs__server.html#a9f6b087a28730d57db233b50ba30f9c8">   85</a></span><span class="keyword">def </span><a class="code hl_function" href="namespacekerberos__notas_1_1kerberos_1_1tgs__server.html#a9f6b087a28730d57db233b50ba30f9c8">validar_tgt</a>(usuario: str, tgt_criptografado: dict) -&gt; dict:</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><span class="stringliteral">    @brief Abre e valida um TGT recebido pelo TGS.</span></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span><span class="stringliteral">    @param usuario Usuario que solicita o Service Ticket.</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="stringliteral">    @param tgt_criptografado TGT cifrado com a chave secreta do TGS.</span></div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="stringliteral">    @return TGT em claro depois da validacao.</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><span class="stringliteral">    @throws ValueError Para TGT ausente, adulterado, expirado ou de outro usuario.</span></div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <span class="keywordflow">if</span> <span class="keywordflow">not</span> tgt_criptografado:</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;TGT nao informado.&quot;</span>)</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    <span class="keywordflow">try</span>:</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        tgt = descriptografar_json(CHAVE_SECRETA_TGS, tgt_criptografado)</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <span class="keywordflow">except</span> Exception <span class="keyword">as</span> erro:</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;TGT invalido ou nao pode ser descriptografado.&quot;</span>) <span class="keyword">from</span> erro</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="keywordflow">if</span> tgt.get(<span class="stringliteral">&quot;id_cliente&quot;</span>) != usuario:</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;TGT pertence a outro usuario.&quot;</span>)</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    chave_sessao = tgt.get(<span class="stringliteral">&quot;chave_sessao_cliente_tgs&quot;</span>)</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    <span class="keywordflow">if</span> <span class="keywordflow">not</span> chave_sessao:</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;TGT nao contem chave de sessao Cliente-TGS.&quot;</span>)</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    <span class="keywordflow">if</span> ticket_expirou(tgt[<span class="stringliteral">&quot;timestamp_emissao&quot;</span>], tgt[<span class="stringliteral">&quot;validade_segundos&quot;</span>]):</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;TGT expirado.&quot;</span>)</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    <span class="keywordflow">return</span> tgt</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
+</div>
+<div class="foldopen" id="foldopen00115" data-start="" data-end="">
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno"><a class="line" href="namespacekerberos__notas_1_1kerberos_1_1tgs__server.html#ae87cc0a74f2975b7cf13b5f6bab4836f">  115</a></span><span class="keyword">def </span><a class="code hl_function" href="namespacekerberos__notas_1_1kerberos_1_1tgs__server.html#ae87cc0a74f2975b7cf13b5f6bab4836f">validar_autenticador</a>(usuario: str, tgt: dict, autenticador_criptografado: dict) -&gt; dict:</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span><span class="stringliteral">    @brief Valida o autenticador Cliente-TGS associado a um TGT.</span></div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span><span class="stringliteral">    @param usuario Usuario esperado.</span></div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span><span class="stringliteral">    @param tgt TGT ja descriptografado e validado.</span></div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span><span class="stringliteral">    @param autenticador_criptografado Autenticador cifrado com a chave Cliente-TGS.</span></div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span><span class="stringliteral">    @return Autenticador em claro.</span></div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span><span class="stringliteral">    @throws ValueError Para autenticador invalido, expirado, futuro ou reutilizado.</span></div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    <span class="keywordflow">if</span> <span class="keywordflow">not</span> autenticador_criptografado:</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;Autenticador nao informado.&quot;</span>)</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    chave_sessao = tgt[<span class="stringliteral">&quot;chave_sessao_cliente_tgs&quot;</span>]</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span> </div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    <span class="keywordflow">try</span>:</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>        autenticador = abrir_autenticador(chave_sessao, autenticador_criptografado)</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    <span class="keywordflow">except</span> Exception <span class="keyword">as</span> erro:</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;Autenticador invalido ou nao pode ser descriptografado.&quot;</span>) <span class="keyword">from</span> erro</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    <span class="keywordflow">if</span> autenticador.get(<span class="stringliteral">&quot;usuario&quot;</span>) != usuario:</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;Usuario do autenticador diferente do usuario do TGT.&quot;</span>)</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    timestamp = autenticador.get(<span class="stringliteral">&quot;timestamp&quot;</span>)</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    <span class="keywordflow">if</span> timestamp <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;Autenticador sem timestamp.&quot;</span>)</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span> </div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>    <span class="keywordflow">if</span> ticket_expirou(timestamp, TEMPO_MAXIMO_AUTENTICADOR):</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;Autenticador expirado.&quot;</span>)</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span> </div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    <span class="keywordflow">if</span> timestamp &gt; timestamp_atual() + TEMPO_MAXIMO_AUTENTICADOR:</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;Autenticador com timestamp invalido.&quot;</span>)</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span> </div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    <a class="code hl_function" href="namespacekerberos__notas_1_1kerberos_1_1tgs__server.html#abb25b18b811f1dfb26a4ba10d86e5c75">_registrar_nonce_tgs</a>(usuario, autenticador.get(<span class="stringliteral">&quot;nonce&quot;</span>), timestamp)</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    <span class="keywordflow">return</span> autenticador</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span> </div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span> </div>
+</div>
+<div class="foldopen" id="foldopen00152" data-start="" data-end="">
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno"><a class="line" href="namespacekerberos__notas_1_1kerberos_1_1tgs__server.html#ab0642da9a841e7ad6bf2d0d31c681e96">  152</a></span><span class="keyword">def </span><a class="code hl_function" href="namespacekerberos__notas_1_1kerberos_1_1tgs__server.html#ab0642da9a841e7ad6bf2d0d31c681e96">emitir_ticket_servico</a>(</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>        usuario: str,</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>        servico: str,</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        tgt_criptografado: dict,</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        autenticador_criptografado: dict</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>) -&gt; dict:</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span><span class="stringliteral">    @brief Emite Service Ticket e chave Cliente-Servico.</span></div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span><span class="stringliteral">    @param usuario Usuario autenticado no AS.</span></div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span><span class="stringliteral">    @param servico Servico protegido solicitado.</span></div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span><span class="stringliteral">    @param tgt_criptografado Ticket Granting Ticket transportado pelo cliente.</span></div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span><span class="stringliteral">    @param autenticador_criptografado Prova recente cifrada com a chave Cliente-TGS.</span></div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span><span class="stringliteral">    @return Pacote com Service Ticket cifrado e resposta cifrada para o cliente.</span></div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>    chave_servico = <a class="code hl_function" href="namespacekerberos__notas_1_1kerberos_1_1tgs__server.html#a9947601ea4bd811b0ad65fecea3c9e35">obter_chave_servico</a>(servico)</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>    tgt = <a class="code hl_function" href="namespacekerberos__notas_1_1kerberos_1_1tgs__server.html#a9f6b087a28730d57db233b50ba30f9c8">validar_tgt</a>(usuario, tgt_criptografado)</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    <a class="code hl_function" href="namespacekerberos__notas_1_1kerberos_1_1tgs__server.html#ae87cc0a74f2975b7cf13b5f6bab4836f">validar_autenticador</a>(usuario, tgt, autenticador_criptografado)</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span> </div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    chave_sessao_cliente_servico = gerar_chave_simetrica()</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>    chave_sessao_cliente_servico_base64 = bytes_para_base64(chave_sessao_cliente_servico)</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>    ticket_servico = criar_ticket_servico(</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>        usuario=usuario,</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>        servico=servico,</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>        chave_sessao_cliente_servico_base64=chave_sessao_cliente_servico_base64</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    )</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span> </div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>    ticket_servico_criptografado = criptografar_json(chave_servico, ticket_servico)</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>    chave_cliente_tgs = base64_para_bytes(tgt[<span class="stringliteral">&quot;chave_sessao_cliente_tgs&quot;</span>])</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span> </div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>    resposta_cliente = criptografar_json(</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>        chave_cliente_tgs,</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>        {</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>            <span class="stringliteral">&quot;usuario&quot;</span>: usuario,</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>            <span class="stringliteral">&quot;servico&quot;</span>: servico,</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>            <span class="stringliteral">&quot;chave_sessao_cliente_servico&quot;</span>: chave_sessao_cliente_servico_base64,</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>            <span class="stringliteral">&quot;timestamp_emissao&quot;</span>: ticket_servico[<span class="stringliteral">&quot;timestamp_emissao&quot;</span>],</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>            <span class="stringliteral">&quot;timestamp_expiracao&quot;</span>: ticket_servico[<span class="stringliteral">&quot;timestamp_expiracao&quot;</span>],</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>            <span class="stringliteral">&quot;nonce_ticket&quot;</span>: ticket_servico[<span class="stringliteral">&quot;nonce&quot;</span>]</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>        }</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>    )</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span> </div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>    <span class="keywordflow">return</span> {</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>        <span class="stringliteral">&quot;servico&quot;</span>: servico,</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>        <span class="stringliteral">&quot;ticket_servico&quot;</span>: ticket_servico_criptografado,</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>        <span class="stringliteral">&quot;resposta_cliente&quot;</span>: resposta_cliente</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>    }</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span> </div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span> </div>
+</div>
+<div class="foldopen" id="foldopen00202" data-start="" data-end="">
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno"><a class="line" href="namespacekerberos__notas_1_1kerberos_1_1tgs__server.html#aa51c5e709574ef65d170ccf6a28e5ce9">  202</a></span><span class="keyword">def </span><a class="code hl_function" href="namespacekerberos__notas_1_1kerberos_1_1tgs__server.html#aa51c5e709574ef65d170ccf6a28e5ce9">abrir_ticket_servico</a>(servico: str, ticket_servico_criptografado: dict) -&gt; dict:</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span><span class="stringliteral">    @brief Abre e valida um Service Ticket no servico protegido.</span></div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span><span class="stringliteral"></span> </div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span><span class="stringliteral">    @param servico Nome do servico que esta recebendo o ticket.</span></div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span><span class="stringliteral">    @param ticket_servico_criptografado Ticket cifrado com a chave do servico.</span></div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span><span class="stringliteral">    @return Ticket de servico em claro.</span></div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span><span class="stringliteral">    @throws ValueError Quando o ticket e invalido, de outro servico ou expirou.</span></div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>    chave_servico = <a class="code hl_function" href="namespacekerberos__notas_1_1kerberos_1_1tgs__server.html#a9947601ea4bd811b0ad65fecea3c9e35">obter_chave_servico</a>(servico)</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span> </div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>    <span class="keywordflow">try</span>:</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>        ticket_servico = descriptografar_json(chave_servico, ticket_servico_criptografado)</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>    <span class="keywordflow">except</span> Exception <span class="keyword">as</span> erro:</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;Ticket de servico invalido ou nao pode ser descriptografado.&quot;</span>) <span class="keyword">from</span> erro</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span> </div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>    <span class="keywordflow">if</span> ticket_servico.get(<span class="stringliteral">&quot;servico&quot;</span>) != servico:</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;Ticket foi emitido para outro servico.&quot;</span>)</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span> </div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>    <span class="keywordflow">if</span> ticket_expirou_por_timestamp(ticket_servico[<span class="stringliteral">&quot;timestamp_expiracao&quot;</span>]):</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;Ticket de servico expirado.&quot;</span>)</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span> </div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>    <span class="keywordflow">return</span> ticket_servico</div>
+</div>
+<div class="ttc" id="anamespacekerberos__notas_1_1config_html"><div class="ttname"><a href="namespacekerberos__notas_1_1config.html">kerberos_notas.config</a></div><div class="ttdef"><b>Definição</b> <a href="config_8py_source.html#l00001">config.py:1</a></div></div>
+<div class="ttc" id="anamespacekerberos__notas_1_1crypto_1_1crypto__utils_html"><div class="ttname"><a href="namespacekerberos__notas_1_1crypto_1_1crypto__utils.html">kerberos_notas.crypto.crypto_utils</a></div><div class="ttdef"><b>Definição</b> <a href="crypto__utils_8py_source.html#l00001">crypto_utils.py:1</a></div></div>
+<div class="ttc" id="anamespacekerberos__notas_1_1kerberos_1_1authenticator_html"><div class="ttname"><a href="namespacekerberos__notas_1_1kerberos_1_1authenticator.html">kerberos_notas.kerberos.authenticator</a></div><div class="ttdef"><b>Definição</b> <a href="authenticator_8py_source.html#l00001">authenticator.py:1</a></div></div>
+<div class="ttc" id="anamespacekerberos__notas_1_1kerberos_1_1tgs__server_html_a9947601ea4bd811b0ad65fecea3c9e35"><div class="ttname"><a href="namespacekerberos__notas_1_1kerberos_1_1tgs__server.html#a9947601ea4bd811b0ad65fecea3c9e35">kerberos_notas.kerberos.tgs_server.obter_chave_servico</a></div><div class="ttdeci">bytes obter_chave_servico(str servico)</div><div class="ttdef"><b>Definição</b> <a href="#l00042">tgs_server.py:42</a></div></div>
+<div class="ttc" id="anamespacekerberos__notas_1_1kerberos_1_1tgs__server_html_a9f6b087a28730d57db233b50ba30f9c8"><div class="ttname"><a href="namespacekerberos__notas_1_1kerberos_1_1tgs__server.html#a9f6b087a28730d57db233b50ba30f9c8">kerberos_notas.kerberos.tgs_server.validar_tgt</a></div><div class="ttdeci">dict validar_tgt(str usuario, dict tgt_criptografado)</div><div class="ttdef"><b>Definição</b> <a href="#l00085">tgs_server.py:85</a></div></div>
+<div class="ttc" id="anamespacekerberos__notas_1_1kerberos_1_1tgs__server_html_aa51c5e709574ef65d170ccf6a28e5ce9"><div class="ttname"><a href="namespacekerberos__notas_1_1kerberos_1_1tgs__server.html#aa51c5e709574ef65d170ccf6a28e5ce9">kerberos_notas.kerberos.tgs_server.abrir_ticket_servico</a></div><div class="ttdeci">dict abrir_ticket_servico(str servico, dict ticket_servico_criptografado)</div><div class="ttdef"><b>Definição</b> <a href="#l00202">tgs_server.py:202</a></div></div>
+<div class="ttc" id="anamespacekerberos__notas_1_1kerberos_1_1tgs__server_html_ab0642da9a841e7ad6bf2d0d31c681e96"><div class="ttname"><a href="namespacekerberos__notas_1_1kerberos_1_1tgs__server.html#ab0642da9a841e7ad6bf2d0d31c681e96">kerberos_notas.kerberos.tgs_server.emitir_ticket_servico</a></div><div class="ttdeci">dict emitir_ticket_servico(str usuario, str servico, dict tgt_criptografado, dict autenticador_criptografado)</div><div class="ttdef"><b>Definição</b> <a href="#l00152">tgs_server.py:157</a></div></div>
+<div class="ttc" id="anamespacekerberos__notas_1_1kerberos_1_1tgs__server_html_abb25b18b811f1dfb26a4ba10d86e5c75"><div class="ttname"><a href="namespacekerberos__notas_1_1kerberos_1_1tgs__server.html#abb25b18b811f1dfb26a4ba10d86e5c75">kerberos_notas.kerberos.tgs_server._registrar_nonce_tgs</a></div><div class="ttdeci">_registrar_nonce_tgs(usuario, nonce, timestamp)</div><div class="ttdef"><b>Definição</b> <a href="#l00056">tgs_server.py:56</a></div></div>
+<div class="ttc" id="anamespacekerberos__notas_1_1kerberos_1_1tgs__server_html_ae87cc0a74f2975b7cf13b5f6bab4836f"><div class="ttname"><a href="namespacekerberos__notas_1_1kerberos_1_1tgs__server.html#ae87cc0a74f2975b7cf13b5f6bab4836f">kerberos_notas.kerberos.tgs_server.validar_autenticador</a></div><div class="ttdeci">dict validar_autenticador(str usuario, dict tgt, dict autenticador_criptografado)</div><div class="ttdef"><b>Definição</b> <a href="#l00115">tgs_server.py:115</a></div></div>
+<div class="ttc" id="anamespacekerberos__notas_1_1kerberos_1_1tickets_html"><div class="ttname"><a href="namespacekerberos__notas_1_1kerberos_1_1tickets.html">kerberos_notas.kerberos.tickets</a></div><div class="ttdef"><b>Definição</b> <a href="tickets_8py_source.html#l00001">tickets.py:1</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a href="dir_541d11015eb38b267f0d9c2af7f58c42.html">kerberos_notas</a></li><li class="navelem"><a href="dir_a137207eff458fe4c8f067cea8ba5877.html">kerberos</a></li><li class="navelem"><a href="tgs__server_8py.html">tgs_server.py</a></li>
+    <li class="footer">Gerado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
+</body>
+</html>

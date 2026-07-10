@@ -1,0 +1,603 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.17.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Kerberos Notas: Referência da Classe kerberos_notas.rede.cliente_tcp.ClienteKerberosTCP</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="codefolding.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+const theme = 'default';
+mermaid.initialize({ startOnLoad: true, theme: theme });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Kerberos Notas
+   </div>
+   <div id="projectbrief">Portal de Notas protegido por Kerberos academico</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Gerado por Doxygen 1.17.0 -->
+<script type="text/javascript">
+let searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', codefold.init);
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu('',true);
+  init_search();
+});
+</script>
+<div id="main-nav-mobile">
+<div class="sm sm-dox"><input id="main-menu-state" type="checkbox"/>
+<label class="main-menu-btn" for="main-menu-state">
+<span class="main-menu-btn-icon"></span> Toggle main menu visibility</label>
+<span id="searchBoxPos1" style="position:absolute;right:8px;top:8px;height:36px;"></span>
+</div>
+</div><!-- main-nav-mobile -->
+<div id="main-nav">
+  <ul class="sm sm-dox" id="main-menu">
+    <li id="searchBoxPos2" style="float:right">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect" class="search-icon" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()"><span class="search-icon-dropdown"></span></span>
+          <input type="text" id="MSearchField" value="" placeholder="Busca" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><div id="MSearchCloseImg" class="close-icon"></div></a>
+          </span>
+        </div>
+    </li>
+  </ul>
+</div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('classkerberos__notas_1_1rede_1_1cliente__tcp_1_1_cliente_kerberos_t_c_p.html','','classkerberos__notas_1_1rede_1_1cliente__tcp_1_1_cliente_kerberos_t_c_p-members'); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Carregando...</div>
+<div class="SRStatus" id="Searching">Procurando...</div>
+<div class="SRStatus" id="NoMatches">Nenhuma entrada encontrado</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Referência da Classe kerberos_notas.rede.cliente_tcp.ClienteKerberosTCP</div></div>
+</div><!--header-->
+<div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Membros Públicos</h2></td></tr>
+<tr class="memitem:abac9a1cdd0bddc4a7b361b28a9a26bce" id="r_abac9a1cdd0bddc4a7b361b28a9a26bce"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#abac9a1cdd0bddc4a7b361b28a9a26bce">__init__</a> (self, host=HOST_KERBEROS, porta_as=PORTA_AS, porta_tgs=PORTA_TGS, porta_notas=PORTA_NOTAS, timeout=TIMEOUT_REDE)</td></tr>
+<tr class="memitem:aa5fe7cb47034988ce1a61088c002b7b0" id="r_aa5fe7cb47034988ce1a61088c002b7b0"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aa5fe7cb47034988ce1a61088c002b7b0">solicitar_parametros_as</a> (self, usuario)</td></tr>
+<tr class="memitem:a083d9f8fa0bf48d078341a3ba3a99042" id="r_a083d9f8fa0bf48d078341a3ba3a99042"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a083d9f8fa0bf48d078341a3ba3a99042">enviar_prova_as</a> (self, usuario, desafio, prova)</td></tr>
+<tr class="memitem:a09c4260cb159ad0f61142635059175b2" id="r_a09c4260cb159ad0f61142635059175b2"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a09c4260cb159ad0f61142635059175b2">solicitar_ticket_servico</a> (self, usuario, servico, tgt, autenticador)</td></tr>
+<tr class="memitem:a4d5bd3ffe16c14832ced97a3f02c8139" id="r_a4d5bd3ffe16c14832ced97a3f02c8139"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a4d5bd3ffe16c14832ced97a3f02c8139">autenticar_portal</a> (self, ticket_servico, autenticador)</td></tr>
+<tr class="memitem:a9221508956129af7b2fb9980fcbc6d56" id="r_a9221508956129af7b2fb9980fcbc6d56"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a9221508956129af7b2fb9980fcbc6d56">executar_operacao</a> (self, ticket_servico, autenticador, requisicao)</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Atributos Públicos</h2></td></tr>
+<tr class="memitem:ac31423709f7feb7bd39f54f8d7d9e1be" id="r_ac31423709f7feb7bd39f54f8d7d9e1be"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ac31423709f7feb7bd39f54f8d7d9e1be">host</a> = host</td></tr>
+<tr class="memitem:ac8fb7c97eceeda7948e0e745b3a2ddf2" id="r_ac8fb7c97eceeda7948e0e745b3a2ddf2"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ac8fb7c97eceeda7948e0e745b3a2ddf2">porta_as</a> = porta_as</td></tr>
+<tr class="memitem:ae7712f15297f2e29322dc5772ca088f8" id="r_ae7712f15297f2e29322dc5772ca088f8"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ae7712f15297f2e29322dc5772ca088f8">porta_tgs</a> = porta_tgs</td></tr>
+<tr class="memitem:ac0bbe7bb9ac9c7267004e56d2db1fa49" id="r_ac0bbe7bb9ac9c7267004e56d2db1fa49"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ac0bbe7bb9ac9c7267004e56d2db1fa49">porta_notas</a> = porta_notas</td></tr>
+<tr class="memitem:a3a153dfaece07f3e211f9fbd6ccf25f5" id="r_a3a153dfaece07f3e211f9fbd6ccf25f5"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a3a153dfaece07f3e211f9fbd6ccf25f5">timeout</a> = timeout</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pro-methods" class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Membros protegidos</h2></td></tr>
+<tr class="memitem:a6ee1960d529cebc4a487afe399359b76" id="r_a6ee1960d529cebc4a487afe399359b76"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a6ee1960d529cebc4a487afe399359b76">_solicitar</a> (self, porta, requisicao)</td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Descrição detalhada</h2>
+<div class="textblock"><pre class="fragment">@brief Fachada TCP para os tres servidores Kerberos.</pre> 
+<p class="definition">Definição na linha <a class="el" href="cliente__tcp_8py_source.html#l00023">23</a> do arquivo <a class="el" href="cliente__tcp_8py_source.html">cliente_tcp.py</a>.</p>
+</div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Construtores e Destrutores</h2>
+<a id="abac9a1cdd0bddc4a7b361b28a9a26bce" name="abac9a1cdd0bddc4a7b361b28a9a26bce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abac9a1cdd0bddc4a7b361b28a9a26bce">&#9670;&#160;</a></span>__init__()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">kerberos_notas.rede.cliente_tcp.ClienteKerberosTCP.__init__ </td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>self</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>host</em></span><span class="paramdefsep"> = </span><span class="paramdefval">HOST_KERBEROS</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>porta_as</em></span><span class="paramdefsep"> = </span><span class="paramdefval">PORTA_AS</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>porta_tgs</em></span><span class="paramdefsep"> = </span><span class="paramdefval">PORTA_TGS</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>porta_notas</em></span><span class="paramdefsep"> = </span><span class="paramdefval">PORTA_NOTAS</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>timeout</em></span><span class="paramdefsep"> = </span><span class="paramdefval">TIMEOUT_REDE</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">@brief Configura enderecos e timeout das conexoes.
+
+@param host Host comum dos servidores.
+@param porta_as Porta do AS.
+@param porta_tgs Porta do TGS.
+@param porta_notas Porta do servico de notas.
+@param timeout Timeout de conexao e leitura.
+</pre> 
+<p class="definition">Definição na linha <a class="el" href="cliente__tcp_8py_source.html#l00026">26</a> do arquivo <a class="el" href="cliente__tcp_8py_source.html">cliente_tcp.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   33</span>    ):</div>
+<div class="line"><span class="lineno">   34</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   35</span><span class="stringliteral">        @brief Configura enderecos e timeout das conexoes.</span></div>
+<div class="line"><span class="lineno">   36</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   37</span><span class="stringliteral">        @param host Host comum dos servidores.</span></div>
+<div class="line"><span class="lineno">   38</span><span class="stringliteral">        @param porta_as Porta do AS.</span></div>
+<div class="line"><span class="lineno">   39</span><span class="stringliteral">        @param porta_tgs Porta do TGS.</span></div>
+<div class="line"><span class="lineno">   40</span><span class="stringliteral">        @param porta_notas Porta do servico de notas.</span></div>
+<div class="line"><span class="lineno">   41</span><span class="stringliteral">        @param timeout Timeout de conexao e leitura.</span></div>
+<div class="line"><span class="lineno">   42</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   43</span>        self.host = host</div>
+<div class="line"><span class="lineno">   44</span>        self.porta_as = porta_as</div>
+<div class="line"><span class="lineno">   45</span>        self.porta_tgs = porta_tgs</div>
+<div class="line"><span class="lineno">   46</span>        self.porta_notas = porta_notas</div>
+<div class="line"><span class="lineno">   47</span>        self.timeout = timeout</div>
+<div class="line"><span class="lineno">   48</span> </div>
+</div><!-- fragment -->
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Documentação das funções</h2>
+<a id="a6ee1960d529cebc4a487afe399359b76" name="a6ee1960d529cebc4a487afe399359b76"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ee1960d529cebc4a487afe399359b76">&#9670;&#160;</a></span>_solicitar()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">kerberos_notas.rede.cliente_tcp.ClienteKerberosTCP._solicitar </td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>self</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>porta</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>requisicao</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<pre class="fragment">@brief Envia uma requisicao para uma porta Kerberos e retorna o resultado.
+
+@param porta Porta TCP do servidor.
+@param requisicao Dicionario JSON da chamada remota.
+@return Campo `resultado` da resposta remota.
+@throws ConnectionError Quando nao ha servidor disponivel.
+@throws PermissionError Quando o servidor remoto negou permissao.
+@throws ValueError Para demais erros remotos.
+</pre> 
+<p class="definition">Definição na linha <a class="el" href="cliente__tcp_8py_source.html#l00049">49</a> do arquivo <a class="el" href="cliente__tcp_8py_source.html">cliente_tcp.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   49</span>    <span class="keyword">def </span>_solicitar(self, porta, requisicao):</div>
+<div class="line"><span class="lineno">   50</span>        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   51</span><span class="stringliteral">        @brief Envia uma requisicao para uma porta Kerberos e retorna o resultado.</span></div>
+<div class="line"><span class="lineno">   52</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   53</span><span class="stringliteral">        @param porta Porta TCP do servidor.</span></div>
+<div class="line"><span class="lineno">   54</span><span class="stringliteral">        @param requisicao Dicionario JSON da chamada remota.</span></div>
+<div class="line"><span class="lineno">   55</span><span class="stringliteral">        @return Campo `resultado` da resposta remota.</span></div>
+<div class="line"><span class="lineno">   56</span><span class="stringliteral">        @throws ConnectionError Quando nao ha servidor disponivel.</span></div>
+<div class="line"><span class="lineno">   57</span><span class="stringliteral">        @throws PermissionError Quando o servidor remoto negou permissao.</span></div>
+<div class="line"><span class="lineno">   58</span><span class="stringliteral">        @throws ValueError Para demais erros remotos.</span></div>
+<div class="line"><span class="lineno">   59</span><span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   60</span>        <span class="keywordflow">try</span>:</div>
+<div class="line"><span class="lineno">   61</span>            <span class="keyword">with</span> socket.create_connection(</div>
+<div class="line"><span class="lineno">   62</span>                (self.host, porta),</div>
+<div class="line"><span class="lineno">   63</span>                timeout=self.timeout,</div>
+<div class="line"><span class="lineno">   64</span>            ) <span class="keyword">as</span> conexao:</div>
+<div class="line"><span class="lineno">   65</span>                conexao.settimeout(self.timeout)</div>
+<div class="line"><span class="lineno">   66</span>                enviar_mensagem(conexao, requisicao)</div>
+<div class="line"><span class="lineno">   67</span>                resposta = receber_mensagem(conexao)</div>
+<div class="line"><span class="lineno">   68</span>        <span class="keywordflow">except</span> OSError <span class="keyword">as</span> erro:</div>
+<div class="line"><span class="lineno">   69</span>            <span class="keywordflow">raise</span> ConnectionError(</div>
+<div class="line"><span class="lineno">   70</span>                f<span class="stringliteral">&quot;Nao foi possivel conectar ao servico na porta {porta}.&quot;</span></div>
+<div class="line"><span class="lineno">   71</span>            ) <span class="keyword">from</span> erro</div>
+<div class="line"><span class="lineno">   72</span> </div>
+<div class="line"><span class="lineno">   73</span>        <span class="keywordflow">if</span> resposta.get(<span class="stringliteral">&quot;sucesso&quot;</span>):</div>
+<div class="line"><span class="lineno">   74</span>            <span class="keywordflow">return</span> resposta[<span class="stringliteral">&quot;resultado&quot;</span>]</div>
+<div class="line"><span class="lineno">   75</span> </div>
+<div class="line"><span class="lineno">   76</span>        mensagem = resposta.get(<span class="stringliteral">&quot;erro&quot;</span>, <span class="stringliteral">&quot;Erro remoto sem detalhes.&quot;</span>)</div>
+<div class="line"><span class="lineno">   77</span>        <span class="keywordflow">if</span> resposta.get(<span class="stringliteral">&quot;tipo_erro&quot;</span>) == <span class="stringliteral">&quot;PermissionError&quot;</span>:</div>
+<div class="line"><span class="lineno">   78</span>            <span class="keywordflow">raise</span> PermissionError(mensagem)</div>
+<div class="line"><span class="lineno">   79</span>        <span class="keywordflow">raise</span> ValueError(mensagem)</div>
+<div class="line"><span class="lineno">   80</span> </div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a4d5bd3ffe16c14832ced97a3f02c8139" name="a4d5bd3ffe16c14832ced97a3f02c8139"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d5bd3ffe16c14832ced97a3f02c8139">&#9670;&#160;</a></span>autenticar_portal()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">kerberos_notas.rede.cliente_tcp.ClienteKerberosTCP.autenticar_portal </td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>self</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>ticket_servico</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>autenticador</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">@brief Envia Service Ticket e autenticador para autenticacao mutua.</pre> 
+<p class="definition">Definição na linha <a class="el" href="cliente__tcp_8py_source.html#l00119">119</a> do arquivo <a class="el" href="cliente__tcp_8py_source.html">cliente_tcp.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  119</span>    <span class="keyword">def </span>autenticar_portal(self, ticket_servico, autenticador):</div>
+<div class="line"><span class="lineno">  120</span>        <span class="stringliteral">&quot;&quot;&quot;@brief Envia Service Ticket e autenticador para autenticacao mutua.&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  121</span>        <span class="keywordflow">return</span> self._solicitar(</div>
+<div class="line"><span class="lineno">  122</span>            self.porta_notas,</div>
+<div class="line"><span class="lineno">  123</span>            {</div>
+<div class="line"><span class="lineno">  124</span>                <span class="stringliteral">&quot;acao&quot;</span>: <span class="stringliteral">&quot;autenticar_portal&quot;</span>,</div>
+<div class="line"><span class="lineno">  125</span>                <span class="stringliteral">&quot;ticket_servico&quot;</span>: ticket_servico,</div>
+<div class="line"><span class="lineno">  126</span>                <span class="stringliteral">&quot;autenticador&quot;</span>: autenticador,</div>
+<div class="line"><span class="lineno">  127</span>            },</div>
+<div class="line"><span class="lineno">  128</span>        )</div>
+<div class="line"><span class="lineno">  129</span> </div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a083d9f8fa0bf48d078341a3ba3a99042" name="a083d9f8fa0bf48d078341a3ba3a99042"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a083d9f8fa0bf48d078341a3ba3a99042">&#9670;&#160;</a></span>enviar_prova_as()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">kerberos_notas.rede.cliente_tcp.ClienteKerberosTCP.enviar_prova_as </td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>self</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>usuario</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>desafio</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>prova</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">@brief Envia ao AS a prova HMAC calculada pelo cliente.</pre> 
+<p class="definition">Definição na linha <a class="el" href="cliente__tcp_8py_source.html#l00088">88</a> do arquivo <a class="el" href="cliente__tcp_8py_source.html">cliente_tcp.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   88</span>    <span class="keyword">def </span>enviar_prova_as(self, usuario, desafio, prova):</div>
+<div class="line"><span class="lineno">   89</span>        <span class="stringliteral">&quot;&quot;&quot;@brief Envia ao AS a prova HMAC calculada pelo cliente.&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   90</span>        <span class="keywordflow">return</span> self._solicitar(</div>
+<div class="line"><span class="lineno">   91</span>            self.porta_as,</div>
+<div class="line"><span class="lineno">   92</span>            {</div>
+<div class="line"><span class="lineno">   93</span>                <span class="stringliteral">&quot;acao&quot;</span>: <span class="stringliteral">&quot;autenticar&quot;</span>,</div>
+<div class="line"><span class="lineno">   94</span>                <span class="stringliteral">&quot;usuario&quot;</span>: usuario,</div>
+<div class="line"><span class="lineno">   95</span>                <span class="stringliteral">&quot;desafio&quot;</span>: desafio,</div>
+<div class="line"><span class="lineno">   96</span>                <span class="stringliteral">&quot;prova&quot;</span>: prova,</div>
+<div class="line"><span class="lineno">   97</span>            },</div>
+<div class="line"><span class="lineno">   98</span>        )</div>
+<div class="line"><span class="lineno">   99</span> </div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a9221508956129af7b2fb9980fcbc6d56" name="a9221508956129af7b2fb9980fcbc6d56"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9221508956129af7b2fb9980fcbc6d56">&#9670;&#160;</a></span>executar_operacao()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">kerberos_notas.rede.cliente_tcp.ClienteKerberosTCP.executar_operacao </td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>self</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>ticket_servico</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>autenticador</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>requisicao</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">@brief Executa uma operacao protegida no Portal de Notas.</pre> 
+<p class="definition">Definição na linha <a class="el" href="cliente__tcp_8py_source.html#l00130">130</a> do arquivo <a class="el" href="cliente__tcp_8py_source.html">cliente_tcp.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  135</span>    ):</div>
+<div class="line"><span class="lineno">  136</span>        <span class="stringliteral">&quot;&quot;&quot;@brief Executa uma operacao protegida no Portal de Notas.&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  137</span>        <span class="keywordflow">return</span> self._solicitar(</div>
+<div class="line"><span class="lineno">  138</span>            self.porta_notas,</div>
+<div class="line"><span class="lineno">  139</span>            {</div>
+<div class="line"><span class="lineno">  140</span>                <span class="stringliteral">&quot;acao&quot;</span>: <span class="stringliteral">&quot;executar_operacao&quot;</span>,</div>
+<div class="line"><span class="lineno">  141</span>                <span class="stringliteral">&quot;ticket_servico&quot;</span>: ticket_servico,</div>
+<div class="line"><span class="lineno">  142</span>                <span class="stringliteral">&quot;autenticador&quot;</span>: autenticador,</div>
+<div class="line"><span class="lineno">  143</span>                <span class="stringliteral">&quot;requisicao&quot;</span>: requisicao,</div>
+<div class="line"><span class="lineno">  144</span>            },</div>
+<div class="line"><span class="lineno">  145</span>        )</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="aa5fe7cb47034988ce1a61088c002b7b0" name="aa5fe7cb47034988ce1a61088c002b7b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5fe7cb47034988ce1a61088c002b7b0">&#9670;&#160;</a></span>solicitar_parametros_as()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">kerberos_notas.rede.cliente_tcp.ClienteKerberosTCP.solicitar_parametros_as </td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>self</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>usuario</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">@brief Pede salt, iteracoes da KDF e desafio ao AS.</pre> 
+<p class="definition">Definição na linha <a class="el" href="cliente__tcp_8py_source.html#l00081">81</a> do arquivo <a class="el" href="cliente__tcp_8py_source.html">cliente_tcp.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   81</span>    <span class="keyword">def </span>solicitar_parametros_as(self, usuario):</div>
+<div class="line"><span class="lineno">   82</span>        <span class="stringliteral">&quot;&quot;&quot;@brief Pede salt, iteracoes da KDF e desafio ao AS.&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   83</span>        <span class="keywordflow">return</span> self._solicitar(</div>
+<div class="line"><span class="lineno">   84</span>            self.porta_as,</div>
+<div class="line"><span class="lineno">   85</span>            {<span class="stringliteral">&quot;acao&quot;</span>: <span class="stringliteral">&quot;obter_parametros&quot;</span>, <span class="stringliteral">&quot;usuario&quot;</span>: usuario},</div>
+<div class="line"><span class="lineno">   86</span>        )</div>
+<div class="line"><span class="lineno">   87</span> </div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a09c4260cb159ad0f61142635059175b2" name="a09c4260cb159ad0f61142635059175b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09c4260cb159ad0f61142635059175b2">&#9670;&#160;</a></span>solicitar_ticket_servico()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">kerberos_notas.rede.cliente_tcp.ClienteKerberosTCP.solicitar_ticket_servico </td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>self</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>usuario</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>servico</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>tgt</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>autenticador</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">@brief Solicita ao TGS um Service Ticket para o servico informado.</pre> 
+<p class="definition">Definição na linha <a class="el" href="cliente__tcp_8py_source.html#l00100">100</a> do arquivo <a class="el" href="cliente__tcp_8py_source.html">cliente_tcp.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  106</span>    ):</div>
+<div class="line"><span class="lineno">  107</span>        <span class="stringliteral">&quot;&quot;&quot;@brief Solicita ao TGS um Service Ticket para o servico informado.&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  108</span>        <span class="keywordflow">return</span> self._solicitar(</div>
+<div class="line"><span class="lineno">  109</span>            self.porta_tgs,</div>
+<div class="line"><span class="lineno">  110</span>            {</div>
+<div class="line"><span class="lineno">  111</span>                <span class="stringliteral">&quot;acao&quot;</span>: <span class="stringliteral">&quot;emitir_ticket&quot;</span>,</div>
+<div class="line"><span class="lineno">  112</span>                <span class="stringliteral">&quot;usuario&quot;</span>: usuario,</div>
+<div class="line"><span class="lineno">  113</span>                <span class="stringliteral">&quot;servico&quot;</span>: servico,</div>
+<div class="line"><span class="lineno">  114</span>                <span class="stringliteral">&quot;tgt&quot;</span>: tgt,</div>
+<div class="line"><span class="lineno">  115</span>                <span class="stringliteral">&quot;autenticador&quot;</span>: autenticador,</div>
+<div class="line"><span class="lineno">  116</span>            },</div>
+<div class="line"><span class="lineno">  117</span>        )</div>
+<div class="line"><span class="lineno">  118</span> </div>
+</div><!-- fragment -->
+</div>
+</div>
+<a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Atributos</h2>
+<a id="ac31423709f7feb7bd39f54f8d7d9e1be" name="ac31423709f7feb7bd39f54f8d7d9e1be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac31423709f7feb7bd39f54f8d7d9e1be">&#9670;&#160;</a></span>host</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">kerberos_notas.rede.cliente_tcp.ClienteKerberosTCP.host = host</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definição na linha <a class="el" href="cliente__tcp_8py_source.html#l00043">43</a> do arquivo <a class="el" href="cliente__tcp_8py_source.html">cliente_tcp.py</a>.</p>
+
+</div>
+</div>
+<a id="ac8fb7c97eceeda7948e0e745b3a2ddf2" name="ac8fb7c97eceeda7948e0e745b3a2ddf2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8fb7c97eceeda7948e0e745b3a2ddf2">&#9670;&#160;</a></span>porta_as</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">kerberos_notas.rede.cliente_tcp.ClienteKerberosTCP.porta_as = porta_as</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definição na linha <a class="el" href="cliente__tcp_8py_source.html#l00044">44</a> do arquivo <a class="el" href="cliente__tcp_8py_source.html">cliente_tcp.py</a>.</p>
+
+</div>
+</div>
+<a id="ac0bbe7bb9ac9c7267004e56d2db1fa49" name="ac0bbe7bb9ac9c7267004e56d2db1fa49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0bbe7bb9ac9c7267004e56d2db1fa49">&#9670;&#160;</a></span>porta_notas</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">kerberos_notas.rede.cliente_tcp.ClienteKerberosTCP.porta_notas = porta_notas</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definição na linha <a class="el" href="cliente__tcp_8py_source.html#l00046">46</a> do arquivo <a class="el" href="cliente__tcp_8py_source.html">cliente_tcp.py</a>.</p>
+
+</div>
+</div>
+<a id="ae7712f15297f2e29322dc5772ca088f8" name="ae7712f15297f2e29322dc5772ca088f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7712f15297f2e29322dc5772ca088f8">&#9670;&#160;</a></span>porta_tgs</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">kerberos_notas.rede.cliente_tcp.ClienteKerberosTCP.porta_tgs = porta_tgs</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definição na linha <a class="el" href="cliente__tcp_8py_source.html#l00045">45</a> do arquivo <a class="el" href="cliente__tcp_8py_source.html">cliente_tcp.py</a>.</p>
+
+</div>
+</div>
+<a id="a3a153dfaece07f3e211f9fbd6ccf25f5" name="a3a153dfaece07f3e211f9fbd6ccf25f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a153dfaece07f3e211f9fbd6ccf25f5">&#9670;&#160;</a></span>timeout</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">kerberos_notas.rede.cliente_tcp.ClienteKerberosTCP.timeout = timeout</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definição na linha <a class="el" href="cliente__tcp_8py_source.html#l00047">47</a> do arquivo <a class="el" href="cliente__tcp_8py_source.html">cliente_tcp.py</a>.</p>
+
+</div>
+</div>
+<hr/>A documentação para essa classe foi gerada a partir do seguinte arquivo:<ul>
+<li>src/kerberos_notas/rede/<a class="el" href="cliente__tcp_8py_source.html">cliente_tcp.py</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="namespacekerberos__notas.html">kerberos_notas</a></li><li class="navelem"><a href="namespacekerberos__notas_1_1rede.html">rede</a></li><li class="navelem"><a href="namespacekerberos__notas_1_1rede_1_1cliente__tcp.html">cliente_tcp</a></li><li class="navelem"><a href="classkerberos__notas_1_1rede_1_1cliente__tcp_1_1_cliente_kerberos_t_c_p.html">ClienteKerberosTCP</a></li>
+    <li class="footer">Gerado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
+</body>
+</html>
