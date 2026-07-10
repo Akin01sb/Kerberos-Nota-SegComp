@@ -1,0 +1,777 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [7 0 R 9 0 R 11 0 R 13 0 R 15 0 R 17 0 R 19 0 R 21 0 R 23 0 R 25 0 R 27 0 R 29 0 R 31 0 R 33 0 R 35 0 R 37 0 R 39 0 R 41 0 R] /Count 18 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique >>
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 560 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 8 0 R >>
+endobj
+8 0 obj
+<< /Length 5520 >>
+stream
+q 0.040 0.040 0.040 rg BT /F2 16.50 Tf 36.00 746.00 Td (Roteiro tecnico para apresentacao - Portal de Notas com) Tj ET Q
+q 0.040 0.040 0.040 rg BT /F2 16.50 Tf 36.00 724.50 Td (Kerberos) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 694.00 Td (Este roteiro foi feito para ser lido durante a apresentacao. Ele esta um pouco mais tecnico) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 680.00 Td (do que a versao anterior, porque o objetivo e deixar evidente que o projeto atende aos) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 666.00 Td (requisitos do trabalho.) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 644.00 Td (Como usar:) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.40 Tf 46.00 622.00 Td (- O texto entre parenteses indica o que mostrar na tela.) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.40 Tf 46.00 605.30 Td (- A frase depois de "Frase para ler:" e o que deve ser falado.) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.40 Tf 46.00 588.60 Td (- As linhas indicadas sao as linhas atuais do projeto nesta versao.) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.40 Tf 46.00 571.90 Td (- Se alguma linha mudar depois, procure pelo nome da funcao indicado.) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.40 Tf 46.00 555.20 Td (- Nao leia as instrucoes entre parenteses; elas servem como guia de tela.) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 535.50 Td (Tempo sugerido: 18 a 24 minutos.) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 513.50 Td (Divisao:) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.40 Tf 46.00 491.50 Td (- Apresentador 1: arquitetura Kerberos, criptografia simetrica, senha, KDF, AS e TGT.) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.40 Tf 46.00 474.80 Td (- Apresentador 2: TGS, Service Ticket, autenticadores, replay, autenticacao mutua e) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.40 Tf 46.00 461.10 Td (  operacoes protegidas.) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.40 Tf 46.00 444.40 Td (- Apresentador 3: Portal de Notas, perfis, interface, logs e demonstracao professor/aluno.) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.40 Tf 46.00 427.70 Td (- Apresentador 4: execucao, testes, Doxygen, limitacoes e conclusao.) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 408.00 Td (Mensagem principal:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 385.00 Td (O projeto implementa o fluxo Kerberos academico completo: Cliente, AS, TGS e) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 362.60 Td (Servico. A senha e usada apenas para derivar uma chave no cliente. O AS emite) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 340.20 Td (o TGT, o TGS emite o Service Ticket e o Portal de Notas valida ticket,) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 317.80 Td (autenticador, timestamp, nonce e hash antes de executar as operacoes.) Tj ET Q
+q 0.550 0.550 0.550 rg BT /F1 10.00 Tf 36.00 289.40 Td (------------------------------------------------------------) Tj ET Q
+q 0.070 0.070 0.070 rg BT /F2 13.80 Tf 36.00 263.40 Td (Mapa rapido dos requisitos e onde mostrar) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 237.40 Td (Use esta tabela como cola tecnica. Ela tambem ajuda se o professor perguntar onde cada) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 223.40 Td (requisito aparece no codigo.) Tj ET Q
+q 0.030 0.030 0.030 rg BT /F3 7.30 Tf 36.00 200.40 Td (| Requisito | Onde mostrar | O que comentar |) Tj ET Q
+q 0.030 0.030 0.030 rg BT /F3 7.30 Tf 36.00 188.80 Td (|---|---|---|) Tj ET Q
+q 0.030 0.030 0.030 rg BT /F3 7.30 Tf 36.00 177.20 Td (| Kerberos com criptografia simetrica | crypto_utils.py linhas 25, 132, 167, 184 e 218; config.py linhas 38 a 48 |) Tj ET Q
+q 0.030 0.030 0.030 rg BT /F3 7.30 Tf 36.00 167.60 Td (O projeto usa AES-GCM e chaves simetricas compartilhadas, sem biblioteca pronta de Kerberos. |) Tj ET Q
+q 0.030 0.030 0.030 rg BT /F3 7.30 Tf 36.00 156.00 Td (| Servidor AS | servidor_as.py linhas 19, 38, 47 e 48; as_server.py linhas 128 e 276 | O AS entrega desafio, valida) Tj ET Q
+q 0.030 0.030 0.030 rg BT /F3 7.30 Tf 36.00 146.40 Td (prova HMAC e emite resposta com TGT. |) Tj ET Q
+q 0.030 0.030 0.030 rg BT /F3 7.30 Tf 36.00 134.80 Td (| Servidor TGS | servidor_tgs.py linhas 16, 33 e 41; tgs_server.py linhas 99, 152 e 224 | O TGS valida TGT, valida) Tj ET Q
+q 0.030 0.030 0.030 rg BT /F3 7.30 Tf 36.00 125.20 Td (autenticador Cliente-TGS e emite Service Ticket. |) Tj ET Q
+q 0.030 0.030 0.030 rg BT /F3 7.30 Tf 36.00 113.60 Td (| Servico protegido por Kerberos | servidor_notas.py linhas 19, 34 a 46; portal_notas.py linhas 38, 192 e 401 | O) Tj ET Q
+q 0.030 0.030 0.030 rg BT /F3 7.30 Tf 36.00 104.00 Td (servico protegido e o Portal de Notas, acessado com Service Ticket e autenticador. |) Tj ET Q
+q 0.030 0.030 0.030 rg BT /F3 7.30 Tf 36.00 92.40 Td (| Autenticacao por senha | routes.py linhas 719 e 720; kdf.py linhas 69 e 106 a 111 | O usuario faz login com) Tj ET Q
+q 0.030 0.030 0.030 rg BT /F3 7.30 Tf 36.00 82.80 Td (senha, e o cliente deriva a chave localmente. |) Tj ET Q
+q 0.030 0.030 0.030 rg BT /F3 7.30 Tf 36.00 71.20 Td (| KDF | kdf.py linhas 29 a 31, 69 e 106 a 111 | PBKDF2-HMAC-SHA256, salt de 16 bytes, chave de 32 bytes e 200.000) Tj ET Q
+q 0.030 0.030 0.030 rg BT /F3 7.30 Tf 36.00 61.60 Td (iteracoes. |) Tj ET Q
+q 0.030 0.030 0.030 rg BT /F3 7.30 Tf 36.00 50.00 Td (| Emissao e validacao de tickets | as_server.py linhas 246 a 254; tickets.py linhas 46 e 72; tgs_server.py linhas) Tj ET Q
+q 0.420 0.420 0.420 rg BT /F1 8.50 Tf 248.00 18.00 Td (Pagina 1 de 18) Tj ET Q
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 560 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 10 0 R >>
+endobj
+10 0 obj
+<< /Length 4428 >>
+stream
+q 0.030 0.030 0.030 rg BT /F3 7.30 Tf 36.00 754.00 Td (256 a 270; portal_notas.py linhas 60 a 72 | AS emite TGT, TGS emite Service Ticket e Portal valida Service Ticket.) Tj ET Q
+q 0.030 0.030 0.030 rg BT /F3 7.30 Tf 36.00 744.40 Td (|) Tj ET Q
+q 0.030 0.030 0.030 rg BT /F3 7.30 Tf 36.00 732.80 Td (| Autenticacao mutua | portal_notas.py linhas 222 a 224; routes.py linha 420; portal_notas.py linhas 240, 287 e 295) Tj ET Q
+q 0.030 0.030 0.030 rg BT /F3 7.30 Tf 36.00 723.20 Td (| Portal responde cifrado com timestamp + 1 e nonce; o cliente valida. |) Tj ET Q
+q 0.030 0.030 0.030 rg BT /F3 7.30 Tf 36.00 711.60 Td (| Fluxo Cliente, AS, TGS e Servico | routes.py linhas 87, 130, 159, 182, 208, 270, 291, 396, 420 e 518 | O Cliente) Tj ET Q
+q 0.030 0.030 0.030 rg BT /F3 7.30 Tf 36.00 702.00 Td (Web coordena o fluxo completo e depois protege cada operacao. |) Tj ET Q
+q 0.030 0.030 0.030 rg BT /F3 7.30 Tf 36.00 690.40 Td (| Operacoes protegidas no Portal | routes.py linhas 537, 560 a 570, 603 e 637; portal_notas.py linhas 401, 482, 514) Tj ET Q
+q 0.030 0.030 0.030 rg BT /F3 7.30 Tf 36.00 680.80 Td (e 530 | Cada acao usa requisicao cifrada, hash, nonce, autenticador e resposta validada. |) Tj ET Q
+q 0.030 0.030 0.030 rg BT /F3 7.30 Tf 36.00 669.20 Td (| Professor e aluno | service.py linhas 22, 23, 53, 71, 101, 143, 186 e 222 | Professor altera notas; aluno apenas) Tj ET Q
+q 0.030 0.030 0.030 rg BT /F3 7.30 Tf 36.00 659.60 Td (consulta. |) Tj ET Q
+q 0.030 0.030 0.030 rg BT /F3 7.30 Tf 36.00 648.00 Td (| Testes automatizados | test_rede.py linhas 96, 191 e 245; test_notas.py linhas 170, 203, 278 e 338 | Os testes) Tj ET Q
+q 0.030 0.030 0.030 rg BT /F3 7.30 Tf 36.00 638.40 Td (comprovam sockets TCP, senha fora da rede, autenticacao mutua, replay e autorizacao. |) Tj ET Q
+q 0.550 0.550 0.550 rg BT /F1 10.00 Tf 36.00 620.80 Td (------------------------------------------------------------) Tj ET Q
+q 0.070 0.070 0.070 rg BT /F2 13.80 Tf 36.00 594.80 Td (Preparacao antes de gravar) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 565.80 Td (\(Mostre dois terminais na raiz do projeto.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 546.10 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 523.10 Td (Antes de comecar, eu deixo dois terminais abertos. Um terminal fica para os) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 500.70 Td (servidores Kerberos e outro para o Flask, que e o Cliente Web.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 473.30 Td (\(No primeiro terminal, mostre o comando.\)) Tj ET Q
+q 0.040 0.040 0.040 rg BT /F3 8.70 Tf 44.00 449.60 Td (python scripts/iniciar_servidores.py) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 431.40 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 408.40 Td (Neste terminal, o script sobe os tres servidores do fluxo Kerberos: AS, TGS e) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 386.00 Td (Portal de Notas.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 358.60 Td (\(No segundo terminal, mostre o comando.\)) Tj ET Q
+q 0.040 0.040 0.040 rg BT /F3 8.70 Tf 44.00 334.90 Td (python run.py) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 316.70 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 293.70 Td (Neste outro terminal, o Flask fica rodando na porta 5000. Ele e a parte web,) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 271.30 Td (mas por baixo conversa com os servidores Kerberos via TCP.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 243.90 Td (\(Mostre o navegador em http://127.0.0.1:5000.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 224.20 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 201.20 Td (Com isso, a aplicacao fica acessivel em http://127.0.0.1:5000.) Tj ET Q
+q 0.550 0.550 0.550 rg BT /F1 10.00 Tf 36.00 172.80 Td (------------------------------------------------------------) Tj ET Q
+q 0.040 0.040 0.040 rg BT /F2 16.50 Tf 36.00 145.80 Td (Apresentador 1 - Arquitetura, criptografia, senha, KDF, AS) Tj ET Q
+q 0.040 0.040 0.040 rg BT /F2 16.50 Tf 36.00 124.30 Td (e TGT) Tj ET Q
+q 0.070 0.070 0.070 rg BT /F2 13.80 Tf 36.00 86.80 Td (1. Abertura e objetivo) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 57.80 Td (\(Mostre README.md, titulo e arquitetura.\)) Tj ET Q
+q 0.420 0.420 0.420 rg BT /F1 8.50 Tf 248.00 18.00 Td (Pagina 2 de 18) Tj ET Q
+endstream
+endobj
+11 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 560 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 12 0 R >>
+endobj
+12 0 obj
+<< /Length 3636 >>
+stream
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 754.00 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 731.00 Td (O nosso projeto e um Portal de Notas Escolares protegido por uma simulacao) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 708.60 Td (academica do protocolo Kerberos. O objetivo nao e usar uma biblioteca pronta,) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 686.20 Td (mas implementar o fluxo principal do Kerberos com primitivas criptograficas) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 663.80 Td (basicas.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 636.40 Td (\(Mostre ainda o README.md, na parte em que aparece o fluxo ou a arquitetura.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 616.70 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 593.70 Td (A ideia e que o usuario nao acesse o servico apenas com usuario e senha. Ele) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 571.30 Td (passa primeiro pelo AS, depois pelo TGS, e so entao acessa o Portal de Notas) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 548.90 Td (com um ticket de servico.) Tj ET Q
+q 0.070 0.070 0.070 rg BT /F2 13.80 Tf 36.00 517.50 Td (2. Separacao real entre Cliente, AS, TGS e Servico) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 488.50 Td (\(Mostre config.py linhas 55 a 58.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 468.80 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 445.80 Td (Aqui no config.py, linhas 55 a 58, aparecem o host e as portas dos) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 423.40 Td (servidores: AS na 9001, TGS na 9002 e Portal de Notas na 9003. Essa separacao) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 401.00 Td (ajuda a demonstrar o fluxo Cliente, AS, TGS e Servico.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 373.60 Td (\(Mostre run.py linha 22.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 353.90 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 330.90 Td (No run.py, linha 22, o Flask e criado com usar_rede=True. Isso significa) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 308.50 Td (que a execucao normal usa os servidores TCP reais, e nao apenas chamadas) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 286.10 Td (locais de funcao.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 258.70 Td (\(Mostre scripts/iniciar_servidores.py linhas 57 a 66.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 239.00 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 216.00 Td (Em scripts/iniciar_servidores.py, linhas 57 a 66, vemos os tres processos:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 193.60 Td (um para o AS, um para o TGS e um para o Portal de Notas. Isso mostra que os) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 171.20 Td (componentes do Kerberos rodam separados.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 143.80 Td (\(Mostre rede/servidor.py linhas 16 e 86.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 124.10 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 101.10 Td (A camada de rede usa um servidor TCP compartilhado. Em rede/servidor.py,) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 78.70 Td (linha 16, aparece o ThreadingTCPServer, e na linha 86 a funcao que cria o) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 56.30 Td (servidor TCP para cada componente.) Tj ET Q
+q 0.420 0.420 0.420 rg BT /F1 8.50 Tf 248.00 18.00 Td (Pagina 3 de 18) Tj ET Q
+endstream
+endobj
+13 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 560 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 14 0 R >>
+endobj
+14 0 obj
+<< /Length 3472 >>
+stream
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 751.00 Td (\(Mostre rede/protocolo.py linhas 42 e 62.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 731.30 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 708.30 Td (Em rede/protocolo.py, linhas 42 e 62, ficam as funcoes de enviar e receber) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 685.90 Td (mensagens JSON pelo socket. Entao a troca Cliente, AS, TGS e Portal realmente) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 663.50 Td (acontece por rede local.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 636.10 Td (\(Mostre rede/cliente_tcp.py linhas 134, 141, 153, 172 e 183.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 616.40 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 593.40 Td (E em cliente_tcp.py, as linhas 134, 141, 153, 172 e 183 mostram as chamadas) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 571.00 Td (do Cliente para o AS, para o TGS e para o Portal. Isso fecha a evidencia da) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 548.60 Td (separacao do fluxo.) Tj ET Q
+q 0.070 0.070 0.070 rg BT /F2 13.80 Tf 36.00 517.20 Td (3. Criptografia simetrica) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 488.20 Td (\(Mostre config.py linhas 38 a 48.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 468.50 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 445.50 Td (O requisito pede Kerberos usando criptografia de chave simetrica. No) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 423.10 Td (config.py, linhas 38 a 48, o projeto carrega a chave secreta do TGS e a) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 400.70 Td (chave secreta do servico de notas. Essas chaves sao compartilhadas com os) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 378.30 Td (servidores correspondentes.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 350.90 Td (\(Mostre crypto_utils.py linha 25.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 331.20 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 308.20 Td (Em crypto_utils.py, linha 25, aparece o uso de AES-GCM. Esse e o algoritmo) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 285.80 Td (usado para cifrar e autenticar os pacotes JSON.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 258.40 Td (\(Mostre crypto_utils.py linhas 132 e 167.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 238.70 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 215.70 Td (A funcao criptografar_json, linha 132, serializa um dicionario e cifra com) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 193.30 Td (AES-GCM. Na linha 167, o objeto AESGCM e criado com a chave simetrica.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 165.90 Td (\(Mostre crypto_utils.py linhas 184 e 218.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 146.20 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 123.20 Td (A funcao descriptografar_json, linha 184, faz o caminho contrario. Na linha) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 100.80 Td (218, o AES-GCM tenta abrir o pacote. Se a chave estiver errada ou se o dado) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 78.40 Td (tiver sido adulterado, a abertura falha.) Tj ET Q
+q 0.420 0.420 0.420 rg BT /F1 8.50 Tf 248.00 18.00 Td (Pagina 4 de 18) Tj ET Q
+endstream
+endobj
+15 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 560 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 16 0 R >>
+endobj
+16 0 obj
+<< /Length 3632 >>
+stream
+q 0.070 0.070 0.070 rg BT /F2 13.80 Tf 36.00 754.00 Td (4. Senha e derivacao de chave) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 725.00 Td (\(Mostre a tela de login ou routes.py linhas 719 e 720.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 705.30 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 682.30 Td (A autenticacao do usuario comeca na rota /login. Em routes.py, linhas 719) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 659.90 Td (e 720, fica a rota de login. O usuario informa usuario e senha na interface.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 632.50 Td (\(Mostre kdf.py linhas 29 a 31.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 612.80 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 589.80 Td (A senha nao e enviada diretamente para os servidores. Em kdf.py, linhas 29 a) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 567.40 Td (31, temos os parametros da KDF: salt de 16 bytes, chave de 32 bytes e 200.000) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 545.00 Td (iteracoes.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 517.60 Td (\(Mostre kdf.py linhas 69 e 106 a 111.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 497.90 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 474.90 Td (A funcao derivar_chave_senha, linha 69, usa PBKDF2-HMAC-SHA256. Nas linhas) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 452.50 Td (106 a 111, vemos a chamada hashlib.pbkdf2_hmac, usando SHA-256, senha, salt,) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 430.10 Td (numero de iteracoes e tamanho final da chave.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 402.70 Td (\(Mostre kdf.py linhas 188 e 227.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 383.00 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 360.00 Td (Depois da derivacao, o cliente cria uma prova HMAC. A funcao) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 337.60 Td (gerar_prova_as, linha 188, monta essa prova, e na linha 227 aparece o) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 315.20 Td (hmac.new. Assim, o cliente prova que conhece a senha sem enviar a senha.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 287.80 Td (\(Mostre data/usuarios.json, apenas os campos salt, verificador e perfil.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 268.10 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 245.10 Td (No arquivo de usuarios, nao existe senha em texto claro. O arquivo guarda) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 222.70 Td (salt, verificador e perfil. Isso reforca que a senha e usada apenas para) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 200.30 Td (reproduzir a chave no momento do login.) Tj ET Q
+q 0.070 0.070 0.070 rg BT /F2 13.80 Tf 36.00 168.90 Td (5. AS e desafio) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 139.90 Td (\(Mostre servidor_as.py linhas 19, 38, 47 e 48.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 120.20 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 97.20 Td (O AS fica exposto por TCP em servidor_as.py. A linha 19 mostra o) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 74.80 Td (processador de requisicoes do AS. A linha 38 trata a acao de obter parametros,) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 52.40 Td (e as linhas 47 e 48 tratam a autenticacao com a prova HMAC.) Tj ET Q
+q 0.420 0.420 0.420 rg BT /F1 8.50 Tf 248.00 18.00 Td (Pagina 5 de 18) Tj ET Q
+endstream
+endobj
+17 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 560 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 18 0 R >>
+endobj
+18 0 obj
+<< /Length 3663 >>
+stream
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 751.00 Td (\(Mostre as_server.py linhas 47 e 48.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 731.30 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 708.30 Td (Em as_server.py, linhas 47 e 48, existe o armazenamento em memoria dos) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 685.90 Td (desafios do AS e o lock usado para proteger esse acesso.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 658.50 Td (\(Mostre as_server.py linhas 128, 179, 180 e 187.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 638.80 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 615.80 Td (A funcao criar_desafio_as, linha 128, cria os parametros iniciais. A linha) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 593.40 Td (179 gera um desafio aleatorio, a linha 180 registra esse desafio em memoria e) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 571.00 Td (a linha 187 devolve as iteracoes da KDF para o cliente.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 543.60 Td (\(Mostre routes.py linhas 130, 159, 182 e 208.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 523.90 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 500.90 Td (Do lado do cliente, em routes.py, linha 130, o Cliente pede os parametros ao) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 478.50 Td (AS. Na linha 159 ele deriva a chave da senha, na linha 182 gera a prova HMAC e) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 456.10 Td (na linha 208 envia essa prova ao AS.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 428.70 Td (\(Mostre as_server.py linhas 276, 330, 353 e 358.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 409.00 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 386.00 Td (A validacao fica em autenticar_no_as_com_prova, linha 276. Na linha 330 o) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 363.60 Td (desafio e consumido com pop, na linha 353 o AS calcula a prova esperada, e) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 341.20 Td (na linha 358 compara com a prova recebida usando hmac.compare_digest.) Tj ET Q
+q 0.070 0.070 0.070 rg BT /F2 13.80 Tf 36.00 309.80 Td (6. Emissao do TGT) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 280.80 Td (\(Mostre as_server.py linhas 198, 246, 247 e 254.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 261.10 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 238.10 Td (Quando a prova esta correta, o AS emite a resposta. Em as_server.py, linha) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 215.70 Td (198, comeca _emitir_resposta_as. Nas linhas 246 e 247, o AS gera a chave de) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 193.30 Td (sessao Cliente-TGS. Na linha 254, o TGT e cifrado com a chave secreta do TGS.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 165.90 Td (\(Mostre tickets.py linhas 46 e 66.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 146.20 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 123.20 Td (A estrutura do TGT esta em tickets.py, linha 46. Na linha 66 aparece o campo) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 100.80 Td (chave_sessao_cliente_tgs, que e a chave de sessao entregue ao TGS dentro do) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 78.40 Td (ticket.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 51.00 Td (\(Mostre as_server.py linhas 257 e 382.\)) Tj ET Q
+q 0.420 0.420 0.420 rg BT /F1 8.50 Tf 248.00 18.00 Td (Pagina 6 de 18) Tj ET Q
+endstream
+endobj
+19 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 560 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 20 0 R >>
+endobj
+20 0 obj
+<< /Length 3473 >>
+stream
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 754.00 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 731.00 Td (Na resposta para o cliente, a linha 257 inclui a chave Cliente-TGS. A funcao) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 708.60 Td (gerar_tgt, linha 382, monta os campos adicionais de validade, usuario e) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 686.20 Td (nonce do TGT.) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 661.80 Td (Fechamento do Apresentador 1:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 638.80 Td (Resumindo: ate aqui cobrimos autenticacao por senha, KDF, desafio do AS,) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 616.40 Td (prova HMAC, emissao do TGT e uso de criptografia simetrica. Agora o Cliente) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 594.00 Td (usa esse TGT para pedir ao TGS um ticket especifico para o Portal de Notas.) Tj ET Q
+q 0.550 0.550 0.550 rg BT /F1 10.00 Tf 36.00 565.60 Td (------------------------------------------------------------) Tj ET Q
+q 0.040 0.040 0.040 rg BT /F2 16.50 Tf 36.00 538.60 Td (Apresentador 2 - TGS, Service Ticket, autenticadores e) Tj ET Q
+q 0.040 0.040 0.040 rg BT /F2 16.50 Tf 36.00 517.10 Td (autenticacao mutua) Tj ET Q
+q 0.070 0.070 0.070 rg BT /F2 13.80 Tf 36.00 479.60 Td (1. Entrada no TGS) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 450.60 Td (\(Mostre servidor_tgs.py linhas 16, 33 e 41.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 430.90 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 407.90 Td (O TGS fica em servidor_tgs.py. A linha 16 mostra o processador de requisicao.) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 385.50 Td (A linha 33 exige a acao emitir_ticket, e na linha 41 o servidor chama a) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 363.10 Td (funcao que emite o Service Ticket.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 335.70 Td (\(Mostre tgs_server.py linhas 38, 99, 152 e 224.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 316.00 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 293.00 Td (A logica principal fica em tgs_server.py. A linha 38 mostra que o servico) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 270.60 Td (cadastrado e notas. A linha 99 valida o TGT, a linha 152 valida o) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 248.20 Td (autenticador Cliente-TGS e a linha 224 inicia a emissao do ticket de servico.) Tj ET Q
+q 0.070 0.070 0.070 rg BT /F2 13.80 Tf 36.00 216.80 Td (2. Autenticador Cliente-TGS) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 187.80 Td (\(Mostre authenticator.py linhas 21 a 26.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 168.10 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 145.10 Td (O autenticador e criado em authenticator.py, a partir da linha 21. Ele recebe) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 122.70 Td (usuario, chave de sessao, nonce, acao e hash da requisicao quando esses campos) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 100.30 Td (sao necessarios.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 72.90 Td (\(Mostre authenticator.py linhas 42, 43, 47 e 50.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 53.20 Td (Frase para ler:) Tj ET Q
+q 0.420 0.420 0.420 rg BT /F1 8.50 Tf 248.00 18.00 Td (Pagina 7 de 18) Tj ET Q
+endstream
+endobj
+21 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 560 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 22 0 R >>
+endobj
+22 0 obj
+<< /Length 3602 >>
+stream
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 753.00 Td (Nas linhas 42 e 43, o autenticador recebe timestamp e nonce. Nas linhas 47 e) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 730.60 Td (50, ele tambem pode receber a acao e o hash da requisicao. Isso e usado nas) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 708.20 Td (operacoes protegidas do Portal.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 680.80 Td (\(Mostre routes.py linhas 270 e 291.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 661.10 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 638.10 Td (No Cliente Web, a linha 270 cria o autenticador Cliente-TGS. Depois, na linha) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 615.70 Td (291, o Cliente pede ao TGS o ticket de servico para o Portal de Notas.) Tj ET Q
+q 0.070 0.070 0.070 rg BT /F2 13.80 Tf 36.00 584.30 Td (3. Validacao do TGT e protecao contra replay) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 555.30 Td (\(Mostre tgs_server.py linhas 114 e 136.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 535.60 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 512.60 Td (Na validacao do TGT, a linha 114 abre o ticket com a chave secreta do TGS. A) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 490.20 Td (linha 136 verifica se o ticket expirou. Isso mostra a validacao do ticket) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 467.80 Td (emitido pelo AS.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 440.40 Td (\(Mostre tgs_server.py linhas 194, 199, 207 e 215.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 420.70 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 397.70 Td (Na validacao do autenticador, a linha 194 pega o timestamp. A linha 199 rejeita) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 375.30 Td (autenticador expirado, a linha 207 rejeita timestamp futuro invalido e a linha) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 352.90 Td (215 registra o nonce para proteger contra replay.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 325.50 Td (\(Mostre tgs_server.py linhas 35, 59, 83 e 91.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 305.80 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 282.80 Td (A protecao contra replay aparece no cache NONCES_TGS_UTILIZADOS, linha 35.) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 260.40 Td (A funcao _registrar_nonce_tgs, linha 59, verifica se o nonce ja apareceu.) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 238.00 Td (Na linha 83, se o par usuario e nonce ja existe, o TGS rejeita. Na linha 91, um) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 215.60 Td (nonce valido e registrado.) Tj ET Q
+q 0.070 0.070 0.070 rg BT /F2 13.80 Tf 36.00 184.20 Td (4. Emissao do Service Ticket) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 155.20 Td (\(Mostre tgs_server.py linhas 256, 267 e 270.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 135.50 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 112.50 Td (Depois que o TGT e o autenticador sao validados, o TGS cria o Service Ticket.) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 90.10 Td (A linha 256 chama criar_ticket_servico. A linha 267 cifra esse ticket com a) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 67.70 Td (chave do servico, e a linha 270 monta a resposta cifrada para o cliente.) Tj ET Q
+q 0.420 0.420 0.420 rg BT /F1 8.50 Tf 248.00 18.00 Td (Pagina 8 de 18) Tj ET Q
+endstream
+endobj
+23 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 560 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 24 0 R >>
+endobj
+24 0 obj
+<< /Length 3450 >>
+stream
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 754.00 Td (\(Mostre tickets.py linhas 72 a 90.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 734.30 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 711.30 Td (A estrutura do Service Ticket fica em tickets.py, a partir da linha 72. Ele) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 688.90 Td (contem usuario, servico, chave Cliente-Servico, timestamp de emissao,) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 666.50 Td (expiracao e nonce.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 639.10 Td (\(Mostre tgs_server.py linhas 284 e 285.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 619.40 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 596.40 Td (Na resposta final do TGS, a linha 284 entrega o Service Ticket cifrado, e a) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 574.00 Td (linha 285 entrega a resposta para o cliente com a chave Cliente-Servico) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 551.60 Td (protegida.) Tj ET Q
+q 0.070 0.070 0.070 rg BT /F2 13.80 Tf 36.00 520.20 Td (5. Portal de Notas como servico protegido) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 491.20 Td (\(Mostre servidor_notas.py linhas 19, 34 a 46.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 471.50 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 448.50 Td (O servico protegido e o Portal de Notas. Em servidor_notas.py, linha 19,) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 426.10 Td (esta o processador do servico. As linhas 34 a 46 mostram as duas acoes) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 403.70 Td (aceitas: autenticar no Portal e executar uma operacao protegida.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 376.30 Td (\(Mostre portal_notas.py linhas 38, 60 e 72.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 356.60 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 333.60 Td (Em portal_notas.py, linha 38, o servico e identificado como notas. A) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 311.20 Td (funcao validar_ticket_portal, linha 60, valida o Service Ticket, e a linha) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 288.80 Td (72 chama a abertura do ticket para esse servico.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 261.40 Td (\(Mostre tgs_server.py linhas 295, 312 e 332.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 241.70 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 218.70 Td (A abertura real do Service Ticket esta em tgs_server.py, linha 295. Na linha) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 196.30 Td (312, o ticket e descriptografado com a chave do servico. Na linha 332, o) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 173.90 Td (sistema verifica se o ticket expirou.) Tj ET Q
+q 0.070 0.070 0.070 rg BT /F2 13.80 Tf 36.00 142.50 Td (6. Autenticacao mutua) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 113.50 Td (\(Mostre portal_notas.py linhas 192, 222, 223 e 224.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 93.80 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 70.80 Td (A autenticacao inicial com o Portal fica em autenticar_portal_notas, linha) Tj ET Q
+q 0.420 0.420 0.420 rg BT /F1 8.50 Tf 248.00 18.00 Td (Pagina 9 de 18) Tj ET Q
+endstream
+endobj
+25 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 560 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 26 0 R >>
+endobj
+26 0 obj
+<< /Length 3610 >>
+stream
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 754.00 Td (192. Na resposta, a linha 222 coloca o servico, a linha 223 devolve o) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 731.60 Td (timestamp incrementado em 1, e a linha 224 devolve o mesmo nonce do) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 709.20 Td (autenticador.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 681.80 Td (\(Mostre routes.py linhas 396, 420 e 456.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 662.10 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 639.10 Td (Do lado do Cliente, a linha 396 envia o Service Ticket e o autenticador ao) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 616.70 Td (Portal. A linha 420 valida a confirmacao do Portal. Depois, a linha 456 marca a) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 594.30 Td (sessao como portal_autenticado.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 566.90 Td (\(Mostre portal_notas.py linhas 240, 287 e 295.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 547.20 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 524.20 Td (A validacao da confirmacao fica em validar_confirmacao_portal, linha 240. A) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 501.80 Td (linha 287 confere o timestamp incrementado, e a linha 295 confere se o nonce) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 479.40 Td (recebido e o mesmo nonce esperado.) Tj ET Q
+q 0.070 0.070 0.070 rg BT /F2 13.80 Tf 36.00 448.00 Td (7. Operacoes protegidas depois do login) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 419.00 Td (\(Mostre routes.py linha 518.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 399.30 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 376.30 Td (O ponto mais importante para reforcar e que o Kerberos nao fica so no login.) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 353.90 Td (A funcao executar_operacao_kerberos, linha 518, protege cada operacao feita) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 331.50 Td (no Portal de Notas.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 304.10 Td (\(Mostre routes.py linhas 537, 560, 561 e 570.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 284.40 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 261.40 Td (A linha 537 monta a requisicao com usuario, acao, dados e nonce. A linha 560) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 239.00 Td (calcula o hash da requisicao. A linha 561 cifra a requisicao com AES-GCM, e a) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 216.60 Td (linha 570 coloca o hash no autenticador.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 189.20 Td (\(Mostre routes.py linhas 603 e 637.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 169.50 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 146.50 Td (A linha 603 envia a operacao ao Portal via TCP. Depois, na linha 637, o Cliente) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 124.10 Td (valida a resposta cifrada do Portal antes de aceitar o resultado.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 96.70 Td (\(Mostre portal_notas.py linhas 401, 482, 514 e 530.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 77.00 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 54.00 Td (No Portal, a funcao processar_operacao_portal, linha 401, valida a operacao.) Tj ET Q
+q 0.420 0.420 0.420 rg BT /F1 8.50 Tf 248.00 18.00 Td (Pagina 10 de 18) Tj ET Q
+endstream
+endobj
+27 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 560 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 28 0 R >>
+endobj
+28 0 obj
+<< /Length 3582 >>
+stream
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 753.00 Td (A linha 482 compara o hash com hmac.compare_digest. A linha 514 monta a) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 730.60 Td (resposta com timestamp incrementado, e a linha 530 inicia a validacao da) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 708.20 Td (resposta do lado do Cliente.) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 683.80 Td (Fechamento do Apresentador 2:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 660.80 Td (Entao esta parte comprova TGS, Service Ticket, autenticadores, timestamp,) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 638.40 Td (nonce, replay, autenticacao mutua e operacoes protegidas. Isso mostra que o) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 616.00 Td (fluxo segue Cliente, AS, TGS e Servico, como no Kerberos apresentado em sala.) Tj ET Q
+q 0.550 0.550 0.550 rg BT /F1 10.00 Tf 36.00 587.60 Td (------------------------------------------------------------) Tj ET Q
+q 0.040 0.040 0.040 rg BT /F2 16.50 Tf 36.00 560.60 Td (Apresentador 3 - Portal de Notas, perfis, interface e logs) Tj ET Q
+q 0.070 0.070 0.070 rg BT /F2 13.80 Tf 36.00 523.10 Td (1. Demonstracao como professor) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 494.10 Td (\(Mostre o navegador em http://127.0.0.1:5000.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 474.40 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 451.40 Td (Agora vamos ver o servico protegido funcionando. O Portal de Notas e a parte) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 429.00 Td (visivel da aplicacao, mas o acesso a ele depende do fluxo Kerberos que acabou) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 406.60 Td (de ser explicado.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 379.20 Td (\(Mostre a tela de login e entre com SilvioSants, sem mostrar a senha.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 359.50 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 336.50 Td (Vou entrar com um usuario professor. A senha nao sera mostrada, mas ela sera) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 314.10 Td (usada pelo Cliente para derivar a chave localmente e iniciar o fluxo com o AS.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 286.70 Td (\(Mostre o painel de professor.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 267.00 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 244.00 Td (Depois do login, o painel de professor aparece. Isso significa que o Cliente) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 221.60 Td (ja passou por AS, TGS e Portal, recebeu o Service Ticket e concluiu a) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 199.20 Td (autenticacao mutua.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 171.80 Td (\(Mostre o formulario de lancamento de nota.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 152.10 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 129.10 Td (Como este usuario tem perfil de professor, aparecem os controles para lancar) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 106.70 Td (nota. Vou cadastrar uma nota para um aluno, por exemplo AkinGOD777.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 79.30 Td (\(Preencha uma nota simples e clique para salvar.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 59.60 Td (Frase para ler:) Tj ET Q
+q 0.420 0.420 0.420 rg BT /F1 8.50 Tf 248.00 18.00 Td (Pagina 11 de 18) Tj ET Q
+endstream
+endobj
+29 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 560 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 30 0 R >>
+endobj
+30 0 obj
+<< /Length 3412 >>
+stream
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 754.00 Td (Ao salvar, a operacao nao vai direto para o JSON. Ela passa por) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 731.60 Td (executar_operacao_kerberos: a requisicao e cifrada, recebe nonce, hash e) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 709.20 Td (autenticador, e so depois o Portal executa a regra de negocio.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 681.80 Td (\(Mostre a nota aparecendo na tabela.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 662.10 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 639.10 Td (A nota aparece na tabela depois que o Portal valida a operacao e devolve uma) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 616.70 Td (resposta cifrada que o Cliente tambem valida.) Tj ET Q
+q 0.070 0.070 0.070 rg BT /F2 13.80 Tf 36.00 585.30 Td (2. Rotas Flask do Portal) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 556.30 Td (\(Mostre routes.py linhas 750, 847, 890 e 923.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 536.60 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 513.60 Td (As rotas principais do Portal aparecem em routes.py. A linha 750 trata a) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 491.20 Td (rota /notas, a linha 847 trata a edicao, a linha 890 trata a exclusao e a) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 468.80 Td (linha 923 trata o logout.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 441.40 Td (\(Mostre routes.py linhas 750 a 846, se quiser comentar de forma geral.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 421.70 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 398.70 Td (A rota /notas lista o painel e tambem recebe o formulario de lancamento de) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 376.30 Td (nota. Quando o professor envia uma nota, essa rota chama a operacao protegida) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 353.90 Td (pelo Kerberos.) Tj ET Q
+q 0.070 0.070 0.070 rg BT /F2 13.80 Tf 36.00 322.50 Td (3. Regras de professor e aluno) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 293.50 Td (\(Mostre service.py linhas 22 e 23.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 273.80 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 250.80 Td (As regras de perfil ficam em service.py. As linhas 22 e 23 definem os dois) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 228.40 Td (perfis principais: professor e aluno.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 201.00 Td (\(Mostre service.py linhas 53, 65 e 66.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 181.30 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 158.30 Td (A funcao listar_notas, linha 53, diferencia os perfis. Se for professor, a) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 135.90 Td (linha 65 permite listar todas as notas. Se for aluno, ele recebe apenas as) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 113.50 Td (notas do proprio usuario.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 86.10 Td (\(Mostre service.py linhas 71, 78 e 79.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 66.40 Td (Frase para ler:) Tj ET Q
+q 0.420 0.420 0.420 rg BT /F1 8.50 Tf 248.00 18.00 Td (Pagina 12 de 18) Tj ET Q
+endstream
+endobj
+31 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 560 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 32 0 R >>
+endobj
+32 0 obj
+<< /Length 3451 >>
+stream
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 754.00 Td (A funcao _validar_professor, linha 71, bloqueia operacoes de alteracao para) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 731.60 Td (quem nao e professor. Nas linhas 78 e 79, se o perfil nao for professor, o) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 709.20 Td (sistema levanta erro de permissao.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 681.80 Td (\(Mostre service.py linhas 101, 143, 186 e 222.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 662.10 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 639.10 Td (As funcoes de criar nota, criar varias notas, editar e excluir ficam nas) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 616.70 Td (linhas 101, 143, 186 e 222. Todas dependem da validacao de perfil para alterar) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 594.30 Td (dados.) Tj ET Q
+q 0.070 0.070 0.070 rg BT /F2 13.80 Tf 36.00 562.90 Td (4. Demonstracao como aluno) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 533.90 Td (\(Faca logout e entre com AkinGOD777, sem mostrar a senha.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 514.20 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 491.20 Td (Agora vamos entrar com um usuario aluno. Ele tambem passa pelo Kerberos, mas) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 468.80 Td (recebe permissoes diferentes dentro do Portal.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 441.40 Td (\(Mostre o painel do aluno.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 421.70 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 398.70 Td (No painel do aluno, ele ve apenas as proprias notas. Os controles de lancar,) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 376.30 Td (editar e excluir nao aparecem.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 348.90 Td (\(Mostre a ausencia dos botoes e do formulario.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 329.20 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 306.20 Td (A interface ja evita que o aluno use operacoes de professor, mas a regra mais) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 283.80 Td (importante esta no servidor, em service.py. Mesmo que alguem tente chamar uma) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 261.40 Td (rota diretamente, a camada de servico bloqueia.) Tj ET Q
+q 0.070 0.070 0.070 rg BT /F2 13.80 Tf 36.00 230.00 Td (5. Persistencia em JSON) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 201.00 Td (\(Mostre repository.py linhas 79, 128 e 154.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 181.30 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 158.30 Td (A persistencia das notas fica em repository.py. A linha 79 adiciona nota, a) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 135.90 Td (linha 128 atualiza nota por ID e a linha 154 exclui nota por ID.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 108.50 Td (\(Mostre json_store.py linhas 20, 36 e 58.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 88.80 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 65.80 Td (A leitura e escrita de JSON ficam em json_store.py. A linha 20 carrega JSON,) Tj ET Q
+q 0.420 0.420 0.420 rg BT /F1 8.50 Tf 248.00 18.00 Td (Pagina 13 de 18) Tj ET Q
+endstream
+endobj
+33 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 560 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 34 0 R >>
+endobj
+34 0 obj
+<< /Length 3487 >>
+stream
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 754.00 Td (a linha 36 salva JSON e a linha 58 usa os.replace, que substitui o arquivo) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 731.60 Td (final depois de gravar um temporario.) Tj ET Q
+q 0.070 0.070 0.070 rg BT /F2 13.80 Tf 36.00 700.20 Td (6. Logs didaticos) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 671.20 Td (\(Mostre o terminal dos servidores Kerberos.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 651.50 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 628.50 Td (Os logs do terminal mostram o fluxo em tempo real. E possivel acompanhar o AS) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 606.10 Td (recebendo requisicao, o TGS emitindo ticket e o Portal validando operacao.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 578.70 Td (\(Mostre logs.py linhas 13, 88, 142, 151, 158, 169 e 173.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 559.00 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 536.00 Td (O arquivo logs.py centraliza os logs. A lista de campos sensiveis comeca na) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 513.60 Td (linha 13. A funcao de mascaramento esta na linha 88. As funcoes de log para) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 491.20 Td (interface e terminal aparecem nas linhas 142, 151, 158, 169 e 173.) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 466.80 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 443.80 Td (Isso ajuda na apresentacao porque mostra o fluxo, mas sem expor senha, chaves,) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 421.40 Td (tickets, autenticadores, nonces ou ciphertexts.) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 397.00 Td (Fechamento do Apresentador 3:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 374.00 Td (Nesta parte, vimos que existe um sistema de notas real por tras do Kerberos:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 351.60 Td (professor cria e altera notas, aluno apenas consulta, as permissoes sao) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 329.20 Td (aplicadas no servidor e os logs ajudam a demonstrar o fluxo.) Tj ET Q
+q 0.550 0.550 0.550 rg BT /F1 10.00 Tf 36.00 300.80 Td (------------------------------------------------------------) Tj ET Q
+q 0.040 0.040 0.040 rg BT /F2 16.50 Tf 36.00 273.80 Td (Apresentador 4 - Execucao, testes, Doxygen, limitacoes e) Tj ET Q
+q 0.040 0.040 0.040 rg BT /F2 16.50 Tf 36.00 252.30 Td (conclusao) Tj ET Q
+q 0.070 0.070 0.070 rg BT /F2 13.80 Tf 36.00 214.80 Td (1. Execucao reproduzivel) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 185.80 Td (\(Mostre README.md, secao de instalacao e execucao.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 166.10 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 143.10 Td (A execucao do projeto esta documentada no README. A instalacao pode ser feita) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 120.70 Td (com python -m pip install -e ..) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 93.30 Td (\(Mostre o terminal dos servidores.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 73.60 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 50.60 Td (Para rodar, primeiro iniciamos AS, TGS e Portal com) Tj ET Q
+q 0.420 0.420 0.420 rg BT /F1 8.50 Tf 248.00 18.00 Td (Pagina 14 de 18) Tj ET Q
+endstream
+endobj
+35 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 560 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 36 0 R >>
+endobj
+36 0 obj
+<< /Length 3300 >>
+stream
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 753.00 Td (python scripts/iniciar_servidores.py.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 725.60 Td (\(Mostre o terminal Flask.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 705.90 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 682.90 Td (Depois iniciamos o Cliente Web com python run.py e acessamos) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 660.50 Td (http://127.0.0.1:5000.) Tj ET Q
+q 0.070 0.070 0.070 rg BT /F2 13.80 Tf 36.00 629.10 Td (2. Testes automatizados) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 600.10 Td (\(Mostre a pasta tests.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 580.40 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 557.40 Td (O projeto possui testes automatizados para comprovar as partes principais do) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 535.00 Td (fluxo.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 507.60 Td (\(Mostre test_crypto.py linha 38.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 487.90 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 464.90 Td (Em test_crypto.py, linha 38, existe teste que detecta ciphertext adulterado.) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 442.50 Td (Isso comprova a integridade fornecida pelo AES-GCM.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 415.10 Td (\(Mostre test_as_server.py linhas 92 e 105.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 395.40 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 372.40 Td (Em test_as_server.py, a linha 92 testa autenticacao valida no AS, e a linha) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 350.00 Td (105 testa rejeicao de senha invalida.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 322.60 Td (\(Mostre test_tgs.py linha 94.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 302.90 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 279.90 Td (Em test_tgs.py, linha 94, existe teste para rejeitar autenticador) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 257.50 Td (reutilizado, cobrindo protecao contra replay no TGS.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 230.10 Td (\(Mostre test_notas.py linhas 170, 203, 278 e 338.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 210.40 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 187.40 Td (Em test_notas.py, a linha 170 testa autenticacao mutua no Portal. A linha) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 165.00 Td (203 testa replay no Portal. A linha 278 testa edicao e exclusao passando por) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 142.60 Td (operacao Kerberos, e a linha 338 testa bloqueio de aluno ao tentar lancar nota.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 115.20 Td (\(Mostre test_rede.py linhas 96, 191 e 245.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 95.50 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 72.50 Td (O arquivo test_rede.py e um dos mais importantes. A linha 96 testa o fluxo) Tj ET Q
+q 0.420 0.420 0.420 rg BT /F1 8.50 Tf 248.00 18.00 Td (Pagina 15 de 18) Tj ET Q
+endstream
+endobj
+37 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 560 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 38 0 R >>
+endobj
+38 0 obj
+<< /Length 3353 >>
+stream
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 754.00 Td (completo passando por tres servidores TCP. A linha 191 confirma que a senha) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 731.60 Td (nao atravessa a rede. A linha 245 testa a aplicacao web usando os servidores) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 709.20 Td (TCP.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 681.80 Td (\(Mostre o comando no terminal.\)) Tj ET Q
+q 0.040 0.040 0.040 rg BT /F3 8.70 Tf 44.00 658.10 Td (python -m pytest -q) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 639.90 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 616.90 Td (O resultado esperado da suite e 48 testes passando.) Tj ET Q
+q 0.070 0.070 0.070 rg BT /F2 13.80 Tf 36.00 585.50 Td (3. Documentacao Doxygen) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 556.50 Td (\(Mostre Doxyfile linhas 5, 6, 15, 18 e 19.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 536.80 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 513.80 Td (A documentacao Doxygen tambem esta configurada. No Doxyfile, a linha 5) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 491.40 Td (define as entradas, a linha 6 usa o layout customizado, a linha 15 gera HTML,) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 469.00 Td (a linha 18 define a pagina principal e a linha 19 aplica o CSS customizado.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 441.60 Td (\(Mostre DoxygenLayout.xml linha 7.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 421.90 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 398.90 Td (No DoxygenLayout.xml, linha 7, aparece a aba "Como executar o codigo",) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 376.50 Td (apontando para como_executar.html.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 349.10 Td (\(Mostre doxygen_pages/execucao.md linha 1.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 329.40 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 306.40 Td (A pagina execucao.md, linha 1, define o identificador Doxygen) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 284.00 Td (como_executar, que gera a pagina de execucao da documentacao.) Tj ET Q
+q 0.070 0.070 0.070 rg BT /F2 13.80 Tf 36.00 252.60 Td (4. Limitacoes academicas) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 223.60 Td (\(Mostre README.md, secao de limitacoes.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 203.90 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 180.90 Td (Como o projeto e academico, existem simplificacoes. A persistencia usa JSON,) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 158.50 Td (as sessoes e caches de replay ficam em memoria, e a execucao e local. Em) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 136.10 Td (producao, seria necessario HTTPS, gestao mais forte de segredos e banco de) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 113.70 Td (dados.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 86.30 Td (\(Mostre scripts/gerar_chaves.py, se quiser citar as chaves.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 66.60 Td (Frase para ler:) Tj ET Q
+q 0.420 0.420 0.420 rg BT /F1 8.50 Tf 248.00 18.00 Td (Pagina 16 de 18) Tj ET Q
+endstream
+endobj
+39 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 560 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 40 0 R >>
+endobj
+40 0 obj
+<< /Length 3995 >>
+stream
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 754.00 Td (As chaves padrao sao didaticas, mas podem ser substituidas por variaveis de) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 731.60 Td (ambiente. O script gerar_chaves.py ajuda a gerar novos valores.) Tj ET Q
+q 0.070 0.070 0.070 rg BT /F2 13.80 Tf 36.00 700.20 Td (5. Conclusao) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 671.20 Td (\(Mostre docs/fluxo_kerberos.md ou o README com o fluxo.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 651.50 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 628.50 Td (Para concluir, o projeto atende aos requisitos minimos da implementacao. Ele) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 606.10 Td (usa criptografia simetrica, implementa AS, implementa TGS, protege um sistema) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 583.70 Td (de notas, autentica por senha, deriva chave com KDF, emite e valida tickets,) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 561.30 Td (implementa autenticacao mutua e segue o fluxo Cliente, AS, TGS e Servico.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 533.90 Td (\(Mostre os terminais com logs ou a tela do Portal.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 514.20 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 491.20 Td (O ponto mais importante e que o Kerberos nao ficou apenas no login. O fluxo) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 468.80 Td (inicial autentica o usuario, e as operacoes do Portal continuam protegidas com) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 446.40 Td (Service Ticket, autenticador, nonce, timestamp, hash e resposta cifrada.) Tj ET Q
+q 0.260 0.260 0.260 rg BT /F4 9.60 Tf 36.00 419.00 Td (\(Mostre uma tela final limpa, como README ou o Portal.\)) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.70 Tf 36.00 399.30 Td (Frase para ler:) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 376.30 Td (Assim, o Portal de Notas funciona como uma demonstracao completa e didatica) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 353.90 Td (dos principais conceitos do Kerberos dentro do escopo da disciplina de) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 331.50 Td (Seguranca Computacional.) Tj ET Q
+q 0.550 0.550 0.550 rg BT /F1 10.00 Tf 36.00 303.10 Td (------------------------------------------------------------) Tj ET Q
+q 0.070 0.070 0.070 rg BT /F2 13.80 Tf 36.00 277.10 Td (Checklist final para gravacao) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.40 Tf 46.00 251.10 Td (- Abrir dois terminais.) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.40 Tf 46.00 234.40 Td (- Rodar python scripts/iniciar_servidores.py.) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.40 Tf 46.00 217.70 Td (- Rodar python run.py.) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.40 Tf 46.00 201.00 Td (- Abrir http://127.0.0.1:5000.) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.40 Tf 46.00 184.30 Td (- Nao mostrar senhas.) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.40 Tf 46.00 167.60 Td (- Mostrar run.py linha 22.) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.40 Tf 46.00 150.90 Td (- Mostrar scripts/iniciar_servidores.py linhas 57 a 66.) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.40 Tf 46.00 134.20 Td (- Mostrar kdf.py linhas 29 a 31 e 106 a 111.) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.40 Tf 46.00 117.50 Td (- Mostrar as_server.py linhas 128, 276, 330, 353 e 358.) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.40 Tf 46.00 100.80 Td (- Mostrar as_server.py linhas 246 a 254 para o TGT.) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.40 Tf 46.00 84.10 Td (- Mostrar tgs_server.py linhas 99, 152, 224 e 267.) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.40 Tf 46.00 67.40 Td (- Mostrar portal_notas.py linhas 192, 222 a 224 e 401.) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.40 Tf 46.00 50.70 Td (- Mostrar routes.py linhas 518, 537, 560 a 570 e 603.) Tj ET Q
+q 0.420 0.420 0.420 rg BT /F1 8.50 Tf 248.00 18.00 Td (Pagina 17 de 18) Tj ET Q
+endstream
+endobj
+41 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 560 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> >> /Contents 42 0 R >>
+endobj
+42 0 obj
+<< /Length 1177 >>
+stream
+q 0.020 0.020 0.020 rg BT /F1 10.40 Tf 46.00 754.00 Td (- Mostrar professor lancando ou editando nota.) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.40 Tf 46.00 737.30 Td (- Mostrar aluno sem botoes de alteracao.) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.40 Tf 46.00 720.60 Td (- Mostrar python -m pytest -q com 48 testes.) Tj ET Q
+q 0.020 0.020 0.020 rg BT /F1 10.40 Tf 46.00 703.90 Td (- Mostrar Doxygen ou Doxyfile.) Tj ET Q
+q 0.070 0.070 0.070 rg BT /F2 13.80 Tf 36.00 677.20 Td (Frase curta para encerrar se faltar tempo) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 650.20 Td (O projeto demonstra o Kerberos de ponta a ponta: Cliente, AS, TGS e Portal de) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 627.80 Td (Notas. A senha fica no inicio, a KDF deriva a chave, o AS emite o TGT, o TGS) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 605.40 Td (emite o Service Ticket, o Portal faz autenticacao mutua e cada operacao de) Tj ET Q
+q 0.050 0.050 0.050 rg BT /F1 10.80 Tf 46.00 583.00 Td (notas continua protegida por ticket, autenticador, nonce, timestamp e hash.) Tj ET Q
+q 0.420 0.420 0.420 rg BT /F1 8.50 Tf 248.00 18.00 Td (Pagina 18 de 18) Tj ET Q
+endstream
+endobj
+xref
+0 43
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000240 00000 n 
+0000000310 00000 n 
+0000000385 00000 n 
+0000000453 00000 n 
+0000000531 00000 n 
+0000000687 00000 n 
+0000006258 00000 n 
+0000006415 00000 n 
+0000010895 00000 n 
+0000011053 00000 n 
+0000014741 00000 n 
+0000014899 00000 n 
+0000018423 00000 n 
+0000018581 00000 n 
+0000022265 00000 n 
+0000022423 00000 n 
+0000026138 00000 n 
+0000026296 00000 n 
+0000029821 00000 n 
+0000029979 00000 n 
+0000033633 00000 n 
+0000033791 00000 n 
+0000037293 00000 n 
+0000037451 00000 n 
+0000041113 00000 n 
+0000041271 00000 n 
+0000044905 00000 n 
+0000045063 00000 n 
+0000048527 00000 n 
+0000048685 00000 n 
+0000052188 00000 n 
+0000052346 00000 n 
+0000055885 00000 n 
+0000056043 00000 n 
+0000059395 00000 n 
+0000059553 00000 n 
+0000062958 00000 n 
+0000063116 00000 n 
+0000067163 00000 n 
+0000067321 00000 n 
+trailer
+<< /Size 43 /Root 1 0 R >>
+startxref
+68550
+%%EOF
