@@ -1,857 +1,954 @@
-# Roteiro de Apresentação do Portal de Notas com Kerberos
+# Roteiro completo para apresentacao - Portal de Notas com Kerberos
 
-Tempo total sugerido: 14 a 17 minutos.
+Este roteiro foi escrito para ser lido durante a apresentacao. A ideia e que
+voce consiga seguir com tranquilidade, sem precisar improvisar muito.
 
-## 1. Estrutura real encontrada
+Como usar:
 
-O projeto é uma aplicação Flask com uma implementação acadêmica do fluxo
-Kerberos. AS, TGS e Portal de Notas executam como processos TCP separados.
+- O texto entre parenteses indica o que mostrar na tela.
+- A frase depois de `Frase para ler:` e o que deve ser falado.
+- As instrucoes entre parenteses nao precisam ser lidas em voz alta.
+- O tom deve ser calmo, natural e explicativo.
 
-```text
-kerberos-notas-base/
-|-- run.py
-|-- requirements.txt
-|-- pyproject.toml
-|-- data/
-|   |-- usuarios.json
-|   `-- notas.json
-|-- scripts/
-|   |-- criar_usuario.py
-|   |-- iniciar_servidores.py
-|   `-- reset_dados.py
-|-- src/kerberos_notas/
-|   |-- rede/
-|   |-- servidores/
-|   |-- config.py
-|   |-- client/routes.py
-|   |-- crypto/
-|   |   |-- crypto_utils.py
-|   |   `-- kdf.py
-|   |-- kerberos/
-|   |   |-- as_server.py
-|   |   |-- authenticator.py
-|   |   |-- tgs_server.py
-|   |   `-- tickets.py
-|   |-- notes/
-|   |   |-- portal_notas.py
-|   |   |-- repository.py
-|   |   `-- service.py
-|   `-- storage/json_store.py
-|-- templates/
-|   |-- login.html
-|   |-- notas.html
-|   `-- erro.html
-|-- static/css/style.css
-|-- tests/
-|   |-- test_crypto.py
-|   |-- test_as_server.py
-|   |-- test_tgs.py
-|   |-- test_notas.py
-|   `-- test_fluxo.py
-`-- docs/
-    |-- fluxo_kerberos.md
-    |-- relatorio_tecnico.md
-    `-- README_TESTES_E_DEMO.md
-```
+Tempo sugerido: 16 a 22 minutos.
 
-### Componentes confirmados
+Divisao:
 
-- Entrada da aplicação: `run.py`, função importada `create_app`.
-- Cliente e integração Kerberos: `src/kerberos_notas/client/routes.py`.
-- AS: `src/kerberos_notas/kerberos/as_server.py`.
-- TGS: `src/kerberos_notas/kerberos/tgs_server.py`.
-- TGT e Service Ticket: `src/kerberos_notas/kerberos/tickets.py`.
-- Autenticadores: `src/kerberos_notas/kerberos/authenticator.py`.
-- KDF: `src/kerberos_notas/crypto/kdf.py`.
-- AES-GCM: `src/kerberos_notas/crypto/crypto_utils.py`.
-- Serviço protegido: `src/kerberos_notas/notes/portal_notas.py`.
-- Regras de professor e aluno: `src/kerberos_notas/notes/service.py`.
-- Persistência: `src/kerberos_notas/notes/repository.py` e
-  `src/kerberos_notas/storage/json_store.py`.
-- Interface: rotas em `client/routes.py` e templates em `templates/`.
-- Testes confirmados: 34.
+- Apresentador 1: Kerberos, arquitetura, senha, KDF, AS e TGT.
+- Apresentador 2: TGS, Service Ticket, autenticadores, replay e autenticacao
+  mutua.
+- Apresentador 3: Portal de Notas, professor, aluno, interface e logs.
+- Apresentador 4: execucao, testes, Doxygen, limitacoes e conclusao.
 
-### Rotas Flask confirmadas
+Mensagem central da apresentacao:
 
-| Rota | Método | Função | Finalidade |
-|---|---|---|---|
-| `/` | GET | `index` | Redireciona para login ou notas |
-| `/login` | GET/POST | `login` | Executa o fluxo Kerberos |
-| `/notas` | GET/POST | `notas` | Lista ou lança notas |
-| `/notas/<nota_id>/editar` | POST | `editar` | Edita uma nota |
-| `/notas/<nota_id>/excluir` | POST | `excluir` | Exclui uma nota |
-| `/logout` | GET | `logout` | Remove a sessão Kerberos |
+> O projeto implementa uma simulacao academica do Kerberos para proteger um
+> Portal de Notas. A senha e usada apenas no inicio, o AS emite o TGT, o TGS
+> emite o Service Ticket, o Portal valida o acesso e cada operacao de notas
+> continua protegida.
 
-### Usuários e perfis existentes
+---
 
-O arquivo `data/usuarios.json` possui atualmente:
+## Preparacao antes de gravar
 
-- professores: `kassio` e `SilvioSants`;
-- alunos: `kassio12`, `AkinGOD777` e `malululu10`.
+(Abra dois terminais na raiz do projeto.)
 
-As senhas não estão no arquivo. Use somente credenciais conhecidas. Se
-necessário, crie usuários de demonstração com `scripts/criar_usuario.py`.
+Frase para ler:
 
-### Pontos encontrados na auditoria
+> Antes de comecar a demonstracao, o projeto precisa estar rodando em dois
+> terminais. Em um terminal ficam os servidores Kerberos, e no outro fica a
+> aplicacao Flask, que e o cliente web.
 
-- Não existe módulo de chat.
-- `scripts/reset_dados.py` apaga somente notas após confirmação.
-- `docs/fontes_algoritmos.md` reúne as fontes oficiais utilizadas.
-- O arquivo vazio `kerberos/time_utils.py` foi removido.
-- Não há `pytest-cov` nem configuração de cobertura.
-- `data/notas.json` contém registros de demonstrações anteriores.
-- O bloqueio de aluno é testado com HTTP 403, mas a interface simplesmente
-  oculta os controles de professor.
-- Edição e exclusão possuem testes da camada de serviço e das rotas HTTP.
-- Existe cache de nonces em memória para rejeitar replay.
-
-## 2. Preparação antes da gravação
-
-1. Escolha uma conta de professor e uma de aluno cujas senhas sejam conhecidas.
-2. Preferência para a demonstração atual:
-   - professor: `SilvioSants`;
-   - aluno: `AkinGOD777`.
-3. Se as senhas não forem conhecidas, crie contas novas antes de gravar:
+(No primeiro terminal, mostre o comando abaixo.)
 
 ```powershell
-$env:PYTHONPATH='src'
-python scripts/criar_usuario.py
+python scripts/iniciar_servidores.py
 ```
 
-Execute duas vezes e escolha os perfis `professor` e `aluno`. Não grave a
-digitação das senhas.
+Frase para ler:
 
-4. Cadastre previamente uma nota limpa ou prepare-se para cadastrá-la no vídeo.
-5. Evite destacar os registros legados de `data/notas.json`.
-6. Feche terminais que possam mostrar informações desnecessárias.
+> Neste primeiro terminal, a gente inicia os tres servidores do fluxo Kerberos:
+> o AS, o TGS e o Portal de Notas. Eles rodam separados, cada um com sua porta.
 
-## 3. Comandos reais do projeto
-
-### Criar e ativar o ambiente
+(No segundo terminal, mostre o comando abaixo.)
 
 ```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-```
-
-Se o PowerShell bloquear a ativação:
-
-```powershell
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-.\.venv\Scripts\Activate.ps1
-```
-
-### Executar o projeto
-
-```powershell
-$env:PYTHONPATH='src'
 python run.py
 ```
 
-Acesso: `http://127.0.0.1:5000`.
+Frase para ler:
 
-### Executar os testes
+> Neste segundo terminal, a gente inicia o Flask. Ele e a parte web que o usuario
+> acessa pelo navegador, mas por tras ele conversa com AS, TGS e Portal usando
+> sockets TCP.
+
+(Mostre no navegador o endereco.)
+
+```text
+http://127.0.0.1:5000
+```
+
+Frase para ler:
+
+> Com os dois terminais abertos, a aplicacao fica disponivel em
+> `http://127.0.0.1:5000`.
+
+Observacao para quem vai gravar: nao mostrar senhas durante a apresentacao.
+
+---
+
+# Apresentador 1 - Kerberos, arquitetura, senha, KDF, AS e TGT
+
+## 1. Abertura
+
+(Mostre o `README.md`, de preferencia o titulo e a parte de arquitetura.)
+
+Frase para ler:
+
+> O nosso projeto e um Portal de Notas Escolares protegido por uma simulacao
+> academica do protocolo Kerberos. A ideia e mostrar, de forma pratica, como um
+> usuario pode se autenticar uma vez e depois acessar um servico protegido
+> usando tickets, chaves de sessao e autenticadores.
+
+(Mostre ainda o `README.md`, na parte que fala que o projeto nao usa biblioteca pronta de Kerberos.)
+
+Frase para ler:
+
+> Um ponto importante do trabalho e que a gente nao usa uma implementacao pronta
+> de Kerberos. O protocolo foi montado no codigo usando primitivas basicas de
+> criptografia, como PBKDF2, HMAC, AES-GCM, timestamps e nonces.
+
+(Mostre rapidamente a estrutura da pasta `src/kerberos_notas` no VS Code.)
+
+Frase para ler:
+
+> O projeto esta separado por responsabilidade. Temos a parte do cliente web,
+> a parte de criptografia, os modulos do Kerberos, a camada de rede, os
+> servidores TCP e o servico de notas. Essa separacao ajuda a deixar claro onde
+> cada etapa do protocolo acontece.
+
+## 2. Arquitetura geral
+
+(Mostre `README.md`, na arquitetura com as portas 5000, 9001, 9002 e 9003.)
+
+Frase para ler:
+
+> A arquitetura principal fica assim: o navegador acessa o Flask na porta 5000.
+> O Flask atua como Cliente Kerberos. Ele conversa com o AS na porta 9001, com o
+> TGS na porta 9002 e com o Portal de Notas na porta 9003.
+
+(Mostre `scripts/iniciar_servidores.py`, destacando os `multiprocessing.Process`.)
+
+Frase para ler:
+
+> Aqui no arquivo `scripts/iniciar_servidores.py`, da para ver que AS, TGS e
+> Portal de Notas sao iniciados como processos separados. Isso e importante
+> porque o nosso projeto nao deixa tudo misturado em uma unica funcao. Cada
+> servidor tem seu proprio papel dentro do fluxo.
+
+(Mostre `run.py`, destacando `app = create_app(usar_rede=True)`.)
+
+Frase para ler:
+
+> E aqui no `run.py`, o Flask e criado com `usar_rede=True`. Isso significa que
+> a aplicacao web usa os servidores TCP reais. Entao, durante a execucao normal,
+> o Cliente Web passa de fato por AS, TGS e Portal de Notas.
+
+(Mostre `src/kerberos_notas/rede/cliente_tcp.py`.)
+
+Frase para ler:
+
+> A comunicacao entre o Flask e os servidores fica neste arquivo,
+> `cliente_tcp.py`. Ele tem metodos para solicitar parametros ao AS, enviar a
+> prova ao AS, pedir ticket ao TGS, autenticar no Portal e executar operacoes de
+> notas. Isso mostra o caminho do Cliente ate cada componente.
+
+## 3. Criptografia usada no projeto
+
+(Mostre `src/kerberos_notas/crypto/crypto_utils.py`, destacando `AESGCM`.)
+
+Frase para ler:
+
+> Para proteger as mensagens, o projeto usa AES-GCM. Ele e um algoritmo de
+> criptografia simetrica autenticada. Isso quer dizer que, alem de esconder o
+> conteudo, ele tambem detecta adulteracao. Se alguem mudar o ciphertext, a
+> descriptografia falha.
+
+(Mostre no mesmo arquivo as funcoes `criptografar_json` e `descriptografar_json`.)
+
+Frase para ler:
+
+> Essas duas funcoes sao usadas em varias partes do projeto. Tickets,
+> autenticadores, respostas do AS, respostas do TGS e respostas do Portal sao
+> transportados como JSON cifrado com AES-GCM.
+
+(Mostre `src/kerberos_notas/config.py`, destacando as chaves do TGS e do servico de notas.)
+
+Frase para ler:
+
+> As chaves compartilhadas dos servidores ficam centralizadas no `config.py`.
+> Existe uma chave secreta para o TGS e uma chave secreta para o Portal de
+> Notas. Elas tem valores didaticos padrao para facilitar a execucao local, mas
+> tambem podem ser substituidas por variaveis de ambiente.
+
+## 4. Senha e KDF
+
+(Mostre a tela de login no navegador, sem digitar ou mostrar senha ainda.)
+
+Frase para ler:
+
+> Agora vamos falar da senha. O usuario informa usuario e senha no login, mas a
+> senha nao e enviada diretamente para o AS, para o TGS ou para o Portal. Ela e
+> usada localmente pelo cliente para derivar uma chave.
+
+(Mostre `src/kerberos_notas/crypto/kdf.py`, destacando `ITERACOES_PBKDF2 = 200_000`.)
+
+Frase para ler:
+
+> No arquivo `kdf.py`, a funcao principal de derivacao usa
+> PBKDF2-HMAC-SHA256. O projeto usa 200 mil iteracoes, um salt de 16 bytes e
+> gera uma chave de 32 bytes. Isso atende ao requisito de derivar a chave do
+> cliente a partir da senha usando uma KDF.
+
+(Mostre ainda `kdf.py`, destacando `derivar_chave_senha`.)
+
+Frase para ler:
+
+> A funcao `derivar_chave_senha` combina a senha informada pelo usuario com o
+> salt salvo no cadastro. O resultado e uma chave derivada, que depois e usada
+> para montar a prova criptografica enviada ao AS.
+
+(Mostre `data/usuarios.json`, apenas os nomes dos campos `salt`, `verificador` e `perfil`. Nao mostrar senhas, porque elas nao existem no arquivo.)
+
+Frase para ler:
+
+> No arquivo de usuarios, nao existe senha em texto claro. O que fica salvo e o
+> salt, o verificador e o perfil do usuario. Esse detalhe e importante, porque
+> o sistema nao depende de armazenar a senha original para autenticar.
+
+## 5. Authentication Server - AS
+
+(Mostre `src/kerberos_notas/servidores/servidor_as.py`.)
+
+Frase para ler:
+
+> O AS, ou Authentication Server, e o primeiro servidor do fluxo Kerberos. Ele
+> roda separado e recebe as primeiras requisicoes do Cliente.
+
+(Mostre `src/kerberos_notas/kerberos/as_server.py`, destacando `criar_desafio_as`.)
+
+Frase para ler:
+
+> A primeira etapa no AS e a criacao do desafio. A funcao `criar_desafio_as`
+> recebe o usuario, busca seus dados no arquivo de usuarios e devolve salt,
+> quantidade de iteracoes da KDF e um desafio aleatorio.
+
+(Mostre `src/kerberos_notas/client/routes.py`, na parte em que o cliente deriva a chave e gera a prova.)
+
+Frase para ler:
+
+> Com esse desafio, o Cliente deriva a chave localmente e cria uma prova HMAC.
+> A ideia e simples: o Cliente mostra que conhece a senha correta, mas sem
+> enviar a senha pela rede.
+
+(Volte para `as_server.py`, destacando `autenticar_no_as_com_prova`.)
+
+Frase para ler:
+
+> Aqui em `autenticar_no_as_com_prova`, o AS valida essa prova. Ele confere se o
+> desafio existe, se pertence ao usuario correto, se ainda esta dentro do tempo
+> de validade e se a prova HMAC bate com o que era esperado.
+
+(Mostre no mesmo arquivo o uso de `DESAFIOS_AS.pop` ou a logica de consumir o desafio.)
+
+Frase para ler:
+
+> O desafio e consumido quando e usado. Isso ajuda a evitar reutilizacao de uma
+> prova antiga. Se alguem tentar usar o mesmo desafio novamente, o AS rejeita.
+
+## 6. TGT
+
+(Mostre `src/kerberos_notas/kerberos/as_server.py`, destacando `_emitir_resposta_as`.)
+
+Frase para ler:
+
+> Se a prova estiver correta, o AS gera uma chave de sessao Cliente-TGS. Essa
+> chave vai ser usada depois para o Cliente conversar com o TGS.
+
+(Mostre `src/kerberos_notas/kerberos/tickets.py`, destacando `criar_tgt`.)
+
+Frase para ler:
+
+> O AS tambem cria o TGT, que significa Ticket Granting Ticket. Esse ticket
+> contem a identidade do usuario, a chave Cliente-TGS, o identificador do TGS e
+> informacoes de validade.
+
+(Volte para `as_server.py`, destacando a linha onde o TGT e cifrado com `CHAVE_SECRETA_TGS`.)
+
+Frase para ler:
+
+> O ponto principal e que o TGT e cifrado com a chave secreta do TGS. Entao o
+> Cliente carrega esse ticket, mas nao consegue abrir nem alterar o conteudo. O
+> unico que consegue validar esse TGT e o TGS.
+
+(Mostre logs do terminal, se houver uma autenticacao acontecendo.)
+
+Frase para ler:
+
+> Nos logs, essa etapa aparece como a validacao da prova pelo AS e a emissao do
+> TGT. Os dados sensiveis aparecem mascarados, entao a apresentacao consegue
+> mostrar o fluxo sem expor chaves, tickets ou senha.
+
+## Fechamento do Apresentador 1
+
+(Mostre rapidamente o diagrama ou o README novamente.)
+
+Frase para ler:
+
+> Resumindo esta primeira parte: o usuario usa senha, mas a senha nao atravessa
+> a rede. O Cliente deriva uma chave com PBKDF2, responde a um desafio com HMAC,
+> o AS valida essa prova e emite o TGT. Agora, com o TGT em maos, o Cliente pode
+> falar com o TGS para pedir acesso ao servico de notas.
+
+---
+
+# Apresentador 2 - TGS, Service Ticket, autenticadores, replay e autenticacao mutua
+
+## 1. Entrada no TGS
+
+(Mostre `src/kerberos_notas/servidores/servidor_tgs.py`.)
+
+Frase para ler:
+
+> Agora a gente entra na segunda parte do Kerberos, que e o TGS, ou Ticket
+> Granting Server. O papel dele e receber um TGT valido e emitir um ticket
+> especifico para um servico.
+
+(Mostre `src/kerberos_notas/kerberos/tgs_server.py`, destacando `emitir_ticket_servico`.)
+
+Frase para ler:
+
+> No nosso projeto, a funcao principal dessa etapa e `emitir_ticket_servico`.
+> Ela recebe o usuario, o servico solicitado, o TGT e um autenticador.
+
+(Mostre no mesmo arquivo o dicionario `CHAVES_SERVICOS`.)
+
+Frase para ler:
+
+> O servico protegido cadastrado no TGS e o servico `notas`. Isso significa que
+> o TGS sabe qual chave usar para criar um ticket destinado ao Portal de Notas.
+
+## 2. Autenticador Cliente-TGS
+
+(Mostre `src/kerberos_notas/kerberos/authenticator.py`, destacando `criar_autenticador`.)
+
+Frase para ler:
+
+> Antes de chamar o TGS, o Cliente cria um autenticador. O autenticador e uma
+> mensagem cifrada com uma chave de sessao. Para falar com o TGS, ele e cifrado
+> com a chave Cliente-TGS que veio da resposta do AS.
+
+(Mostre os campos `usuario`, `timestamp` e `nonce` em `authenticator.py`.)
+
+Frase para ler:
+
+> Dentro do autenticador ficam usuario, timestamp e nonce. O timestamp mostra
+> que aquela mensagem e recente, e o nonce ajuda a impedir que a mesma mensagem
+> seja reutilizada depois.
+
+(Mostre `tgs_server.py`, destacando `validar_tgt`.)
+
+Frase para ler:
+
+> O TGS primeiro valida o TGT. Ele abre o ticket com a chave secreta do TGS,
+> confere se o usuario bate, se existe chave Cliente-TGS e se o ticket ainda
+> esta dentro do prazo de validade.
+
+(Mostre `tgs_server.py`, destacando `validar_autenticador`.)
+
+Frase para ler:
+
+> Depois o TGS valida o autenticador. Ele abre o autenticador com a chave
+> Cliente-TGS e confere novamente o usuario, o timestamp e o nonce.
+
+## 3. Protecao contra replay no TGS
+
+(Mostre `tgs_server.py`, destacando `NONCES_TGS_UTILIZADOS` e `_registrar_nonce_tgs`.)
+
+Frase para ler:
+
+> Aqui aparece a protecao contra replay no TGS. Quando um autenticador e aceito,
+> o nonce usado fica registrado em memoria. Se o mesmo usuario tentar usar o
+> mesmo nonce novamente, o TGS entende isso como uma reutilizacao suspeita e
+> rejeita.
+
+(Mostre rapidamente `tests/test_tgs.py`, destacando `test_tgs_rejeita_autenticador_reutilizado`.)
+
+Frase para ler:
+
+> Essa parte tambem tem teste automatizado. O teste de autenticador reutilizado
+> confirma que o TGS nao aceita o mesmo autenticador duas vezes.
+
+## 4. Service Ticket e chave Cliente-Servico
+
+(Mostre `tgs_server.py`, em `emitir_ticket_servico`, destacando a geracao da chave Cliente-Servico.)
+
+Frase para ler:
+
+> Se o TGT e o autenticador estiverem corretos, o TGS gera uma nova chave de
+> sessao: a chave Cliente-Servico. Essa chave vai proteger a comunicacao entre
+> o Cliente e o Portal de Notas.
+
+(Mostre `src/kerberos_notas/kerberos/tickets.py`, destacando `criar_ticket_servico`.)
+
+Frase para ler:
+
+> Em seguida, o TGS cria o Service Ticket. Esse ticket e especifico para o
+> servico `notas`. Ele contem o usuario, o nome do servico, a chave
+> Cliente-Servico, timestamps de validade e um nonce.
+
+(Volte para `tgs_server.py`, destacando a cifragem do ticket com a chave do servico.)
+
+Frase para ler:
+
+> O Service Ticket e cifrado com a chave secreta do Portal de Notas. Entao, do
+> mesmo jeito que acontecia com o TGT, o Cliente carrega o ticket, mas quem
+> consegue abrir e validar o conteudo e o servidor correto, que neste caso e o
+> Portal.
+
+(Mostre no mesmo trecho a resposta cifrada para o cliente.)
+
+Frase para ler:
+
+> A chave Cliente-Servico tambem precisa chegar ao Cliente. Para isso, o TGS
+> envia essa chave em uma resposta cifrada com a chave Cliente-TGS. Assim, so o
+> Cliente que passou corretamente pelo AS consegue recuperar essa chave.
+
+## 5. Portal de Notas e autenticacao mutua
+
+(Mostre `src/kerberos_notas/servidores/servidor_notas.py`.)
+
+Frase para ler:
+
+> Agora chegamos no servico protegido, que e o Portal de Notas. Ele tambem roda
+> como servidor TCP separado, na porta 9003.
+
+(Mostre `src/kerberos_notas/notes/portal_notas.py`, destacando `autenticar_portal_notas`.)
+
+Frase para ler:
+
+> A primeira funcao importante no Portal e `autenticar_portal_notas`. Ela recebe
+> o Service Ticket e o autenticador Cliente-Servico.
+
+(Mostre `validar_ticket_portal` e `abrir_ticket_servico`.)
+
+Frase para ler:
+
+> O Portal abre o Service Ticket usando sua chave secreta. Se o ticket foi
+> adulterado, se foi criado para outro servico ou se expirou, a validacao falha.
+
+(Mostre `_validar_autenticador_portal`.)
+
+Frase para ler:
+
+> Depois o Portal valida o autenticador. Ele usa a chave Cliente-Servico que
+> veio dentro do ticket para abrir o autenticador, e confere usuario, timestamp
+> e nonce.
+
+(Mostre a montagem da `confirmacao` com `timestamp_resposta` e `nonce_autenticador`.)
+
+Frase para ler:
+
+> Para completar a autenticacao mutua, o Portal responde com uma confirmacao
+> cifrada. Essa confirmacao traz o timestamp incrementado em 1 e o mesmo nonce
+> recebido no autenticador. O Cliente valida esses valores e, com isso, confirma
+> que esta falando com o Portal correto.
+
+(Mostre `validar_confirmacao_portal`.)
+
+Frase para ler:
+
+> Essa validacao do lado do Cliente fica em `validar_confirmacao_portal`. Ela
+> abre a resposta do Portal e confere se o servico, o timestamp e o nonce estao
+> corretos.
+
+## 6. Operacoes protegidas depois do login
+
+(Mostre `src/kerberos_notas/client/routes.py`, destacando `executar_operacao_kerberos`.)
+
+Frase para ler:
+
+> Um ponto muito importante e que o Kerberos nao protege apenas o login. Depois
+> do login, cada operacao do Portal tambem passa por uma protecao propria. Isso
+> acontece em `executar_operacao_kerberos`.
+
+(Mostre na funcao a criacao da `requisicao` com `usuario`, `acao`, `dados` e `nonce`.)
+
+Frase para ler:
+
+> Para cada operacao, o Cliente monta uma requisicao com usuario, acao, dados e
+> nonce. Essa requisicao representa exatamente aquilo que o usuario quer fazer,
+> por exemplo carregar o painel, criar uma nota, editar ou excluir.
+
+(Mostre `calcular_hash_requisicao` e a criacao do autenticador com `acao` e `hash_requisicao`.)
+
+Frase para ler:
+
+> Depois o Cliente calcula um hash da requisicao e cria um autenticador novo,
+> incluindo a acao e esse hash. Isso amarra o autenticador a uma operacao
+> especifica.
+
+(Mostre `src/kerberos_notas/notes/portal_notas.py`, destacando `processar_operacao_portal`.)
+
+Frase para ler:
+
+> No Portal, a funcao `processar_operacao_portal` valida tudo de novo: o ticket,
+> o autenticador, o usuario, o nonce, a acao e o hash da requisicao. So depois
+> dessas verificacoes a regra de negocio e executada.
+
+(Mostre em `portal_notas.py` a comparacao com `hmac.compare_digest`.)
+
+Frase para ler:
+
+> A comparacao do hash usa `hmac.compare_digest`, que e uma forma mais segura de
+> comparar valores sensiveis. Se a requisicao for alterada, o hash nao bate e a
+> operacao e rejeitada.
+
+## Fechamento do Apresentador 2
+
+(Mostre rapidamente `docs/fluxo_kerberos.md` ou o README com o fluxo.)
+
+Frase para ler:
+
+> Entao, fechando essa parte: o TGS valida o TGT e emite um Service Ticket para
+> o Portal. O Portal valida esse ticket, valida o autenticador, responde com
+> autenticacao mutua e continua exigindo protecao em cada operacao. Isso mostra
+> que o Kerberos foi usado no fluxo completo do servico, e nao apenas na tela de
+> login.
+
+---
+
+# Apresentador 3 - Portal de Notas, perfis, interface e logs
+
+## 1. Entrada no sistema
+
+(Mostre o navegador em `http://127.0.0.1:5000`.)
+
+Frase para ler:
+
+> Agora vamos mostrar a parte mais visual do projeto. O servico protegido que a
+> gente escolheu foi um Portal de Notas Escolares. O usuario acessa pelo
+> navegador, mas o acesso so acontece depois do fluxo Kerberos que foi explicado
+> nas partes anteriores.
+
+(Mostre a tela de login.)
+
+Frase para ler:
+
+> Essa e a tela de login. Aqui o usuario informa o nome e a senha. Durante a
+> gravacao, a gente nao vai mostrar a senha, mas por baixo essa senha sera usada
+> apenas para derivar a chave localmente.
+
+## 2. Login como professor
+
+(Faca login como um professor, por exemplo `SilvioSants`. Nao mostrar a senha.)
+
+Frase para ler:
+
+> Primeiro vamos entrar com um usuario professor. No nosso projeto, o professor
+> tem permissao para visualizar alunos, lancar notas, editar notas e excluir
+> notas.
+
+(Mostre o painel carregado depois do login.)
+
+Frase para ler:
+
+> Depois do login, o sistema ja passou pelo AS, pelo TGS e pelo Portal de Notas.
+> Quando o painel aparece, significa que a autenticacao foi concluida e que o
+> Portal autorizou o acesso desse usuario.
+
+(Mostre o formulario de lancamento de nota.)
+
+Frase para ler:
+
+> Como estamos usando um professor, aparece o formulario para lancar nota. Aqui
+> a gente pode escolher um aluno, informar a disciplina, a nota e uma observacao.
+
+(Preencha uma nota simples. Exemplo: aluno `AkinGOD777`, disciplina `Seguranca Computacional`, nota `9.0`, observacao `Demonstracao do fluxo Kerberos`.)
+
+Frase para ler:
+
+> Vou cadastrar uma nota de exemplo. Apesar de parecer um formulario comum, por
+> tras essa acao vai ser enviada ao Portal como uma operacao protegida por
+> Kerberos.
+
+(Clique para lancar a nota e mostre a mensagem de sucesso ou a nota na tabela.)
+
+Frase para ler:
+
+> A nota foi lancada com sucesso e apareceu na tabela. Isso confirma a parte
+> funcional do Portal, mas tambem confirma que a operacao passou pelas
+> validacoes do servico.
+
+## 3. Edicao de nota
+
+(Mostre uma nota na tabela e altere o valor ou observacao.)
+
+Frase para ler:
+
+> Agora vamos editar a nota. A edicao tambem nao e uma alteracao direta no
+> arquivo JSON. Ela passa pela mesma camada protegida: ticket de servico,
+> autenticador, requisicao cifrada, nonce, acao e hash.
+
+(Clique em salvar e mostre a atualizacao.)
+
+Frase para ler:
+
+> Depois de salvar, o Portal valida a operacao e devolve uma resposta cifrada.
+> O Cliente valida essa resposta antes de aceitar o resultado.
+
+## 4. Logs didaticos
+
+(Mostre o terminal dos servidores Kerberos.)
+
+Frase para ler:
+
+> No terminal dos servidores, os logs mostram o que esta acontecendo durante a
+> execucao. A gente consegue ver quando o AS recebe a requisicao, quando o TGS
+> emite o ticket e quando o Portal valida uma operacao.
+
+(Mostre o terminal do Flask.)
+
+Frase para ler:
+
+> No terminal do Flask, aparecem as etapas do Cliente Web e do Cliente TCP. Isso
+> ajuda bastante na apresentacao, porque deixa visivel o caminho que o sistema
+> percorre.
+
+(Mostre o bloco de etapas Kerberos na interface, se estiver disponivel na tela.)
+
+Frase para ler:
+
+> A interface tambem mostra um resumo das etapas da autenticacao. Ele nao mostra
+> dados sensiveis, mas ajuda a explicar para quem esta assistindo que houve AS,
+> TGS, Service Ticket e autenticacao com o Portal.
+
+(Mostre `src/kerberos_notas/logs.py`, destacando a lista de campos sensiveis.)
+
+Frase para ler:
+
+> Os logs foram pensados para serem didaticos, mas seguros. Campos como senha,
+> chave, ticket, TGT, autenticador, nonce, salt, prova, hash e ciphertext sao
+> mascarados antes de aparecerem no terminal.
+
+## 5. Login como aluno
+
+(Clique em sair ou acesse `/logout`.)
+
+Frase para ler:
+
+> Agora vamos sair da conta do professor e entrar como aluno, para mostrar a
+> diferenca de permissao.
+
+(Entre com `AkinGOD777` ou outro usuario aluno. Nao mostrar a senha.)
+
+Frase para ler:
+
+> Agora estamos entrando com um usuario aluno. O aluno tambem passa pelo mesmo
+> fluxo Kerberos, mas o perfil dele no Portal e diferente.
+
+(Mostre o painel do aluno.)
+
+Frase para ler:
+
+> No painel do aluno, ele consegue ver apenas as proprias notas. Ele nao tem o
+> formulario de lancamento e tambem nao tem botoes para editar ou excluir notas.
+
+(Mostre a ausencia do formulario e dos botoes de edicao/exclusao.)
+
+Frase para ler:
+
+> Essa restricao acontece em duas camadas. A interface nao mostra os controles
+> de professor, e a camada de servico tambem bloqueia qualquer tentativa direta
+> de alteracao feita por aluno.
+
+## 6. Regras de professor e aluno no codigo
+
+(Mostre `src/kerberos_notas/notes/service.py`, destacando `PERFIL_PROFESSOR` e `PERFIL_ALUNO`.)
+
+Frase para ler:
+
+> As regras de perfil ficam em `notes/service.py`. O projeto trabalha com dois
+> perfis principais: professor e aluno.
+
+(Mostre `listar_notas`.)
+
+Frase para ler:
+
+> A funcao `listar_notas` mostra essa diferenca. Se o usuario for professor, ele
+> pode ver todas as notas. Se for aluno, ele ve apenas as notas associadas ao
+> proprio usuario.
+
+(Mostre `_validar_professor`.)
+
+Frase para ler:
+
+> E aqui em `_validar_professor`, qualquer operacao de alteracao exige perfil
+> de professor. Se um aluno tentar criar, editar ou excluir nota, o sistema gera
+> erro de permissao.
+
+(Mostre `criar_nota`, `editar_nota` e `excluir_nota` rapidamente.)
+
+Frase para ler:
+
+> As funcoes de criar, editar e excluir chamam essa validacao. Entao a regra de
+> permissao nao depende apenas da tela; ela tambem esta aplicada na regra de
+> negocio.
+
+## 7. Persistencia das notas
+
+(Mostre `src/kerberos_notas/notes/repository.py`.)
+
+Frase para ler:
+
+> As notas ficam persistidas em JSON. O repositorio cuida de listar, adicionar,
+> atualizar e excluir notas no arquivo `data/notas.json`.
+
+(Mostre `src/kerberos_notas/storage/json_store.py`.)
+
+Frase para ler:
+
+> A escrita em JSON usa arquivo temporario e substituicao do arquivo final. Para
+> o escopo academico, isso deixa a persistencia simples e suficiente para a
+> demonstracao.
+
+## Fechamento do Apresentador 3
+
+(Mostre novamente a tela do Portal.)
+
+Frase para ler:
+
+> Entao, na parte visual, o sistema mostra um Portal de Notas funcionando, mas
+> protegido pelo fluxo Kerberos. O professor consegue administrar notas, o aluno
+> consulta apenas as proprias notas, e as operacoes importantes passam pelo
+> servico protegido antes de serem executadas.
+
+---
+
+# Apresentador 4 - Execucao, testes, Doxygen, limitacoes e conclusao
+
+## 1. Como executar o projeto
+
+(Mostre o terminal com `python scripts/iniciar_servidores.py` rodando.)
+
+Frase para ler:
+
+> Para executar o projeto, usamos dois terminais. No primeiro, rodamos
+> `python scripts/iniciar_servidores.py`. Esse comando inicia AS, TGS e Portal
+> de Notas em processos separados.
+
+(Mostre o terminal com `python run.py` rodando.)
+
+Frase para ler:
+
+> No segundo terminal, rodamos `python run.py`. Esse comando inicia o Flask, que
+> e o Cliente Web. A partir dai, acessamos a aplicacao pelo navegador em
+> `http://127.0.0.1:5000`.
+
+(Mostre `README.md`, na parte de executar.)
+
+Frase para ler:
+
+> Esses comandos tambem estao documentados no README, para que outra pessoa
+> consiga reproduzir a execucao do projeto.
+
+## 2. Testes automatizados
+
+(Mostre a pasta `tests` no VS Code.)
+
+Frase para ler:
+
+> O projeto tambem tem testes automatizados. Eles ajudam a comprovar que o fluxo
+> nao funciona apenas na demonstracao manual, mas tambem em cenarios
+> controlados.
+
+(Mostre `tests/test_crypto.py`.)
+
+Frase para ler:
+
+> Em `test_crypto.py`, os testes verificam AES-GCM, KDF, nonces diferentes e
+> deteccao de adulteracao.
+
+(Mostre `tests/test_as_server.py`.)
+
+Frase para ler:
+
+> Em `test_as_server.py`, os testes cobrem o AS, incluindo usuario valido,
+> senha invalida, emissao do TGT e integracao com o fluxo do TGS.
+
+(Mostre `tests/test_tgs.py`.)
+
+Frase para ler:
+
+> Em `test_tgs.py`, os testes cobrem o TGS, o Service Ticket, autenticador
+> invalido, TGT expirado e reutilizacao de autenticador.
+
+(Mostre `tests/test_notas.py`.)
+
+Frase para ler:
+
+> Em `test_notas.py`, os testes cobrem o Portal de Notas, autenticacao mutua,
+> replay, requisicao adulterada, permissao de professor e bloqueio de aluno.
+
+(Mostre `tests/test_rede.py`.)
+
+Frase para ler:
+
+> Um dos testes mais importantes e `test_rede.py`, porque ele sobe AS, TGS e
+> Portal em sockets TCP reais. Esse teste confirma que o fluxo passa pelos tres
+> servidores separados.
+
+(Mostre no terminal o comando.)
 
 ```powershell
 python -m pytest -q
 ```
 
-Resultado confirmado na auditoria:
+Frase para ler:
 
-```text
-48 passed
-```
+> Para rodar a suite, usamos `python -m pytest -q`. O resultado atual esperado e
+> 48 testes passando.
 
-### Cobertura e dados iniciais
+## 3. Documentacao Doxygen
 
-- Cobertura não está configurada. Não execute `pytest --cov` no vídeo.
-- Não existe seed.
-- O único utilitário funcional de dados é `scripts/criar_usuario.py`.
+(Mostre `Doxyfile`.)
 
-Para limpar somente as notas antes de uma nova demonstração:
+Frase para ler:
 
-```powershell
-python scripts/reset_dados.py
-```
+> O projeto tambem possui documentacao Doxygen. O `Doxyfile` configura quais
+> arquivos entram na documentacao, a pagina principal, o diretorio de saida e o
+> layout HTML.
 
-# Roteiro detalhado
+(Mostre `DoxygenLayout.xml`.)
 
-## Parte 1 - Abertura
+Frase para ler:
 
-Tempo estimado: 30 segundos.
+> O arquivo `DoxygenLayout.xml` ajusta a navegacao superior da documentacao.
+> Nele existe uma aba para "Como executar o codigo", o que facilita durante a
+> apresentacao.
 
-### O que falar
+(Mostre `docs/html/index.html` aberto no navegador, se possivel.)
 
-> Este trabalho apresenta uma implementação acadêmica simplificada do
-> protocolo Kerberos usando criptografia de chave simétrica. O serviço
-> protegido escolhido foi um Portal de Notas Escolares, com perfis de professor
-> e aluno.
+Frase para ler:
 
-### O que mostrar
+> A documentacao gerada fica em `docs/html/index.html`. Por ela, e possivel
+> navegar pelos arquivos, funcoes, classes e paginas explicativas do projeto.
 
-- Abra `README.md`.
-- Mostre o título e a seção “Fluxo principal”.
+## 4. Limitacoes academicas
 
-### O professor deve perceber
+(Mostre `README.md`, na secao de limitacoes academicas.)
 
-- O escopo está definido.
-- O Portal de Notas é o único serviço protegido.
-- O projeto não se apresenta como solução de produção.
+Frase para ler:
 
-### Requisitos comprovados
+> Como este e um projeto academico, algumas escolhas foram feitas para manter o
+> sistema simples e demonstravel. A persistencia usa JSON, nao banco de dados.
+> As sessoes, desafios e caches contra replay ficam em memoria. A execucao e
+> local, e o navegador se comunica com o Flask por HTTP local.
 
-- 1, 4, 5 e 16.
+(Mostre `scripts/gerar_chaves.py`.)
 
-## Parte 2 - Objetivo funcional
+Frase para ler:
 
-Tempo estimado: 40 segundos.
+> Tambem existem chaves didaticas padrao para facilitar a execucao, mas o
+> projeto permite trocar essas chaves por variaveis de ambiente. O script
+> `gerar_chaves.py` ajuda a gerar valores novos para isso.
 
-### O que falar
+(Mostre novamente o README ou o relatorio tecnico.)
 
-> Depois da autenticação Kerberos, professores podem visualizar alunos, lançar,
-> editar, excluir e consultar notas. Alunos podem consultar somente as próprias
-> notas e não recebem permissão de alteração.
+Frase para ler:
 
-### O que mostrar
+> Essas limitacoes nao invalidam o projeto, porque o objetivo aqui nao e criar
+> uma solucao de producao. O objetivo e demonstrar o protocolo Kerberos e os
+> conceitos de seguranca envolvidos.
 
-- Em `README.md`, mostre a seção “Perfis”.
-- Abra `data/usuarios.json` apenas para mostrar `perfil`, `salt` e
-  `verificador`. Não mostre nem fale senhas.
+## 5. Conclusao final
 
-### Destacar
+(Mostre `docs/fluxo_kerberos.md` ou o README com o fluxo geral.)
 
-- `perfil: "professor"` em `SilvioSants`.
-- `perfil: "aluno"` em `AkinGOD777`.
+Frase para ler:
 
-### Requisitos comprovados
+> Para concluir, o projeto demonstra o fluxo completo Cliente, AS, TGS e Portal
+> de Notas. A senha e usada apenas no inicio e nao atravessa a rede. O AS emite
+> o TGT, o TGS emite o Service Ticket e o Portal valida o ticket e o
+> autenticador antes de permitir acesso.
 
-- 17, 18, 19 e 20.
+(Mostre rapidamente os terminais com logs.)
 
-## Parte 3 - Explicação rápida do Kerberos
+Frase para ler:
 
-Tempo estimado: 50 segundos.
+> Os logs ajudam a visualizar esse caminho em tempo real, mostrando o que cada
+> componente recebe, valida e devolve, sempre mascarando dados sensiveis.
 
-### O que falar
+(Mostre a tela do Portal de Notas.)
 
-> O usuário utiliza a senha somente no cliente. O AS envia um desafio e valida
-> uma prova HMAC antes de emitir o TGT. O cliente usa esse TGT e um autenticador
-> para solicitar ao TGS um Service Ticket. Depois, o Portal valida o Service
-> Ticket e outro autenticador antes de concluir a autenticação mútua.
+Frase para ler:
 
-### O que mostrar
+> Na parte funcional, o Portal permite que professores lancem e editem notas, e
+> permite que alunos consultem apenas os proprios registros. Essas regras de
+> permissao ficam na camada de servico e tambem sao testadas automaticamente.
 
-- Abra `docs/fluxo_kerberos.md`.
-- Percorra os sete passos do diagrama.
+(Mostre o terminal ou a pasta de testes.)
 
-### O professor deve perceber
+Frase para ler:
 
-- TGT e Service Ticket possuem finalidades diferentes.
-- A senha não é enviada ao AS, ao TGS ou ao Portal.
+> Com os testes passando, a separacao por sockets, a KDF, os tickets, os
+> autenticadores, a autenticacao mutua e a protecao contra replay ficam
+> comprovados dentro do escopo do trabalho.
 
-### Requisitos comprovados
+(Mostre o README ou uma tela limpa para finalizar.)
 
-- 8, 9, 10, 13, 14, 15 e 16.
+Frase para ler:
 
-## Parte 4 - Arquitetura e separação dos módulos
+> Entao, de forma resumida, o nosso projeto atende aos principais requisitos:
+> implementa AS, TGS e um servico protegido, usa criptografia simetrica,
+> autentica por senha com KDF, emite e valida tickets, usa autenticadores,
+> implementa autenticacao mutua e protege as operacoes do Portal de Notas.
 
-Tempo estimado: 50 segundos.
-
-### O que falar
-
-> AS, TGS, cliente e Portal são separados por responsabilidade e por processo.
-> Eles trocam mensagens JSON com tamanho prefixado por sockets TCP locais.
-
-### O que mostrar
-
-No explorador do VS Code, expanda:
-
-- `src/kerberos_notas/client`;
-- `src/kerberos_notas/crypto`;
-- `src/kerberos_notas/kerberos`;
-- `src/kerberos_notas/rede`;
-- `src/kerberos_notas/servidores`;
-- `src/kerberos_notas/notes`;
-- `tests`;
-- `templates`.
-
-Abra rapidamente `run.py` e mostre:
-
-```python
-app = create_app(usar_rede=True)
-```
-
-### Requisitos comprovados
-
-- 2, 3, 4 e 16.
-
-## Parte 5 - Criptografia simétrica e KDF
-
-Tempo estimado: 1 minuto.
-
-### O que falar
-
-> A senha não é usada diretamente como chave. A função
-> PBKDF2-HMAC-SHA256 combina senha e salt em 200 mil iterações para produzir
-> uma chave de 32 bytes. Os pacotes do protocolo são protegidos com AES-GCM,
-> também com chaves de 32 bytes e nonces aleatórios.
-
-### O que mostrar
-
-Abra `src/kerberos_notas/crypto/kdf.py`.
-
-Destaque:
-
-- `TAMANHO_SALT = 16`;
-- `TAMANHO_CHAVE = 32`;
-- `ITERACOES_PBKDF2 = 200_000`;
-- `gerar_salt`;
-- `derivar_chave_senha`;
-- `gerar_verificador_chave`;
-- `verificar_senha`.
-
-Depois abra `src/kerberos_notas/crypto/crypto_utils.py`.
-
-Destaque:
-
-- `gerar_chave_simetrica`;
-- `criptografar_json`;
-- `descriptografar_json`;
-- uso de `AESGCM`;
-- nonce de 12 bytes.
-
-### Testes relacionados
-
-- `test_aes_gcm_criptografa_e_descriptografa_json`;
-- `test_aes_gcm_rejeita_chave_errada`;
-- `test_aes_gcm_detecta_ciphertext_adulterado`;
-- `test_aes_gcm_usa_nonces_diferentes`;
-- três testes de KDF em `tests/test_crypto.py`.
-
-### Requisitos comprovados
-
-- 1, 6 e 7.
-
-## Parte 6 - Authentication Server
-
-Tempo estimado: 1 minuto e 15 segundos.
-
-### O que falar
-
-> O Authentication Server realiza a autenticação inicial. Ele envia salt e um
-> desafio. O cliente deriva a chave localmente e responde com uma prova HMAC.
-> Se a prova estiver correta, o AS gera uma chave Cliente-TGS e um TGT.
-
-### O que mostrar
-
-Abra `src/kerberos_notas/kerberos/as_server.py`.
-
-Destaque nesta ordem:
-
-1. `carregar_usuarios`;
-2. `criar_desafio_as`;
-3. `autenticar_no_as_com_prova`;
-4. `gerar_tgt`.
-
-Em `autenticar_no_as_com_prova`, mostre:
-
-- `gerar_prova_as`;
-- `gerar_chave_simetrica`;
-- `criptografar_json(CHAVE_SECRETA_TGS, tgt)`;
-- resposta cifrada com `chave_cliente`.
-
-Abra também `src/kerberos_notas/kerberos/tickets.py` e mostre `criar_tgt`.
-
-### O que falar sobre segurança
-
-> O cliente recebe o TGT, mas não possui a chave secreta do TGS para abri-lo ou
-> alterá-lo. A resposta externa do AS é cifrada com a chave de longo prazo
-> reproduzida pelo cliente, e a senha nunca atravessa o socket.
-
-### Testes relacionados
-
-Em `tests/test_as_server.py`, mostre:
-
-- `test_as_autentica_usuario_valido`;
-- `test_as_rejeita_senha_invalida`;
-- `test_as_gera_tgt_valido_com_dados_necessarios`;
-- `test_tgt_nao_fica_legivel_sem_chave_correta`;
-- `test_tgt_do_as_e_aceito_pelo_tgs`.
-
-### Requisitos comprovados
-
-- 2, 6, 7, 8 e 9.
-
-## Parte 7 - Autenticador Cliente-TGS e TGS
-
-Tempo estimado: 1 minuto e 20 segundos.
-
-### O que falar
-
-> Para pedir acesso ao Portal, o cliente envia ao TGS o TGT e um autenticador
-> cifrado com a chave Cliente-TGS. O TGS valida identidade, validade e
-> timestamp. Depois gera a chave Cliente-Serviço e o Service Ticket específico
-> para `notas`.
-
-### O que mostrar
-
-Abra `src/kerberos_notas/kerberos/authenticator.py`.
-
-Destaque:
-
-- `criar_autenticador`;
-- campos `usuario`, `timestamp` e `nonce`;
-- `abrir_autenticador`.
-
-Depois abra `src/kerberos_notas/kerberos/tgs_server.py`.
-
-Destaque:
-
-1. `CHAVES_SERVICOS`, contendo somente `notas`;
-2. `validar_tgt`;
-3. `validar_autenticador`;
-4. `_registrar_nonce_tgs`;
-5. `emitir_ticket_servico`;
-6. `abrir_ticket_servico`.
-
-Mostre em `emitir_ticket_servico`:
-
-- geração da chave Cliente-Serviço;
-- chamada de `criar_ticket_servico`;
-- ticket cifrado com a chave do Portal;
-- resposta do cliente cifrada com a chave Cliente-TGS.
-
-### Testes relacionados
-
-Em `tests/test_tgs.py`, destaque:
-
-- `test_tgs_emite_ticket_servico_com_tgt_valido`;
-- `test_tgs_rejeita_tgt_expirado`;
-- `test_tgs_rejeita_autenticador_invalido`;
-- `test_tgs_rejeita_autenticador_reutilizado`;
-- `test_tgs_rejeita_servico_desconhecido`;
-- `test_ticket_servico_tem_dados_necessarios`;
-- `test_ticket_servico_nao_fica_legivel_sem_chave_correta`;
-- `test_ticket_servico_expirado_nao_e_aceito`.
-
-### Requisitos comprovados
-
-- 3, 8, 10, 11 e 13.
-
-## Parte 8 - Portal e autenticação mútua
-
-Tempo estimado: 1 minuto e 30 segundos.
-
-### O que falar
-
-> O Portal é o serviço protegido. Ele não recebe a senha nem o TGT. Ele recebe
-> o Service Ticket e o autenticador Cliente-Serviço. O ticket é aberto com a
-> chave secreta do Portal e fornece a chave Cliente-Serviço usada para validar
-> o autenticador.
-
-### O que mostrar
-
-Abra `src/kerberos_notas/notes/portal_notas.py`.
-
-Destaque:
-
-1. `SERVICO_NOTAS = "notas"`;
-2. `validar_ticket_portal`;
-3. `autenticar_portal_notas`;
-4. validação do usuário e timestamp;
-5. resposta com `timestamp_resposta = timestamp + 1`;
-6. resposta com `nonce_autenticador`;
-7. `validar_confirmacao_portal`;
-8. `calcular_hash_requisicao`;
-9. `processar_operacao_portal`;
-10. `_registrar_nonce`;
-11. `validar_resposta_operacao`.
-
-### O que falar sobre autenticação mútua
-
-> O Portal demonstra conhecer a chave Cliente-Serviço ao cifrar uma confirmação
-> com o timestamp incrementado e o mesmo nonce. O cliente abre essa resposta e
-> confere os dois valores. Somente depois a sessão é considerada autenticada.
-> Para cada operação posterior, um novo autenticador vincula ação, nonce e hash
-> a uma requisição cifrada. O Portal rejeita replay e só executa o CRUD após
-> validar todo esse conjunto.
-
-Abra `src/kerberos_notas/client/routes.py` e mostre, dentro de
-`autenticar_com_kerberos`:
-
-- criação de `autenticador_portal`;
-- chamada de `autenticar_portal_notas`;
-- chamada de `validar_confirmacao_portal`;
-- `portal_autenticado: True`.
-
-### Testes relacionados
-
-Em `tests/test_notas.py`, mostre:
-
-- `test_portal_realiza_autenticacao_mutua`;
-- `test_portal_rejeita_autenticador_com_chave_errada`;
-- `test_portal_rejeita_ticket_adulterado`.
-- `test_portal_rejeita_reutilizacao_do_autenticador`;
-- `test_portal_rejeita_requisicao_adulterada`;
-- `test_portal_rejeita_autenticador_de_outra_acao`.
-
-### Requisitos comprovados
-
-- 4, 5, 12, 14 e 15.
-
-## Parte 9 - Fluxo integrado e logs
-
-Tempo estimado: 50 segundos.
-
-### O que falar
-
-> A função que integra todas as etapas é `autenticar_com_kerberos`. Ela chama os
-> servidores AS, TGS e Portal por sockets TCP e valida a autenticação mútua.
-> Depois do login,
-> `executar_operacao_kerberos` repete ticket, autenticador e confirmação mútua
-> em cada ação do Portal.
-
-### O que mostrar
-
-Em `src/kerberos_notas/client/routes.py`, percorra
-`autenticar_com_kerberos` do início ao fim.
-
-Depois mostre `executar_operacao_kerberos` e destaque:
-
-- requisição com `usuario`, `acao`, `dados` e `nonce`;
-- `calcular_hash_requisicao`;
-- `criar_autenticador`;
-- `cliente_tcp.executar_operacao`;
-- `validar_resposta_operacao`.
-
-Destaque `registrar_etapa` e as mensagens:
-
-- `[CLIENTE]`;
-- `[AS]`;
-- `[TGS]`;
-- `[PORTAL]`.
-
-Abra `templates/notas.html` e mostre:
-
-- texto “Service Ticket válido e autenticação mútua concluída”;
-- bloco “Etapas da autenticação Kerberos”.
-
-### Observação
-
-Os logs informam apenas que a senha foi processada localmente e nunca imprimem
-seu valor.
-
-### Requisitos comprovados
-
-- 16 e 23.
-
-## Parte 10 - Regras de acesso e persistência
-
-Tempo estimado: 1 minuto.
-
-### O que falar
-
-> Depois da autenticação, a camada de serviço aplica autorização. Professor
-> lista todos os registros e pode alterá-los. Aluno recebe somente a lista
-> associada ao próprio nome e qualquer tentativa de alteração gera
-> `PermissionError`.
-
-### O que mostrar
-
-Abra `src/kerberos_notas/notes/service.py`.
-
-Destaque:
-
-- `PERFIL_PROFESSOR` e `PERFIL_ALUNO`;
-- `obter_perfil_usuario`;
-- `listar_alunos`;
-- `listar_notas`;
-- `_validar_professor`;
-- `criar_nota`;
-- `editar_nota`;
-- `excluir_nota`.
-
-Abra rapidamente `src/kerberos_notas/notes/repository.py`.
-
-Destaque:
-
-- `listar_notas_usuario`;
-- `listar_todas_notas`;
-- `adicionar_nota_usuario`;
-- `atualizar_nota_por_id`;
-- `excluir_nota_por_id`.
-
-### Requisitos comprovados
-
-- 17, 18, 19 e 20.
-
-## Parte 11 - Demonstração web como professor
-
-Tempo estimado: 2 minutos.
-
-### Antes de começar
-
-Execute:
-
-```powershell
-$env:PYTHONPATH='src'
-python run.py
-```
-
-Acesse `http://127.0.0.1:5000`.
-
-### Passo a passo
-
-1. Abra `/login`.
-2. Entre com `SilvioSants` ou outra conta de perfil professor.
-3. Não mostre a senha na gravação.
-4. Após o redirecionamento, mostre “Painel de Professor”.
-5. Mostre a confirmação verde do Service Ticket e autenticação mútua.
-6. Abra “Etapas da autenticação Kerberos”.
-7. Leia rapidamente as etapas de AS, TGS e Portal.
-8. No formulário “Lançar nota”:
-   - selecione `AkinGOD777` ou outro aluno;
-   - disciplina: `Segurança Computacional`;
-   - nota: `9.0`;
-   - observação: `Demonstração do fluxo Kerberos`.
-9. Clique em “Lançar nota”.
-10. Mostre a nota na tabela.
-11. Altere a nota para `9.5` e clique em “Salvar”.
-12. Mostre a mensagem e os logs de autenticação da operação `editar_nota`.
-13. Não exclua essa nota, pois ela será usada na visão do aluno.
-14. Clique em “Sair”.
-
-### Arquivos que sustentam a demonstração
-
-- rota `/login`: `client/routes.py`, função `login`;
-- rota `/notas`: função `notas`;
-- edição: rota `/notas/<nota_id>/editar`, função `editar`;
-- template: `templates/notas.html`;
-- autorização: `notes/service.py`.
-
-### Requisitos comprovados
-
-- 6, 8, 10, 12, 14, 15, 17, 18 e 23.
-
-## Parte 12 - Demonstração web como aluno
-
-Tempo estimado: 1 minuto e 30 segundos.
-
-### Passo a passo
-
-1. Entre com `AkinGOD777` ou a conta aluno usada no passo anterior.
-2. Mostre “Painel de Aluno”.
-3. Mostre novamente a confirmação Kerberos.
-4. Abra os logs para confirmar que o aluno também passou por AS, TGS e Portal.
-5. Mostre a nota de `Segurança Computacional`.
-6. Mostre que não aparece o formulário “Lançar nota”.
-7. Mostre que não aparecem os botões “Salvar” e “Excluir”.
-8. Explique que a interface oculta as ações e a camada de serviço também as
-   bloqueia.
-9. Faça logout.
-
-### Como demonstrar o bloqueio sem inventar tela
-
-Não existe botão visível para o aluno provocar o erro. Em vez de manipular o
-navegador, mostre no VS Code:
-
-- `tests/test_notas.py`, teste `test_rota_impede_aluno_de_lancar_nota`;
-- asserção `status_code == 403`;
-- `test_aluno_nao_pode_editar_nota`;
-- `tests/test_fluxo.py`, verificação de que “Lançar nota” não aparece.
-
-### Requisitos comprovados
-
-- 17, 19 e 20.
-
-## Parte 13 - Acesso sem ticket
-
-Tempo estimado: 40 segundos.
-
-### O que falar
-
-> O acesso ao Portal não depende apenas do cookie Flask. A sessão do navegador
-> guarda um identificador opaco. Ticket e chave ficam na memória do servidor. A
-> função `exigir_sessao_kerberos` exige uma sessão autenticada. O Portal de
-> Notas reabre e valida o Service Ticket recebido por socket em cada ação, e
-> `executar_operacao_kerberos` cria um autenticador novo.
-
-### O que mostrar
-
-Em `src/kerberos_notas/client/routes.py`, destaque:
-
-- `sessoes_kerberos = {}`;
-- `obter_sessao_kerberos`;
-- `exigir_sessao_kerberos`;
-- `validar_sessao_portal`;
-- `validar_ticket_notas`.
-
-Em `tests/test_notas.py`, mostre:
-
-- `test_rota_recusa_acesso_sem_service_ticket`;
-- `test_portal_rejeita_ticket_adulterado`.
-
-### Requisitos comprovados
-
-- 12 e 21.
-
-## Parte 14 - Testes automatizados
-
-Tempo estimado: 1 minuto e 30 segundos.
-
-### O que falar
-
-> A suíte possui 48 testes. Eles cobrem criptografia, KDF, AS, TGS, tickets,
-> autenticadores, autenticação mútua por operação, replay, permissões e o fluxo
-> web integrado, incluindo os três sockets TCP.
-
-### O que executar
-
-```powershell
-python -m pytest -q
-```
-
-Mostre o resultado:
-
-```text
-48 passed
-```
-
-### Distribuição real
-
-| Arquivo | Quantidade | Evidência principal |
-|---|---:|---|
-| `tests/test_crypto.py` | 7 | AES-GCM, adulteração, nonce e KDF |
-| `tests/test_as_server.py` | 7 | Login, TGT e integração com TGS |
-| `tests/test_rede.py` | 5 | AS, TGS e Notas por sockets TCP |
-| `tests/test_tgs.py` | 9 | TGT, replay Cliente-TGS e Service Ticket |
-| `tests/test_notas.py` | 18 | CRUD protegido, perfis, replay e autenticação mútua |
-| `tests/test_fluxo.py` | 2 | Fluxo completo e interface professor/aluno |
-
-### Testes mais fortes para abrir
-
-1. `test_fluxo_as_tgs_portal_com_autenticacao_mutua`;
-2. `test_fluxo_web_professor_lanca_e_aluno_consulta`;
-3. `test_portal_rejeita_ticket_adulterado`;
-4. `test_portal_rejeita_reutilizacao_do_autenticador`;
-5. `test_rotas_editar_e_excluir_usam_operacao_kerberos`;
-6. `test_rota_impede_aluno_de_lancar_nota`;
-7. `test_aes_gcm_detecta_ciphertext_adulterado`.
-
-### Requisito comprovado
-
-- 22.
-
-## Parte 15 - Limitações e conclusão
-
-Tempo estimado: 1 minuto.
-
-### O que mostrar
-
-Abra:
-
-- `README.md`, seção “Limitações acadêmicas”;
-- `docs/relatorio_tecnico.md`, seção “Limitações”.
-
-### O que falar
-
-> Esta é uma implementação acadêmica simplificada. Os serviços usam processos
-> TCP separados, e as chaves didáticas podem ser substituídas por variáveis de
-> ambiente. Os dados ficam em JSON e as sessões e caches contra replay ficam em
-> memória. Em produção seriam necessários banco de dados, HTTPS e TLS.
-
-### Conclusão pronta
-
-> O projeto demonstra o fluxo completo Cliente, AS, TGS e Portal de Notas. A
-> senha é usada apenas na autenticação inicial e transformada por uma KDF.
-> Depois disso, TGT, Service Ticket, autenticadores e chaves temporárias
-> controlam o acesso. O Portal valida o cliente, o cliente valida o Portal e as
-> permissões distinguem corretamente professor e aluno. Assim, conseguimos
-> demonstrar de forma didática os principais conceitos do Kerberos usando
-> somente criptografia simétrica.
-
-### Requisito comprovado
-
-- 24 e encerramento dos demais.
-
-# Mapeamento dos 24 requisitos
-
-| Requisito | Onde é atendido | Arquivo, função ou teste | Como mostrar no vídeo |
-|---|---|---|---|
-| 1. Kerberos com chave simétrica | AES-GCM e chaves compartilhadas | `crypto/crypto_utils.py`: `criptografar_json`; `config.py` | Mostrar `AESGCM` e as chaves do TGS/Portal |
-| 2. AS | Autenticação inicial e TGT | `kerberos/as_server.py`: `autenticar_no_as_com_prova` | Abrir a função e os testes do AS |
-| 3. TGS | Valida TGT e emite Service Ticket | `kerberos/tgs_server.py`: `emitir_ticket_servico` | Mostrar validações e emissão |
-| 4. Serviço protegido | Portal exige ticket e autenticador em cada ação | `notes/portal_notas.py`: `processar_operacao_portal` | Mostrar o processamento protegido |
-| 5. Portal de Notas | Serviço identificado como `notas` | `portal_notas.py`: `SERVICO_NOTAS`; `tgs_server.py`: `CHAVES_SERVICOS` | Mostrar que só existe `notas` |
-| 6. Senha | KDF local e prova HMAC | `templates/login.html`; `routes.py`: `login`; `kdf.py`: `gerar_prova_as` | Mostrar que ela não atravessa a rede |
-| 7. KDF | PBKDF2-HMAC-SHA256 | `crypto/kdf.py`: `derivar_chave_senha` | Mostrar parâmetros e testes |
-| 8. Tickets | Criação, transporte e abertura | `tickets.py`, `as_server.py`, `tgs_server.py`, `portal_notas.py` | Percorrer o fluxo |
-| 9. TGT | Criação e cifra com chave do TGS | `tickets.py`: `criar_tgt`; `as_server.py`: `gerar_tgt` | Mostrar campos e cifra |
-| 10. Service Ticket | Emissão específica para notas | `tgs_server.py`: `emitir_ticket_servico` | Mostrar `servico="notas"` no fluxo |
-| 11. TGT validado pelo TGS | Identidade, chave e validade | `tgs_server.py`: `validar_tgt` | Mostrar teste de TGT expirado |
-| 12. Service Ticket validado | Portal abre e valida ticket | `portal_notas.py`: `validar_ticket_portal`; `tgs_server.py`: `abrir_ticket_servico` | Mostrar teste adulterado |
-| 13. Autenticador Cliente-TGS | Criado pelo cliente e aberto pelo TGS | `routes.py`: `autenticador_tgs`; `tgs_server.py`: `validar_autenticador` | Mostrar os dois pontos |
-| 14. Autenticador Cliente-Serviço | Novo autenticador por operação | `routes.py`: `executar_operacao_kerberos`; `authenticator.py`: `criar_autenticador` | Mostrar ação, hash e nonce |
-| 15. Autenticação mútua | Timestamp + 1, nonce e ação em cada resposta | `portal_notas.py`: `validar_resposta_operacao` | Mostrar logs e testes de operação |
-| 16. Fluxo completo | Integração inicial e proteção do CRUD | `routes.py`: `autenticar_com_kerberos`, `executar_operacao_kerberos` | Mostrar login e lançamento |
-| 17. Perfis | Perfil carregado e aplicado | `service.py`: `obter_perfil_usuario`; `data/usuarios.json` | Mostrar professor/aluno |
-| 18. Professor administra notas | CRUD despachado após Kerberos | `portal_notas.py`: `_executar_acao`; rotas de notas | Demonstrar no navegador |
-| 19. Aluno vê só suas notas | Consulta pelo nome do usuário | `service.py`: `listar_notas`; `repository.py`: `listar_notas_usuario` | Entrar como aluno |
-| 20. Aluno não altera | Validação de perfil e HTTP 403 | `service.py`: `_validar_professor`; `test_rota_impede_aluno_de_lancar_nota` | Mostrar ausência dos botões e teste |
-| 21. Sem ticket não acessa | Sessão e ticket obrigatórios | `routes.py`: `exigir_sessao_kerberos`, `validar_ticket_notas`; `test_rota_recusa_acesso_sem_service_ticket` | Abrir rota sem login e mostrar teste |
-| 22. Testes | 48 testes automatizados | pasta `tests/` | Executar `python -m pytest -q` |
-| 23. Logs didáticos | Etapas armazenadas e exibidas | `routes.py`: `registrar_etapa`; `templates/notas.html` | Abrir os logs no painel |
-| 24. Limitações | Restrições documentadas | `README.md`; `docs/relatorio_tecnico.md` | Mostrar a seção final |
-
-# Pontos de atenção e lacunas
-
-1. AS, TGS e Notas são servidores TCP separados; eles não são servidores HTTP.
-2. Não diga que existe banco de dados; a persistência é JSON.
-3. O cache contra replay existe, mas fica apenas em memória e é perdido ao
-   reiniciar o processo.
-4. Não diga que existe seed ou cobertura configurada.
-5. Não mostre nem fale senhas.
-6. Edição, exclusão, bloqueio do aluno, replay e adulteração possuem testes.
-7. Os registros legados podem deixar a tabela visualmente confusa. Use uma
-   disciplina criada durante a demonstração.
-8. O navegador ainda se comunica com o Flask por HTTP local. Em produção, essa
-   comunicação precisaria de HTTPS.
-
-# Script curto de narração
-
-> Nosso projeto é uma implementação acadêmica simplificada do Kerberos. O
-> serviço protegido escolhido foi um Portal de Notas Escolares.
->
-> O fluxo começa no cliente web. O usuário informa a senha, que é processada
-> localmente com PBKDF2-HMAC-SHA256. O Authentication Server valida uma prova
-> HMAC do desafio, gera uma chave Cliente-TGS e emite um TGT cifrado com a chave
-> secreta do TGS.
->
-> O cliente cria um autenticador Cliente-TGS e envia os dois elementos ao TGS.
-> O TGS valida identidade e validade e emite um Service Ticket para o serviço
-> `notas`, além de uma chave Cliente-Serviço.
->
-> Para acessar o Portal, o cliente envia o Service Ticket e um novo
-> autenticador. O Portal valida o ticket, o usuário, o timestamp e o nonce.
-> Depois responde com o timestamp incrementado e o mesmo nonce, cifrados com a
-> chave Cliente-Serviço. O cliente valida essa resposta, concluindo a
-> autenticação mútua.
->
-> Após a autenticação, o perfil controla as permissões. O professor pode
-> visualizar alunos, lançar, editar e excluir notas. O aluno visualiza somente
-> as próprias notas e não recebe controles de alteração. Tentativas diretas são
-> rejeitadas com HTTP 403.
->
-> Cada ação do Portal cria um autenticador novo e uma requisição cifrada. O
-> Portal valida ticket, nonce, ação e hash, rejeita replay e devolve uma
-> confirmação cifrada antes de o cliente aceitar o resultado.
->
-> A suíte automatizada possui 48 testes cobrindo criptografia, KDF, AS, TGS,
-> tickets, autenticadores, replay, autenticação mútua por operação, permissões
-> e fluxos web e TCP.
->
-> Como limitações acadêmicas, existem chaves padrão, os dados ficam em JSON e
-> as sessões ficam em memória. Mesmo com essas simplificações, o projeto
-> demonstra o fluxo Cliente, AS, TGS e Portal de Notas em processos separados,
-> usando criptografia simétrica, tickets e autenticação mútua.
+---
+
+# Checklist rapido para gravacao
+
+Antes de gravar:
+
+- Abrir dois terminais.
+- Rodar `python scripts/iniciar_servidores.py`.
+- Rodar `python run.py`.
+- Abrir `http://127.0.0.1:5000`.
+- Ter uma conta professor e uma conta aluno com senha conhecida.
+- Nao mostrar senha.
+- Deixar VS Code aberto com os arquivos principais.
+
+Arquivos principais para deixar facil no VS Code:
+
+- `README.md`;
+- `run.py`;
+- `scripts/iniciar_servidores.py`;
+- `src/kerberos_notas/client/routes.py`;
+- `src/kerberos_notas/rede/cliente_tcp.py`;
+- `src/kerberos_notas/crypto/kdf.py`;
+- `src/kerberos_notas/crypto/crypto_utils.py`;
+- `src/kerberos_notas/kerberos/as_server.py`;
+- `src/kerberos_notas/kerberos/tgs_server.py`;
+- `src/kerberos_notas/kerberos/authenticator.py`;
+- `src/kerberos_notas/notes/portal_notas.py`;
+- `src/kerberos_notas/notes/service.py`;
+- `tests/test_rede.py`;
+- `Doxyfile`.
+
+Coisas que devem aparecer na apresentacao:
+
+- AS, TGS e Portal rodando separados.
+- Login como professor.
+- Lancamento ou edicao de nota.
+- Logs didaticos no terminal.
+- Login como aluno.
+- Aluno sem botoes de alteracao.
+- Testes com `python -m pytest -q`.
+- Doxygen ou `Doxyfile`.
+
+Coisas que nao devem ser ditas:
+
+- Nao dizer que e Kerberos real de producao.
+- Nao dizer que usa banco de dados.
+- Nao dizer que a senha e enviada ao AS.
+- Nao dizer que o Kerberos protege apenas o login.
+- Nao dizer que existe HTTPS/TLS em producao.
+- Nao mostrar senhas.
+
+Frase curta para encerrar se sobrar pouco tempo:
+
+> O ponto principal e que o projeto mostra o Kerberos funcionando de ponta a
+> ponta em um servico real de notas. A senha fica restrita ao inicio, os tickets
+> controlam o acesso, os autenticadores protegem as requisicoes, o Portal prova
+> sua identidade na autenticacao mutua e as regras de professor e aluno garantem
+> a autorizacao correta.
