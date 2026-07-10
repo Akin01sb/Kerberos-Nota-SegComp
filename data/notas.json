@@ -92,6 +92,16 @@
                 "professor": "SilvioSants",
                 "criado_em": "2026-07-10T02:03:34+00:00",
                 "atualizado_em": "2026-07-10T02:03:34+00:00"
+            },
+            {
+                "id": "3755f7feb87e4b249b5d6e9b99ec5d98",
+                "aluno": "malululu10",
+                "disciplina": "aaaaaaa",
+                "nota": 6.7,
+                "observacao": "sixseven",
+                "professor": "SilvioSants",
+                "criado_em": "2026-07-10T02:45:12+00:00",
+                "atualizado_em": "2026-07-10T02:45:12+00:00"
             }
         ],
         "kassio12": [
