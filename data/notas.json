@@ -39,7 +39,7 @@
                 "observacao": "bom demais",
                 "professor": "SilvioSants",
                 "criado_em": "2026-07-10T01:58:01+00:00",
-                "atualizado_em": "2026-07-10T01:58:01+00:00"
+                "atualizado_em": "2026-07-10T15:10:01+00:00"
             },
             {
                 "id": "ef56140a6a79413fbf37f31ba32e8dda",
@@ -106,14 +106,14 @@
         ],
         "kassio12": [
             {
-                "id": "ec4df0e6e8044e25811e0d92a439307f",
+                "id": "37b9871b606a4a62a54f63cf0c02cc92",
                 "aluno": "kassio12",
-                "disciplina": "teste111",
-                "nota": 1.0,
-                "observacao": "1111",
+                "disciplina": "IIA",
+                "nota": 7.0,
+                "observacao": "Prova 3",
                 "professor": "SilvioSants",
-                "criado_em": "2026-07-10T02:15:01+00:00",
-                "atualizado_em": "2026-07-10T02:15:01+00:00"
+                "criado_em": "2026-07-10T15:09:48+00:00",
+                "atualizado_em": "2026-07-10T15:09:48+00:00"
             }
         ]
     }
