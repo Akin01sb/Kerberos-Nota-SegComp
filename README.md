@@ -5,6 +5,35 @@ simplificada do protocolo Kerberos sem usar implementações prontas do
 protocolo. O sistema utiliza somente sockets TCP e primitivas criptográficas
 básicas fornecidas pela biblioteca `cryptography` e pela biblioteca padrão.
 
+## Documentação do código
+
+Para conhecer detalhadamente as funções, classes, módulos e demais componentes
+que fazem parte da implementação do Kerberos, consulte a documentação
+estruturada gerada a partir do código-fonte com o Doxygen.
+
+Para acessá-la, abra o seguinte arquivo no navegador:
+
+[**Abrir documentação do projeto**](docs/html/index.html)
+
+Caminho no projeto:
+
+```text
+Kerberos-Nota-SegComp\docs\html\index.html
+```
+
+> A documentação deve ser aberta localmente após o download ou a clonagem do
+> projeto. No Windows, também é possível acessar o arquivo diretamente pelo
+> Explorador de Arquivos.
+
+## Integrantes do grupo
+
+| Integrante                    | Matrícula |
+| ----------------------------- | --------: |
+| Akin Sangiàcomo Bazila        | 221002002 |
+| Kassio Gandara de Souza       | 180140540 |
+| Thelma Evangelista dos Santos | 231003513 |
+| Hagatta Amorim Reis           | 211055479 |
+
 ## Arquitetura
 
 O sistema é dividido em quatro processos:
